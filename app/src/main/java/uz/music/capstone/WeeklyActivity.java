@@ -15,6 +15,7 @@ import android.widget.ListView;
 public class WeeklyActivity extends Activity {
 
     ListView listview2;
+    ListView listview3;
     ListViewAdapter adapter2;
 
     public void onCreate(Bundle savedInstanceState) {
