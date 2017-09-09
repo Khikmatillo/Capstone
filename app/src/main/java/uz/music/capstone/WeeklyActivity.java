@@ -16,6 +16,7 @@ public class WeeklyActivity extends Activity {
 
     ListView listview2;
     ListView listview3;
+    ListView listview4;
     ListViewAdapter adapter2;
 
     public void onCreate(Bundle savedInstanceState) {
