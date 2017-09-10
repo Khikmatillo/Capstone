@@ -34,10 +34,11 @@ public class AndroidTabLayoutActivity extends TabActivity {
         Intent videosIntent = new Intent(this, MonthlyActivity.class);
         monthlyspec.setContent(videosIntent);
 
-
-        tabHost.addTab(dailyspec);
-        tabHost.addTab(weeklyspec);
         tabHost.addTab(monthlyspec);
+        tabHost.addTab(weeklyspec);
+        tabHost.addTab(dailyspec);
+
+
 
 
     }

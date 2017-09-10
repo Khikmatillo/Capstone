@@ -27,8 +27,8 @@ package uz.music.capstone;
 
 public class ListViewAdapter extends BaseAdapter{
 
-    private ArrayList<listviewitem> listviewitemsList=
-            new ArrayList<listviewitem>();
+    private ArrayList<ListViewItem> listviewitemsList=
+            new ArrayList<ListViewItem>();
     @Override
     public int getCount() {
         return listviewitemsList.size();
@@ -60,7 +60,7 @@ public class ListViewAdapter extends BaseAdapter{
         //use custom font for memo information text in list item
 
 
-        listviewitem listViewitem  = listviewitemsList.get(i);
+        ListViewItem listViewitem  = listviewitemsList.get(i);
 
         titleStr.setText(listViewitem.getTitleStr());
 
@@ -75,7 +75,7 @@ public class ListViewAdapter extends BaseAdapter{
 
     public  void addItem(String title)
     {
-        listviewitem item = new listviewitem( title);
+        ListViewItem item = new ListViewItem( title);
         listviewitemsList.add(item);
 
     }
