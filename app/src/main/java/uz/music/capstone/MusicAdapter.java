@@ -25,10 +25,10 @@ package uz.music.capstone;
  * Created by Maestro on 7/31/2017.
  */
 
-public class ListViewAdapter extends BaseAdapter{
+public class MusicAdapter extends BaseAdapter{
 
-    private ArrayList<ListViewItem> listviewitemsList=
-            new ArrayList<ListViewItem>();
+    private ArrayList<Music> listviewitemsList=
+            new ArrayList<Music>();
     @Override
     public int getCount() {
         return listviewitemsList.size();
@@ -50,7 +50,7 @@ public class ListViewAdapter extends BaseAdapter{
         final Context context = viewGroup.getContext();
         if(view==null){
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view  = inflater.inflate(R.layout.activity_listviewitem, viewGroup, false);
+            view  = inflater.inflate(R.layout.activity_music_list_item, viewGroup, false);
         }
 
 //        ImageView icon = (ImageView) view.findViewById(R.id.avatarPictureXML);
@@ -60,7 +60,7 @@ public class ListViewAdapter extends BaseAdapter{
         //use custom font for memo information text in list item
 
 
-        ListViewItem listViewitem  = listviewitemsList.get(i);
+        Music listViewitem  = listviewitemsList.get(i);
 
         titleStr.setText(listViewitem.getTitleStr());
 
@@ -75,7 +75,7 @@ public class ListViewAdapter extends BaseAdapter{
 
     public  void addItem(String title)
     {
-        ListViewItem item = new ListViewItem( title);
+        Music item = new Music( title);
         listviewitemsList.add(item);
 
     }

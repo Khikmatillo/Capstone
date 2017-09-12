@@ -7,7 +7,6 @@ package uz.music.capstone;
 import android.app.Activity;
 //package com.example.androidtablayout;
 
-        import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -17,13 +16,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
-public class MonthlyActivity extends Activity {
+public class MusicListActivity extends Activity {
 
     ListView listview1;
-    ListViewAdapter adapter1;
+    MusicAdapter adapter1;
     String selected_song = "";
     MediaPlayer current_playing = null, mp = null;
     Button btn_play_pause;
@@ -31,12 +28,12 @@ public class MonthlyActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monthly);
+        setContentView(R.layout.activity_music_list);
 
 
         listview1  = (ListView)findViewById(R.id.listviewmonthly); // listview of memo items
 
-        adapter1 = new ListViewAdapter();
+        adapter1 = new MusicAdapter();
         listview1.setAdapter(adapter1);
 
 
@@ -47,11 +44,11 @@ public class MonthlyActivity extends Activity {
         listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListViewItem item = (ListViewItem) listview1.getItemAtPosition(position);
-                selected_song = item.getTitleStr();
-                Toast.makeText(MonthlyActivity.this, selected_song, Toast.LENGTH_SHORT).show();
+                Music item = (Music) listview1.getItemAtPosition(position);
+                selected_song = item.getTitle();
+                Toast.makeText(MusicListActivity.this, selected_song, Toast.LENGTH_SHORT).show();
                 int music_id = getResources().getIdentifier(selected_song, "raw", getPackageName());
-                mp = MediaPlayer.create(MonthlyActivity.this, music_id);
+                mp = MediaPlayer.create(MusicListActivity.this, music_id);
                 if(current_playing != null){
                     current_playing.stop();
                 }
