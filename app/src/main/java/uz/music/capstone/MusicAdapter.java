@@ -62,7 +62,7 @@ public class MusicAdapter extends BaseAdapter{
 
         Music listViewitem  = listviewitemsList.get(i);
 
-        titleStr.setText(listViewitem.getTitleStr());
+        titleStr.setText(listViewitem.getMusic_name());
 
 
 
