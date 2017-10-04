@@ -37,6 +37,7 @@ public class JSONParser {
         if(JSONText != null){
             try{
                 JSONObject json_obj = new JSONObject(JSONText);
+
                 JSONArray musics = json_obj.getJSONArray("results");
                 for (int i = 0; i < musics.length(); i++){
                     JSONObject m = musics.getJSONObject(i);
