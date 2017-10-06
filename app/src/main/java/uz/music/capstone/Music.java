@@ -21,9 +21,7 @@ public class Music {
     private ArrayList<String> additional_links;
     private int music_pk;
 
-    public Music(String music_name) {
-        this.music_name = music_name;
-    }
+
 
     public Music(String music_name, int position, int num_of_views, int best_position_ever, String link,
                  String artist, String genre, ArrayList<String> additional_links, int music_pk) {

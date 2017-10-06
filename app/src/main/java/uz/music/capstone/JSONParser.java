@@ -59,6 +59,7 @@ public class JSONParser {
                     Music music = new Music(music_name, position, num_of_views, best_position_ever,
                             link, artist, genre, additional_links, music_pk);
                     parsed_musics.add(music);
+                    Log.e("", "JSON PARSING SUCCESS ");
                 }
             }catch (final JSONException e){
                 Log.e("", "JSON PARSING ERROR " + e.getMessage());

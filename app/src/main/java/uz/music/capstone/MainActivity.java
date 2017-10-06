@@ -16,12 +16,13 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_play_pause, btn_next, btn_prev;
     private SeekBar music_seek_bar;
     private Handler music_handler;
+
     private int music_paused_position;
     private ArrayList<Music> ordered_musics;
     private Music music_current = null, music_prev = null, music_next = null;
     private int music_current_position;
-
+    private File json_file = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
         ordered_musics = new ArrayList<Music>();
 
         //get JSON and parse JSON starts ------------------------------------
-        File jsons_file = new File("jsons.txt");
-        if(jsons_file.exists()){
-            String result = readFromFile();
+        if(json_file != null){
+            Toast.makeText(MainActivity.this, "Read from file", Toast.LENGTH_SHORT).show();
+            String result = readFile(json_file);
             parseJson(result);
-            Toast.makeText(MainActivity.this, "Json read from file", Toast.LENGTH_SHORT).show();
+
         }else{
-            new GetJson().execute("http://192.168.173.1:8000/daily/?format=json");
+            new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
         }
         //get JSON and parse JSON ends --------------------------------------
 
@@ -190,55 +192,48 @@ public class MainActivity extends AppCompatActivity {
 
 
     //reading and writing JSON string to file starts ----------------------------------------
-    private void writeToFile(String data) {
+    public static File createCacheFile(Context context, String fileName, String json) {
+        File cacheFile = new File(context.getFilesDir(), fileName);
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("jsons.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
+            FileWriter fw = new FileWriter(cacheFile);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(json);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            cacheFile = null;
         }
-        catch (IOException e) {
-            Log.e("Writing Json to file", "File write failed: " + e.toString());
-        }
+
+        return cacheFile;
     }
 
-
-    private String readFromFile() {
-
-        String ret = "";
-
+    public static String readFile(File file) {
+        String fileContent = "";
         try {
-            InputStream inputStream = openFileInput("jsons.txt");
+            String currentLine;
+            BufferedReader br = new BufferedReader(new FileReader(file));
 
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
+            while ((currentLine = br.readLine()) != null) {
+                fileContent += currentLine + '\n';
             }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("Reading Json from file", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("Reading Json from file", "Can not read file: " + e.toString());
-        }
 
-        return ret;
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            fileContent = null;
+        }
+        return fileContent;
     }
     //reading and writing JSON string to file ends ----------------------------------------
 
     private void parseJson(String result){
         JSONParser jsonParser = new JSONParser(result);
         ordered_musics = jsonParser.getMusicsArray();
+        Log.e("", "Array size " + ordered_musics.size());
         for(int i = 0; i < ordered_musics.size(); i++){
-            adapter1.addItem(ordered_musics.get(i).getMusic_name());
+            adapter1.addItem(ordered_musics.get(i));
         }
+        adapter1.notifyDataSetChanged();
     }
 
     //class to GET and Parse from server starts ---------------------------------
@@ -293,7 +288,8 @@ public class MainActivity extends AppCompatActivity {
 
             //Parsing the JSON starts --------------------------------------
             parseJson(result);
-            writeToFile(result);
+
+            json_file = createCacheFile(MainActivity.this, "jsons.txt", result);
             //Parsing the JSON ends --------------------------------------
         }
     }

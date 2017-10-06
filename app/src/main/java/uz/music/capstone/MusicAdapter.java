@@ -9,7 +9,7 @@ package uz.music.capstone;
         import android.content.Context;
 
 
-
+        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -73,10 +73,8 @@ public class MusicAdapter extends BaseAdapter{
 //    public String datetext;
 //    public Drawable icontext;
 
-    public  void addItem(String title)
-    {
-        Music item = new Music( title);
-        listviewitemsList.add(item);
-
+    public  void addItem(Music m){
+        listviewitemsList.add(m);
+        Log.e("", "ITEM ADDED ");
     }
 }
