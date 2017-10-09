@@ -81,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 music_current_position = position;
                 music_current = (Music) listview1.getItemAtPosition(music_current_position);
                 Toast.makeText(MainActivity.this, music_current.getMusic_name(), Toast.LENGTH_SHORT).show();
-                mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_current.getLink()));
+                if(music_current.getLinks().get(0) != null) {
+                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_current.getLinks().get(0)));
+                }
                 if(current_playing != null){
                     current_playing.stop();
                 }
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(current_playing != null && music_next != null){
-                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_next.getLink()));
+                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_next.getLinks().get(0)));
                     current_playing.stop();
                     mp.start();
                     current_playing = mp;
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(current_playing != null && music_prev != null){
-                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_prev.getLink()));
+                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_prev.getLinks().get(0)));
                     current_playing.stop();
                     mp.start();
                     music_next = music_current;
@@ -206,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
 
         return cacheFile;
     }
-
     public static String readFile(File file) {
         String fileContent = "";
         try {
@@ -226,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //reading and writing JSON string to file ends ----------------------------------------
 
+
     private void parseJson(String result){
         JSONParser jsonParser = new JSONParser(result);
         ordered_musics = jsonParser.getMusicsArray();
@@ -235,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
         }
         adapter1.notifyDataSetChanged();
     }
-
     //class to GET and Parse from server starts ---------------------------------
     private class GetJson extends AsyncTask<String, String, String> {
         private ProgressDialog pd;
@@ -293,9 +294,11 @@ public class MainActivity extends AppCompatActivity {
             //Parsing the JSON ends --------------------------------------
         }
     }
-
     //class to GET and Parse from server ends ---------------------------------
 
 
+    //POST changes to server starts --------------------------------------
+
+    //POST changes to server ends ----------------------------------------
 
 }

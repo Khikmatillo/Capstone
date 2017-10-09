@@ -15,24 +15,22 @@ public class Music {
     private int position;
     private int num_of_views;
     private int best_position_ever;
-    private String link;
     private String artist;
     private String genre;
-    private ArrayList<String> additional_links;
+    private ArrayList<String> links;
     private int music_pk;
 
 
 
-    public Music(String music_name, int position, int num_of_views, int best_position_ever, String link,
-                 String artist, String genre, ArrayList<String> additional_links, int music_pk) {
+    public Music(String music_name, int position, int num_of_views, int best_position_ever,
+                 String artist, String genre, ArrayList<String> links, int music_pk) {
         this.music_name = music_name;
         this.position = position;
         this.num_of_views = num_of_views;
         this.best_position_ever = best_position_ever;
-        this.link = link;
         this.artist = artist;
         this.genre = genre;
-        this.additional_links = additional_links;
+        this.links = links;
         this.music_pk = music_pk;
     }
 
@@ -52,10 +50,6 @@ public class Music {
         return best_position_ever;
     }
 
-    public String getLink() {
-        return link;
-    }
-
     public String getArtist() {
         return artist;
     }
@@ -64,8 +58,8 @@ public class Music {
         return genre;
     }
 
-    public ArrayList<String> getAdditional_links() {
-        return additional_links;
+    public ArrayList<String> getLinks() {
+        return links;
     }
 
     public int getMusic_pk() {
@@ -88,10 +82,6 @@ public class Music {
         this.best_position_ever = best_position_ever;
     }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
-
     public void setArtist(String artist) {
         this.artist = artist;
     }
@@ -100,8 +90,8 @@ public class Music {
         this.genre = genre;
     }
 
-    public void setAdditional_links(ArrayList<String> additional_links) {
-        this.additional_links = additional_links;
+    public void setLinks(ArrayList<String> links) {
+        this.links = links;
     }
 
     public void setMusic_pk(int music_pk) {

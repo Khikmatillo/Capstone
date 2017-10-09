@@ -34,7 +34,7 @@
             android:textStyle="bold"
             android:textColor="#eaf6f9" />
         <EditText
-            android:id="@+id/SignInEmailXML"
+            android:id="@+id/edit_sign_in_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -46,7 +46,7 @@
             android:textColorHint="#cbd5dd"/>
 
         <EditText
-            android:id="@+id/SignInPasswordXML"
+            android:id="@+id/edit_sign_in_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -57,13 +57,13 @@
             android:textColor="#555"
             android:textColorHint="#cbd5dd"/>
         <RelativeLayout
-            android:id="@+id/BtnSignInXML"
+            android:id="@+id/btn_sign_in"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:background="@drawable/buttonshape"
-            >
+            android:clickable="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +84,8 @@
                 android:src="@drawable/icon" />
         </RelativeLayout>
         <TextView
-            android:id="@+id/ForgetPswXML"
+            android:id="@+id/txt_sign_in_forget"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -97,7 +98,8 @@
             android:text="Do not have an account?"
             android:textColor="#c3e6ed" />
         <TextView
-            android:id="@+id/CreateAccountXML"
+            android:id="@+id/txt_sign_in_create"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"

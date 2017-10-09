@@ -36,7 +36,7 @@
             android:textColor="#eaf6f9" />
 
         <EditText
-            android:id="@+id/UsernameXML"
+            android:id="@+id/edit_sign_up_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
@@ -48,7 +48,7 @@
             android:textColor="#555" />
 
         <EditText
-            android:id="@+id/SignUpEmailXML"
+            android:id="@+id/edit_sign_up_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -60,7 +60,7 @@
             android:textColorHint="#cbd5dd"/>
 
         <EditText
-            android:id="@+id/Password1XML"
+            android:id="@+id/edit_sign_up_password1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -72,7 +72,7 @@
             android:textColorHint="#cbd5dd"/>
 
         <EditText
-            android:id="@+id/Password2XML"
+            android:id="@+id/edit_sign_up_password2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -87,13 +87,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:id="@+id/checkBoxAgreeTermsXML"
+            android:id="@+id/check_sign_up_agree"
             android:checked="false"
             android:text="Agree the terms and policy"
             android:textColor="#fff" />
 
         <RelativeLayout
-            android:id="@+id/BtnSignUpXML"
+            android:id="@+id/btn_sign_up"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="center"
@@ -133,6 +133,6 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:text="Sign In"
-            android:id="@+id/signInXML"/>
+            android:id="@+id/txt_sign_up_login"/>
     </LinearLayout>
 </LinearLayout>

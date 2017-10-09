@@ -21,15 +21,14 @@ public class JSONParser {
     private int position;
     private int num_of_views;
     private int best_position_ever;
-    private String link;
     private String artist;
     private String genre;
-    private ArrayList<String> additional_links;
+    private ArrayList<String> links;
     private int music_pk;
 
     public JSONParser(String JSONText) {
         parsed_musics = new ArrayList<Music>();
-        additional_links = new ArrayList<String>();
+        links = new ArrayList<String>();
         this.JSONText = JSONText;
     }
 
@@ -45,19 +44,18 @@ public class JSONParser {
                     position = m.getInt("position");
                     num_of_views = m.getInt("num_of_views");
                     best_position_ever = m.getInt("best_position_ever");
-                    link = m.getString("link");
                     artist = m.getString("artist");
                     genre = m.getString("genre");
 
-                    JSONArray m_add_links = m.getJSONArray("additional_links");
+                    JSONArray m_add_links = m.getJSONArray("links");
                     for(int j = 0; j < m_add_links.length(); j++){
-                        additional_links.add(m_add_links.getString(j));
+                        links.add(m_add_links.getString(j));
                     }
 
                     music_pk = m.getInt("music_pk");
 
                     Music music = new Music(music_name, position, num_of_views, best_position_ever,
-                            link, artist, genre, additional_links, music_pk);
+                            artist, genre, links, music_pk);
                     parsed_musics.add(music);
                     Log.e("", "JSON PARSING SUCCESS ");
                 }
