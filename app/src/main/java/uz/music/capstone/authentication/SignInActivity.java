@@ -13,12 +13,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import uz.music.capstone.R;
+import uz.music.capstone.profile.User;
 
 /**
  * Created by Nemo on 10/7/2017.
  */
 
-public class SignIn extends AppCompatActivity{
+public class SignInActivity extends AppCompatActivity{
 
     private EditText edit_sign_in_mail, edit_sign_in_password;
     private RelativeLayout btn_sign_in;
@@ -57,7 +58,7 @@ public class SignIn extends AppCompatActivity{
         txt_sign_in_forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignIn.this, ForgetPassword.class);
+                Intent intent = new Intent(SignInActivity.this, ForgetPasswordActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
@@ -65,7 +66,7 @@ public class SignIn extends AppCompatActivity{
         txt_sign_in_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignIn.this, SignUp.class);
+                Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }

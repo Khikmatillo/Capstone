@@ -13,16 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".authentication.SignIn">
+        <activity android:name=".authentication.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".authentication.SignUp"></activity>
-        <activity android:name=".authentication.ResetPassword"></activity>
-        <activity android:name=".authentication.ForgetPassword"></activity>
-        <activity android:name=".authentication.ChangePassword"></activity>
+        <activity android:name=".authentication.SignUpActivity"></activity>
+        <activity android:name=".authentication.ResetPasswordActivity"></activity>
+        <activity android:name=".authentication.ForgetPasswordActivity"></activity>
+        <activity android:name=".authentication.ChangePasswordActivity"></activity>
+        <activity android:name=".profile.ProfileActivity"></activity>
+        <activity android:name=".profile.EditProfile"></activity>
     </application>
 
 </manifest>

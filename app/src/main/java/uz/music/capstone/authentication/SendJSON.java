@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import static android.content.ContentValues.TAG;
+import uz.music.capstone.profile.User;
 
 /**
  * Created by Nemo on 10/8/2017.

@@ -12,7 +12,7 @@ import uz.music.capstone.R;
  * Created by Nemo on 10/7/2017.
  */
 
-public class ResetPassword extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
 
     private EditText edit_reset_password_password1, edit_reset_password_password2;
     private RelativeLayout btn_reset_password_submit;

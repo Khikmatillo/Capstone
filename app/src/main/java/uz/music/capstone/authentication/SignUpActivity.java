@@ -14,12 +14,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import uz.music.capstone.R;
+import uz.music.capstone.profile.User;
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private EditText edit_sign_up_username, edit_sign_up_mail, edit_sign_up_password1, edit_sign_up_password2;
     private RelativeLayout btn_sign_up;
@@ -66,19 +64,19 @@ public class SignUp extends AppCompatActivity {
                                         Log.e("Sign Up", e.getMessage());
                                     }
                                 }else{
-                                    Toast.makeText(SignUp.this, "Passwords are not same", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUpActivity.this, "Passwords are not same", Toast.LENGTH_SHORT).show();
                                 }
                             }else{
-                                Toast.makeText(SignUp.this, "Enter valid password", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpActivity.this, "Enter valid password", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(SignUp.this, "enter valid email", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "enter valid email", Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(SignUp.this, "Username must be at least 5 char", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "Username must be at least 5 char", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(SignUp.this, "You have to be agree", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "You have to be agree", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -86,7 +84,7 @@ public class SignUp extends AppCompatActivity {
         txt_sign_up_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignUp.this, SignIn.class);
+                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }

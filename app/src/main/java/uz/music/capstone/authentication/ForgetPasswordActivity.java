@@ -12,7 +12,7 @@ import uz.music.capstone.R;
  * Created by Nemo on 10/7/2017.
  */
 
-public class ForgetPassword extends AppCompatActivity {
+public class ForgetPasswordActivity extends AppCompatActivity {
 
     EditText edit_forget_password_mail;
     RelativeLayout btn_forget_password_submit;

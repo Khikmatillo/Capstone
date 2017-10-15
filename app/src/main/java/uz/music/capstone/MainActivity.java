@@ -28,6 +28,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import uz.music.capstone.profile.User;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     private Music music_current = null, music_prev = null, music_next = null;
     private int music_current_position;
     private File json_file = null;
+
+
+    public static User CURRENT_USER = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

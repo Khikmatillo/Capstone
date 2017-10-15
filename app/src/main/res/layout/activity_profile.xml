@@ -37,6 +37,7 @@
                 android:text="Akhrorjon Aliev"
                 android:textAlignment="center"
                 android:textColor="#788188"
+                android:id="@+id/txt_profile_name"
                 android:textSize="24dp" />
 
             <TextView
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="London, UK"
                 android:textAlignment="center"
+                android:id="@+id/txt_profile_city"
                 android:textColor="#788188" />
 
             <LinearLayout
@@ -66,6 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:text="245"
+                        android:id="@+id/txt_profile_followers"
                         android:textColor="#545a5f" />
 
                     <TextView
@@ -88,12 +91,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:text="245"
+                        android:id="@+id/txt_profile_following"
                         android:textColor="#545a5f" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Followers"
+                        android:text="Following"
                         android:textColor="#788188" />
                 </LinearLayout>
             </LinearLayout>
@@ -109,6 +113,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/leftcircled"
                     android:gravity="center"
+                    android:id="@+id/btn_profile_follow"
                     android:padding="5dp">
 
                     <ImageView
@@ -121,6 +126,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/txt_profile_follow"
                         android:text="Follow" />
                 </LinearLayout>
 
@@ -160,6 +166,7 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="5dp"
                 android:text="Artist"
+                android:id="@+id/txt_profile_about"
                 android:textColor="#545f5f" />
 
             <TextView
@@ -175,6 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="5dp"
+                android:id="@+id/txt_profile_info"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam."
                 android:textColor="#545f5f" />
 
@@ -194,6 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Edit Profile"
+                    android:id="@+id/txt_profile_edit"
                     android:textColor="#53595d" />
             </LinearLayout>
 

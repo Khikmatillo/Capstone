@@ -11,7 +11,7 @@ import uz.music.capstone.R;
  * Created by Nemo on 10/7/2017.
  */
 
-public class ChangePassword extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
 
     EditText edit_change_password_old, edit_change_password_new, edit_change_password_confirm;
     RelativeLayout btn_change_password;
