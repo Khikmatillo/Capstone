@@ -50,7 +50,7 @@ public class MusicAdapter extends BaseAdapter{
         final Context context = viewGroup.getContext();
         if(view==null){
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view  = inflater.inflate(R.layout.activity_music_list_item, viewGroup, false);
+            view  = inflater.inflate(R.layout.music_list_item, viewGroup, false);
         }
 
 //        ImageView icon = (ImageView) view.findViewById(R.id.avatarPictureXML);
