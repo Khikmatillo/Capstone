@@ -98,6 +98,8 @@ public class SendJSON {
 
                 if (responseCode == accepted_response) {
 
+                    User.USER_ACCEPTED = true;
+
                     BufferedReader in = new BufferedReader(new
                             InputStreamReader(
                             conn.getInputStream()));

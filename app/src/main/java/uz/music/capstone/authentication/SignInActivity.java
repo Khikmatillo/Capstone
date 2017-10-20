@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uz.music.capstone.MainActivity;
 import uz.music.capstone.R;
 import uz.music.capstone.profile.User;
 
@@ -44,11 +46,24 @@ public class SignInActivity extends AppCompatActivity{
                 password = edit_sign_in_password.getText().toString();
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(User.KEY_EMAIL, mail);
-                    jsonObject.put(User.KEY_PASSWORD1, password);
-                    jsonObject.put(User.KEY_TYPE, User.TYPE_LOGIN);
-                    Log.e("data0", jsonObject.toString());
-                    new SendJSON(getApplicationContext(), jsonObject);
+                    if(Validation.validateEmail(mail)){
+                        if(Validation.validatePassword(password)){
+                            jsonObject.put(User.KEY_EMAIL, mail);
+                            jsonObject.put(User.KEY_PASSWORD1, password);
+                            jsonObject.put(User.KEY_TYPE, User.TYPE_LOGIN);
+                            Log.e("data0", jsonObject.toString());
+                            new SendJSON(getApplicationContext(), jsonObject);
+                            if(User.USER_ACCEPTED){
+                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }else{
+                            Toast.makeText(SignInActivity.this, "Enter valid password", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(SignInActivity.this, "enter valid email", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (JSONException e) {
                     Log.e("Sign In", e.getMessage());
                 }

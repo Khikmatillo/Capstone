@@ -65,11 +65,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:height="45dp"
+            android:inputType="textPassword"
             android:background="@drawable/edittextshape"
             android:hint="Password"
             android:textAlignment="center"
             android:textColor="#555"
-            android:textColorHint="#cbd5dd"/>
+            android:textColorHint="#cbd5dd"
+            />
 
         <EditText
             android:id="@+id/edit_sign_up_password2"
@@ -77,6 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:height="45dp"
+            android:inputType="textPassword"
             android:background="@drawable/edittextshape"
             android:hint="Confirm Password"
             android:textAlignment="center"

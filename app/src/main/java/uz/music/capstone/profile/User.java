@@ -23,7 +23,7 @@ public class User {
     private String info;
     private byte[] image;
 
-
+    public static boolean USER_ACCEPTED = false;
     public static final int TYPE_LOGIN = 1, TYPE_CREATE = 2, TYPE_FORGET = 3, TYPE_RESET = 4, TYPE_CHANGE = 5;
     public static final String KEY_TYPE = "type_call", KEY_USERNAME = "username", KEY_EMAIL = "email",
                             KEY_PASSWORD1 = "password1", KEY_PASSWORD2 = "password2";

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uz.music.capstone.MainActivity;
 import uz.music.capstone.R;
 import uz.music.capstone.profile.User;
 
@@ -47,10 +48,10 @@ public class SignUpActivity extends AppCompatActivity {
                     password1 = edit_sign_up_password1.getText().toString();
                     password2 = edit_sign_up_password2.getText().toString();
 
-                    if(validateUserName(username)){
-                        if(validateEmail(mail)){
-                            if(validatePassword(password1)){
-                                if(validateConfirmPassword(password1, password2)){
+                    if(Validation.validateUserName(username)){
+                        if(Validation.validateEmail(mail)){
+                            if(Validation.validatePassword(password1)){
+                                if(Validation.validateConfirmPassword(password1, password2)){
                                     JSONObject jsonObject = new JSONObject();
                                     try {
                                         jsonObject.put(User.KEY_USERNAME, username);
@@ -60,6 +61,11 @@ public class SignUpActivity extends AppCompatActivity {
                                         jsonObject.put(User.KEY_TYPE, User.TYPE_CREATE);
                                         Log.e("data0", jsonObject.toString());
                                         new SendJSON(getApplicationContext(), jsonObject);
+                                        if(User.USER_ACCEPTED){
+                                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                        }
                                     } catch (JSONException e) {
                                         Log.e("Sign Up", e.getMessage());
                                     }
@@ -92,36 +98,5 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    //client side validation starts -------------------------------
-    private boolean validateUserName(String username){
-        if(username == null || username.length() <= 4){
-            return false;
-        }else {
-            return true;
-        }
-    }
 
-    private boolean validateEmail(String email){
-        if(email == null)
-            return false;
-        String regex = "^(.+)@(.+)$";
-        return email.matches(regex);
-    }
-
-    private boolean validatePassword(String password){
-        if(password == null)
-            return false;
-        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-        return password.matches(regex);
-    }
-
-    private boolean validateConfirmPassword(String p1, String p2){
-        if(p1 == null || p2 == null)
-            return false;
-        if(p1.equals(p2)){
-            return true;
-        }
-        return false;
-    }
-    //client side validation ends -------------------------------
 }
