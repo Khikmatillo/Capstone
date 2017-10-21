@@ -9,11 +9,14 @@
     android:background="#4cb6cb"
     >
 
+
+
     <LinearLayout
         android:layout_width="318dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:weightSum="1">
 
         <TextView
             android:layout_width="match_parent"
@@ -56,7 +59,8 @@
             android:hint="Password"
             android:textAlignment="center"
             android:textColor="#555"
-            android:textColorHint="#cbd5dd"/>
+            android:textColorHint="#cbd5dd"
+            android:layout_weight="0.10" />
         <RelativeLayout
             android:id="@+id/btn_sign_in"
             android:layout_width="match_parent"

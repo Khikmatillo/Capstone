@@ -14,7 +14,8 @@
         android:layout_width="318dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:weightSum="1">
 
         <TextView
             android:layout_width="match_parent"
@@ -65,13 +66,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:height="45dp"
-            android:inputType="textPassword"
             android:background="@drawable/edittextshape"
             android:hint="Password"
+            android:inputType="textPassword"
             android:textAlignment="center"
             android:textColor="#555"
             android:textColorHint="#cbd5dd"
-            />
+            android:layout_weight="0.17" />
 
         <EditText
             android:id="@+id/edit_sign_up_password2"
@@ -84,7 +85,8 @@
             android:hint="Confirm Password"
             android:textAlignment="center"
             android:textColor="#555"
-            android:textColorHint="#cbd5dd"/>
+            android:textColorHint="#cbd5dd"
+            android:layout_weight="0.21" />
 
         <CheckBox
             android:layout_width="match_parent"

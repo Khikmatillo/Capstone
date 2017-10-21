@@ -1,7 +1,9 @@
 package uz.music.capstone.authentication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +23,7 @@ import uz.music.capstone.profile.User;
  * Created by Nemo on 10/7/2017.
  */
 
-public class SignInActivity extends AppCompatActivity{
+public class SignInActivity extends AppCompatActivity {
 
     private EditText edit_sign_in_mail, edit_sign_in_password;
     private RelativeLayout btn_sign_in;
@@ -46,22 +48,22 @@ public class SignInActivity extends AppCompatActivity{
                 password = edit_sign_in_password.getText().toString();
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    if(Validation.validateEmail(mail)){
-                        if(Validation.validatePassword(password)){
+                    if (Validation.validateEmail(mail)) {
+                        if (Validation.validatePassword(password)) {
                             jsonObject.put(User.KEY_EMAIL, mail);
                             jsonObject.put(User.KEY_PASSWORD1, password);
                             jsonObject.put(User.KEY_TYPE, User.TYPE_LOGIN);
                             Log.e("data0", jsonObject.toString());
                             new SendJSON(getApplicationContext(), jsonObject);
-                            if(User.USER_ACCEPTED){
+                            if (User.USER_ACCEPTED) {
                                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }
-                        }else{
+                        } else {
                             Toast.makeText(SignInActivity.this, "Enter valid password", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(SignInActivity.this, "enter valid email", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -87,4 +89,6 @@ public class SignInActivity extends AppCompatActivity{
             }
         });
     }
+
+
 }

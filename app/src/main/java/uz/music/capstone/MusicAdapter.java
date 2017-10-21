@@ -56,7 +56,7 @@ public class MusicAdapter extends BaseAdapter{
 //        ImageView icon = (ImageView) view.findViewById(R.id.avatarPictureXML);
 
 
-        TextView titleStr = (TextView) view.findViewById(R.id.messageXML);
+        TextView titleStr = (TextView) view.findViewById(R.id.list_item_multi);
         //use custom font for memo information text in list item
 
 
