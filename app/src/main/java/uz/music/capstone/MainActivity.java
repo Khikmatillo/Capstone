@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listview1;
     private MusicAdapter adapter1;
     private MediaPlayer current_playing = null, mp = null;
-    private ImageButton btn_play_pause, btn_next, btn_prev;
+    private Button btn_play_pause, btn_next, btn_prev;
     private SeekBar music_seek_bar;
     private Handler music_handler;
 
@@ -66,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
         adapter1 = new MusicAdapter();
         listview1.setAdapter(adapter1);
-        btn_play_pause = (ImageButton) findViewById(R.id.btn_pause);
-        btn_next = (ImageButton) findViewById(R.id.btn_next);
-        btn_prev = (ImageButton) findViewById(R.id.btn_prev);
+        btn_play_pause = (Button) findViewById(R.id.btn_pause);
+        btn_next = (Button) findViewById(R.id.btn_next);
+        btn_prev = (Button) findViewById(R.id.btn_prev);
         adapter1.notifyDataSetChanged();
         music_seek_bar = (SeekBar) findViewById(R.id.music_seek_bar);
         music_handler = new Handler();

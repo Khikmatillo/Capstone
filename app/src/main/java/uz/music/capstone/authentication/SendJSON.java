@@ -2,10 +2,13 @@ package uz.music.capstone.authentication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -100,7 +103,7 @@ public class SendJSON {
 
                 if (responseCode == accepted_response) {
 
-
+                    User.USER_ACCEPTED = true;
 
                     BufferedReader in = new BufferedReader(new
                             InputStreamReader(
@@ -130,7 +133,19 @@ public class SendJSON {
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-            User.USER_ACCEPTED = true;
+
+
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                String token = jsonObject.getString("token");
+                SharedPreferences shp = context.getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = shp.edit();
+                editor.putString(User.KEY_TOKEN, token);
+                editor.commit();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
