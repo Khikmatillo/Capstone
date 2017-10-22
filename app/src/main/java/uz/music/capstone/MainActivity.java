@@ -53,9 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private int music_current_position;
     private File json_file = null;
 
-    //main music index context
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
 
 
     public static User CURRENT_USER = null;
@@ -90,16 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         /////////////////////////////////////////
 
-        //Fragmented layout for music index contexr
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-        //Fragmented layout for music index contexr
 
 
 
@@ -220,50 +208,6 @@ public class MainActivity extends AppCompatActivity {
         ////////////////////////////////////////////////
     }
 
-    //section pager Adapter
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    DailyTab tab1 = new DailyTab();
-                    return tab1;
-                case 1:
-                    WeeklyTab tab2 = new WeeklyTab();
-                    return tab2;
-                case 2:
-                    MonthlyTab tab3 = new MonthlyTab();
-                    return tab3;
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Daily";
-                case 1:
-                    return "Weekly";
-                case 2:
-                    return "Monthly";
-            }
-            return null;
-        }
-    }
-    //section pager Adapter
 
     //reading and writing JSON string to file starts ----------------------------------------
     public static File createCacheFile(Context context, String fileName, String json) {
