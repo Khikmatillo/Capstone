@@ -1,7 +1,9 @@
 package uz.music.capstone.authentication;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,14 @@ public class SignInActivity extends AppCompatActivity {
         txt_sign_in_forget = (TextView) findViewById(R.id.txt_sign_in_forget);
         txt_sign_in_create = (TextView) findViewById(R.id.txt_sign_in_create);
 
+        SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+        String token = sp.getString(User.KEY_TOKEN, "");
+        if (token != "") {
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
 
         btn_sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,10 +58,10 @@ public class SignInActivity extends AppCompatActivity {
                 password = edit_sign_in_password.getText().toString();
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    if (Validation.validateEmail(mail)) {
+                    if (Validation.validateUserName(mail)) {
                         if (Validation.validatePassword(password)) {
-                            jsonObject.put(User.KEY_EMAIL, mail);
-                            jsonObject.put(User.KEY_PASSWORD1, password);
+                            jsonObject.put(User.KEY_USERNAME, mail);
+                            jsonObject.put(User.KEY_PASSWORD, password);
                             jsonObject.put(User.KEY_TYPE, User.TYPE_LOGIN);
                             Log.e("data0", jsonObject.toString());
                             new SendJSON(getApplicationContext(), jsonObject);
@@ -64,7 +74,7 @@ public class SignInActivity extends AppCompatActivity {
                             Toast.makeText(SignInActivity.this, "Enter valid password", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(SignInActivity.this, "enter valid email", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, "enter valid username", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     Log.e("Sign In", e.getMessage());

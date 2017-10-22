@@ -43,7 +43,7 @@
             android:layout_marginBottom="10dp"
             android:height="45dp"
             android:background="@drawable/edittextshape"
-            android:hint="Email"
+            android:hint="username"
             android:textAlignment="center"
             android:textColor="#555"
             android:textColorHint="#cbd5dd"/>
