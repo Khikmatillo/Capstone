@@ -1,6 +1,7 @@
 package uz.music.capstone;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listview1;
     private MusicAdapter adapter1;
     private MediaPlayer current_playing = null, mp = null;
-    private Button btn_play_pause, btn_next, btn_prev;
+    private ImageButton btn_play_pause, btn_next, btn_prev;
     private SeekBar music_seek_bar;
     private Handler music_handler;
 
@@ -65,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
         adapter1 = new MusicAdapter();
         listview1.setAdapter(adapter1);
-        btn_play_pause = (Button) findViewById(R.id.btn_pause);
-        btn_next = (Button) findViewById(R.id.btn_next);
-        btn_prev = (Button) findViewById(R.id.btn_prev);
+        btn_play_pause = (ImageButton) findViewById(R.id.btn_pause);
+        btn_next = (ImageButton) findViewById(R.id.btn_next);
+        btn_prev = (ImageButton) findViewById(R.id.btn_prev);
         adapter1.notifyDataSetChanged();
         music_seek_bar = (SeekBar) findViewById(R.id.music_seek_bar);
         music_handler = new Handler();
@@ -75,14 +77,15 @@ public class MainActivity extends AppCompatActivity {
         ordered_musics = new ArrayList<Music>();
 
         //get JSON and parse JSON starts ------------------------------------
-//        if(json_file != null){
-//            Toast.makeText(MainActivity.this, "Read from file", Toast.LENGTH_SHORT).show();
-//            String result = readFile(json_file);
-//            parseJson(result);
-//
-//        }else{
+        SharedPreferences sp1 = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+        String savedJson = sp1.getString(User.KEY_JSON, "");
+        if (savedJson.equals("")) {
             new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
-        //}
+        }else{
+            parseJson(savedJson);
+            Toast.makeText(MainActivity.this, "Reading from SharedPreferences", Toast.LENGTH_SHORT).show();
+        }
+
         //get JSON and parse JSON ends --------------------------------------
 
         /////////////////////////////////////////
@@ -166,83 +169,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //control seekbar starts -----------------------------------------
-//        MainActivity.this.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if(mp != null){
-//                    int music_current_position = mp.getCurrentPosition()/1000;
-//                    music_seek_bar.setProgress(music_current_position);
-//                }
-//                music_handler.postDelayed(this, 1000);
-//            }
-//        });
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mp != null){
+                    int music_current_position = mp.getCurrentPosition()/1000;
+                    music_seek_bar.setProgress(music_current_position);
+                }
+                music_handler.postDelayed(this, 100);
+            }
+        });
 
-//        music_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            int seek_bar_position = 0;
-//
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                if(fromUser){
-//                    seek_bar_position = progress * 1000;
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                if(mp != null){
-//                    mp.seekTo(seek_bar_position);
-//                }else{
-//                    music_seek_bar.setProgress(0);
-//                }
-//
-//            }
-//        });
+        music_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int seek_bar_position = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser){
+                    seek_bar_position = progress * 1000;
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if(mp != null){
+                    mp.seekTo(seek_bar_position);
+                }else{
+                    music_seek_bar.setProgress(0);
+                }
+
+            }
+        });
 
         //control seekbar ends -------------------------------------------
 
         ////////////////////////////////////////////////
     }
-
-
-    //reading and writing JSON string to file starts ----------------------------------------
-    public static File createCacheFile(Context context, String fileName, String json) {
-        File cacheFile = new File(context.getFilesDir(), fileName);
-        try {
-            FileWriter fw = new FileWriter(cacheFile);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(json);
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            cacheFile = null;
-        }
-
-        return cacheFile;
-    }
-    public static String readFile(File file) {
-        String fileContent = "";
-        try {
-            String currentLine;
-            BufferedReader br = new BufferedReader(new FileReader(file));
-
-            while ((currentLine = br.readLine()) != null) {
-                fileContent += currentLine + '\n';
-            }
-
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            fileContent = null;
-        }
-        return fileContent;
-    }
-    //reading and writing JSON string to file ends ----------------------------------------
-
 
     private void parseJson(String result){
         JSONParser jsonParser = new JSONParser(result);
@@ -267,6 +234,11 @@ public class MainActivity extends AppCompatActivity {
             try {
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
+
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                String token = sp.getString(User.KEY_TOKEN, "");
+                connection.setRequestProperty("Authorization", "Token " + token);
+
                 connection.connect();
                 InputStream stream = connection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(stream));
@@ -306,7 +278,10 @@ public class MainActivity extends AppCompatActivity {
             //Parsing the JSON starts --------------------------------------
             parseJson(result);
 
-            //json_file = createCacheFile(MainActivity.this, "jsons.txt", result);
+            SharedPreferences shp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = shp.edit();
+            editor.putString(User.KEY_JSON, result);
+            editor.commit();
             //Parsing the JSON ends --------------------------------------
         }
     }

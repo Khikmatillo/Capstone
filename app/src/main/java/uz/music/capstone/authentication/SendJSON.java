@@ -137,7 +137,7 @@ public class SendJSON {
 
             try {
                 JSONObject jsonObject = new JSONObject(result);
-                String token = jsonObject.getString("token");
+                String token = jsonObject.getString(User.KEY_TOKEN);
                 SharedPreferences shp = context.getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = shp.edit();
                 editor.putString(User.KEY_TOKEN, token);
