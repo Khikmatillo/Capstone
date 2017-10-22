@@ -1,6 +1,7 @@
 package uz.music.capstone.authentication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import uz.music.capstone.MainActivity;
 import uz.music.capstone.profile.User;
 
 /**
@@ -68,7 +70,7 @@ public class SendJSON {
                 }
                 jsonData[0].remove(User.KEY_TYPE);
 
-                URL url = new URL("https://moozee.pythonanywhere.com/auth/api/register"); // here is your URL path
+                URL url = new URL(url_string); // here is your URL path
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
@@ -98,7 +100,7 @@ public class SendJSON {
 
                 if (responseCode == accepted_response) {
 
-                    User.USER_ACCEPTED = true;
+
 
                     BufferedReader in = new BufferedReader(new
                             InputStreamReader(
@@ -128,6 +130,7 @@ public class SendJSON {
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+            User.USER_ACCEPTED = true;
         }
     }
 

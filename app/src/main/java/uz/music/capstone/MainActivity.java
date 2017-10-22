@@ -67,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
         ordered_musics = new ArrayList<Music>();
 
         //get JSON and parse JSON starts ------------------------------------
-        if(json_file != null){
-            Toast.makeText(MainActivity.this, "Read from file", Toast.LENGTH_SHORT).show();
-            String result = readFile(json_file);
-            parseJson(result);
-
-        }else{
+//        if(json_file != null){
+//            Toast.makeText(MainActivity.this, "Read from file", Toast.LENGTH_SHORT).show();
+//            String result = readFile(json_file);
+//            parseJson(result);
+//
+//        }else{
             new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
-        }
+        //}
         //get JSON and parse JSON ends --------------------------------------
 
         /////////////////////////////////////////
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
             //Parsing the JSON starts --------------------------------------
             parseJson(result);
 
-            json_file = createCacheFile(MainActivity.this, "jsons.txt", result);
+            //json_file = createCacheFile(MainActivity.this, "jsons.txt", result);
             //Parsing the JSON ends --------------------------------------
         }
     }

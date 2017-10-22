@@ -15,9 +15,11 @@ package uz.music.capstone;
         import android.view.ViewGroup;
         import android.widget.BaseAdapter;
 
+        import android.widget.RelativeLayout;
         import android.widget.TextView;
 
 
+        import com.lucasurbas.listitemview.ListItemView;
 
         import java.util.ArrayList;
 
@@ -52,26 +54,14 @@ public class MusicAdapter extends BaseAdapter{
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view  = inflater.inflate(R.layout.music_list_item, viewGroup, false);
         }
+        Music music  = listviewitemsList.get(i);
 
-//        ImageView icon = (ImageView) view.findViewById(R.id.avatarPictureXML);
-
-
-        TextView titleStr = (TextView) view.findViewById(R.id.list_item_multi);
-        //use custom font for memo information text in list item
-
-
-        Music listViewitem  = listviewitemsList.get(i);
-
-        titleStr.setText(listViewitem.getMusic_name());
-
-
-
+        ListItemView item = (ListItemView) view.findViewById(R.id.list_item_multi);
+        item.setTitle(music.getMusic_name());
+        item.setSubtitle(music.getArtist());
         return view;
     }
 
-//    public String memotext;
-//    public String datetext;
-//    public Drawable icontext;
 
     public  void addItem(Music m){
         listviewitemsList.add(m);
