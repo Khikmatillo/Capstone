@@ -234,11 +234,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
-
                 SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
                 String token = sp.getString(User.KEY_TOKEN, "");
                 connection.setRequestProperty("Authorization", "Token " + token);
-
                 connection.connect();
                 InputStream stream = connection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(stream));

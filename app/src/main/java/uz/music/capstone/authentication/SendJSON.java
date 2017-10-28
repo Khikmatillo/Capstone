@@ -74,33 +74,23 @@ public class SendJSON {
                 jsonData[0].remove(User.KEY_TYPE);
 
                 URL url = new URL(url_string); // here is your URL path
-
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setRequestMethod("POST");
-
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
-
                 OutputStream os = conn.getOutputStream();
-
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                //Log.e("data2", getPostDataString(jsonData[0]));
-                //writer.write(getPostDataString(jsonData[0]));
                 String data = jsonData[0].toString();
                 writer.write(data);
-                Log.e("data1", data);
-
                 writer.flush();
                 writer.close();
                 os.close();
-
                 int responseCode = conn.getResponseCode();
-
                 if (responseCode == accepted_response) {
 
                     User.USER_ACCEPTED = true;
