@@ -11,35 +11,91 @@
 
 
     <LinearLayout
+
+        android:id="@+id/main_content"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5pt"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         >
 
-        <TextView
-
-            android:layout_width="wrap_content"
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:alwaysDrawnWithCache="true"
+            android:horizontalSpacing="3dp"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="3dp">
+        </ListView>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Discover"
-            android:layout_marginLeft="5pt"
-            android:textSize="12pt"/>
+            android:orientation="vertical">
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/music_seek_bar"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:background="@drawable/playingbckgrd">
 
-        <ImageView
-            android:layout_width="20pt"
-            android:layout_height="20pt"
-            android:layout_marginLeft="4pt"
-            android:paddingBottom="14dp"
-            android:src="@drawable/barchart"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_repeat"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/rszrepeatsource"
+                    android:layout_alignParentStart="true"
+                    android:backgroundTint="#f5f5f5"
 
-        <ImageView
-            android:layout_width="10pt"
-            android:layout_height="10pt"
-            android:src="@drawable/refreshicon"
-            android:layout_marginLeft="90pt"
-            android:layout_marginTop="6dp"
-            />
+                    />
 
+                <ImageButton
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_prev"
+                    android:layout_toStartOf="@+id/btn_pause"
+                    android:src="@drawable/rszprevsource"
+                    android:backgroundTint="#f5f5f5"
+                    />
+
+                <ImageButton
+                    android:layout_centerInParent="true"
+                    android:id="@+id/btn_pause"
+                    android:src="@drawable/rszplaysource"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#f5f5f5"
+
+
+                    />
+
+                <ImageButton
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/rsznextsource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#f5f5f5"
+                    android:layout_toEndOf="@+id/btn_pause"
+                    android:id="@+id/btn_next"/>
+
+                <ImageButton
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/rszshufflesource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#f5f5f5"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/btn_shuffle"/>
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 
