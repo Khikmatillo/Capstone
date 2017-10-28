@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_camera"
+                android:icon="@drawable/cdicon"
+
+                android:title="What's New"
+                />
+            <item
+                android:id="@+id/nav_gallery"
+                android:icon="@drawable/ic_queue_music_black_24dp"
+                android:title="Genres"
+                />
+            <item
+                android:id="@+id/nav_slideshow"
+                android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+                android:title="List"
+                />
+            <item
+
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/tubeicon"
+                android:title="Top Charts"
+              />
+        </group>
+
+    <item android:title="Most Played">
+        <menu>
+            <item
+                android:id="@+id/nav_day"
+                android:icon="@drawable/ic_equalizer_black_24dp"
+                android:title="Daily" />
+            <item
+                android:id="@+id/nav_week"
+                android:icon="@drawable/ic_equalizer_black_24dp"
+                android:title="Weekly" />
+            <item
+                android:id="@+id/nav_month"
+                android:icon="@drawable/ic_equalizer_black_24dp"
+                android:title="Monthly" />
+        </menu>
+    </item>
+
+    <item android:title="Playlist">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_music_note_black_24dp"
+                android:title="Umar Playlist" />
+
+        </menu>
+    </item>
+
+
+
+</menu>
