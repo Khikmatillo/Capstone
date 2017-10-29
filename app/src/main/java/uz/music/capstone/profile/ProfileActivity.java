@@ -41,12 +41,12 @@ public class ProfileActivity extends AppCompatActivity {
         txt_profile_about = (TextView) findViewById(R.id.txt_profile_about);
         txt_profile_info = (TextView) findViewById(R.id.txt_profile_info);
 
-        txt_profile_followers.setText(user.getFollowers().size());
-        txt_profile_following.setText(user.getFollowing().size());
-        txt_profile_name.setText(user.getName());
-        txt_profile_city.setText(user.getCity() + ", " + user.getCountry());
-        txt_profile_about.setText(user.getAbout());
-        txt_profile_info.setText(user.getInfo());
+//        txt_profile_followers.setText(user.getFollowers().size());
+//        txt_profile_following.setText(user.getFollowing().size());
+//        txt_profile_name.setText(user.getName());
+//        txt_profile_city.setText(user.getCity() + ", " + user.getCountry());
+//        txt_profile_about.setText(user.getAbout());
+//        txt_profile_info.setText(user.getInfo());
 
 
         btn_profile_follow.setOnClickListener(new View.OnClickListener() {

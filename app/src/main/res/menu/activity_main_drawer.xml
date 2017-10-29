@@ -6,24 +6,24 @@
 
         <group android:checkableBehavior="single">
             <item
-                android:id="@+id/nav_camera"
+                android:id="@+id/nav_new"
                 android:icon="@drawable/cdicon"
 
                 android:title="What's New"
                 />
             <item
-                android:id="@+id/nav_gallery"
+                android:id="@+id/nav_genres"
                 android:icon="@drawable/ic_queue_music_black_24dp"
                 android:title="Genres"
                 />
             <item
-                android:id="@+id/nav_slideshow"
+                android:id="@+id/nav_list"
                 android:icon="@drawable/ic_format_list_bulleted_black_24dp"
                 android:title="List"
                 />
             <item
 
-                android:id="@+id/nav_manage"
+                android:id="@+id/nav_charts"
                 android:icon="@drawable/tubeicon"
                 android:title="Top Charts"
               />
@@ -32,15 +32,15 @@
     <item android:title="Most Played">
         <menu>
             <item
-                android:id="@+id/nav_day"
+                android:id="@+id/nav_daily"
                 android:icon="@drawable/ic_equalizer_black_24dp"
                 android:title="Daily" />
             <item
-                android:id="@+id/nav_week"
+                android:id="@+id/nav_weekly"
                 android:icon="@drawable/ic_equalizer_black_24dp"
                 android:title="Weekly" />
             <item
-                android:id="@+id/nav_month"
+                android:id="@+id/nav_monthly"
                 android:icon="@drawable/ic_equalizer_black_24dp"
                 android:title="Monthly" />
         </menu>
@@ -49,7 +49,7 @@
     <item android:title="Playlist">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_playlist"
                 android:icon="@drawable/ic_music_note_black_24dp"
                 android:title="Umar Playlist" />
 

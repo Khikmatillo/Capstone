@@ -63,6 +63,11 @@ public class MusicAdapter extends BaseAdapter{
     }
 
 
+    public void clearAllData(){
+        listviewitemsList.clear();
+        notifyDataSetChanged();
+    }
+
     public  void addItem(Music m){
         listviewitemsList.add(m);
         Log.e("", "ITEM ADDED ");
