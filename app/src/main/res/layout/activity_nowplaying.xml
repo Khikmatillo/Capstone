@@ -7,30 +7,40 @@
     android:orientation="vertical"
     tools:context="uz.music.capstone.Nowplaying">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/_currenttrackinfoXML"
         android:layout_width="match_parent"
         android:layout_height="32pt"
         android:orientation="horizontal"
-        android:weightSum="1"
         android:background="@drawable/shadowinfobgd"
         >
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/trackoptions"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15pt"
+            android:contentDescription="@string/artdpt"/>
+
         <LinearLayout
+            android:id="@+id/_currenttrackwholeXML"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0.7"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+
             >
             <TextView
+
                 android:id="@+id/_currenttracknameXML"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/currentname"
                 android:textSize="8pt"
                 android:textStyle="bold"
-                android:paddingStart="20pt"
                 android:textColor="#494949"
                 android:paddingBottom="5dp"/>
 
@@ -40,23 +50,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/currentartist"
                 android:textSize="7pt"
-                android:paddingStart="20pt"
                 android:textColor="#a7a7a7"
                 />
         </LinearLayout>
 
-        <TextView
-            android:textAlignment="center"
-            android:layout_weight="0.3"
-            android:layout_gravity="center"
-            android:id="@+id/_currenttrackdurationXML"
+        <ImageView
+            android:layout_marginEnd="15pt"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/_currenttrackrateXML"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/currentduration"
-            android:textSize="22sp"
-            android:textColor="#4cb6cb"
+            android:src="@drawable/trackrate"
+            android:contentDescription="@string/artdpt"
             />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
 
@@ -69,7 +77,6 @@
         >
 
         <FrameLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fff"
@@ -97,16 +104,41 @@
         android:orientation="vertical"
        >
 
-        <SeekBar
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/_currentseekbarXML"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="10pt"
-            android:layout_marginRight="10pt"
-            android:thumb="@drawable/mythumb"
-            android:progress="0"
-            android:progressTint="#4cb6cb"/>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="5pt"
+            android:weightSum="1">
+
+            <TextView
+
+                android:id="@+id/ongoingtimeXML"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/currentduration"
+                />
+
+            <SeekBar
+                android:layout_weight="0.9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/_currentseekbarXML"
+                android:thumb="@drawable/mythumb"
+                android:progress="0"
+                android:progressTint="#4cb6cb"/>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeleftXML"
+                android:text="@string/currentduration"/>
+
+        </LinearLayout>
+
+
 
         <RelativeLayout
             android:layout_marginTop="5pt"
@@ -123,6 +155,7 @@
                 android:layout_alignParentStart="true"
                 android:background="#fff"
                 android:layout_marginLeft="20pt"
+                android:contentDescription="@string/artdpt"
 
                 />
 
@@ -134,6 +167,7 @@
                 android:layout_toLeftOf="@+id/_currentpauseXML"
                 android:src="@drawable/trackprev"
                 android:background="#fff"
+                android:contentDescription="@string/artdpt"
 
                 />
 
@@ -147,6 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#fff"
+                android:contentDescription="@string/artdpt"
                 />
 
             <ImageButton
@@ -156,7 +191,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/_currentpauseXML"
                 android:id="@+id/_currentnextXML"
-                android:background="#fff"/>
+                android:background="#fff"
+                android:contentDescription="@string/artdpt"/>
 
             <ImageButton
                 android:layout_centerInParent="true"
@@ -166,6 +202,7 @@
                 android:layout_alignParentEnd="true"
                 android:id="@+id/_currentshuffleXML"
                 android:background="#fff"
+                android:contentDescription="@string/artdpt"
                 android:layout_marginRight="20pt"/>
 
         </RelativeLayout>
