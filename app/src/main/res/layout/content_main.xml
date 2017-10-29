@@ -18,7 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+        android:background="#f1f1f1"
+        android:paddingTop="5px"
         >
+
 
         <ListView
             android:id="@+id/list_view"
@@ -30,73 +33,147 @@
             android:scrollingCache="true"
             android:smoothScrollbar="true"
             android:stretchMode="columnWidth"
+            android:divider="@null"
+            android:dividerHeight="0dp"
             android:verticalSpacing="3dp">
         </ListView>
         <LinearLayout
+            android:id="@+id/_currenttrackstatusXML"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="43pt"
+            android:background="@drawable/shadowstatusbgd"
+            android:orientation="vertical"
+            >
+
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/music_seek_bar"/>
+                android:id="@+id/music_seek_bar"
+                android:layout_marginTop="12dp"
+                android:thumb="@drawable/mythumb"
+                android:progress="0"
+                android:progressTint="#4cb6cb"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:background="@drawable/playingbckgrd">
+                android:layout_height="wrap_content"
+                >
 
-                <ImageButton
+                <com.lucasurbas.listitemview.ListItemView
+                    android:id="@+id/list_item_multi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_repeat"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/rszrepeatsource"
-                    android:layout_alignParentStart="true"
-                    android:backgroundTint="#f5f5f5"
-
-                    />
-
+                    android:background="#fff"
+                    app:liv_subtitle="Beyonce"
+                    app:liv_title="Halo"
+                    android:padding="0dp"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
                 <ImageButton
-                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_prev"
-                    android:layout_toStartOf="@+id/btn_pause"
-                    android:src="@drawable/rszprevsource"
-                    android:backgroundTint="#f5f5f5"
+                    android:layout_toLeftOf="@+id/btn_pause"
+                    android:src="@drawable/trackprev"
+                    android:background="#fff"
+                    android:layout_marginTop="12dp"
                     />
 
                 <ImageButton
-                    android:layout_centerInParent="true"
                     android:id="@+id/btn_pause"
-                    android:src="@drawable/rszplaysource"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:src="@drawable/trackpause"
                     android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
+                    android:layout_toLeftOf="@+id/btn_next"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#f5f5f5"
-
-
+                    android:background="#fff"
+                    android:layout_marginTop="12dp"
                     />
 
                 <ImageButton
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/rsznextsource"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/tracknext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#f5f5f5"
-                    android:layout_toEndOf="@+id/btn_pause"
-                    android:id="@+id/btn_next"/>
+                    android:id="@+id/btn_next"
+                    android:layout_marginRight="30px"
+                    android:background="#fff"
+                    android:layout_marginTop="12dp"/>
 
-                <ImageButton
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/rszshufflesource"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#f5f5f5"
-                    android:layout_alignParentEnd="true"
-                    android:id="@+id/btn_shuffle"/>
+
+
             </RelativeLayout>
+
         </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+            <!--<SeekBar-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/music_seek_bar"/>-->
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50pt"-->
+                <!--android:background="@drawable/playingbckgrd">-->
+
+                <!--<ImageButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/btn_repeat"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:src="@drawable/rszrepeatsource"-->
+                    <!--android:layout_alignParentStart="true"-->
+                    <!--android:backgroundTint="#f5f5f5"-->
+
+                    <!--/>-->
+
+                <!--<ImageButton-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/btn_prev"-->
+                    <!--android:layout_toStartOf="@+id/btn_pause"-->
+                    <!--android:src="@drawable/rszprevsource"-->
+                    <!--android:backgroundTint="#f5f5f5"-->
+                    <!--/>-->
+
+                <!--<ImageButton-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:id="@+id/btn_pause"-->
+                    <!--android:src="@drawable/rszplaysource"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:backgroundTint="#f5f5f5"-->
+
+
+                    <!--/>-->
+
+                <!--<ImageButton-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:src="@drawable/rsznextsource"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:backgroundTint="#f5f5f5"-->
+                    <!--android:layout_toEndOf="@+id/btn_pause"-->
+                    <!--android:id="@+id/btn_next"/>-->
+
+                <!--<ImageButton-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:src="@drawable/rszshufflesource"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:backgroundTint="#f5f5f5"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:id="@+id/btn_shuffle"/>-->
+            <!--</RelativeLayout>-->
+        <!--</LinearLayout>-->
     </LinearLayout>
 
 

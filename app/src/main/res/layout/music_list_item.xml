@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#f1f1f1"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5px"
+    android:layout_marginBottom="5px">
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="75dp"
+        android:layout_height="72dp"
+        android:background="@drawable/smallalbumart"
+        android:padding="3dp" />
 
     <com.lucasurbas.listitemview.ListItemView
         android:id="@+id/list_item_multi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#e6e6d6"
+        android:background="#fff"
+        android:layout_weight="5"
         app:liv_circularIcon="true"
-        app:liv_icon="@drawable/ic_person_black_24dp"
         app:liv_menu="@menu/multi_menu"
         app:liv_multiline="false"
         app:liv_subtitle="Beyonce"
         app:liv_title="Halo" />
 
-</RelativeLayout>
+</LinearLayout>
+
+</LinearLayout>
