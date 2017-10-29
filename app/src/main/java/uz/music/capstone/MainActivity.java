@@ -1,7 +1,10 @@
 package uz.music.capstone;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +18,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -43,7 +47,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-
+import uz.music.capstone.profile.ProfileActivity;
 import uz.music.capstone.profile.User;
 
 
@@ -56,12 +60,14 @@ public class MainActivity extends AppCompatActivity
     private ImageButton btn_play_pause, btn_next, btn_prev;
     private SeekBar music_seek_bar;
     private Handler music_handler;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private int music_paused_position;
     private ArrayList<Music> ordered_musics;
     private Music music_current = null, music_prev = null, music_next = null;
     private int music_current_position;
     private File json_file = null;
+    private boolean paused = false;
 
 
 
@@ -95,8 +101,8 @@ public class MainActivity extends AppCompatActivity
         adapter1.notifyDataSetChanged();
         music_seek_bar = (SeekBar) findViewById(R.id.music_seek_bar);
         music_handler = new Handler();
-        music_paused_position = -1;
         ordered_musics = new ArrayList<Music>();
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
 
         //get JSON and parse JSON starts ------------------------------------
         SharedPreferences sp1 = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
@@ -104,6 +110,7 @@ public class MainActivity extends AppCompatActivity
         if (savedJson.equals("")) {
             new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
         }else{
+            Log.i("JSON", savedJson);
             parseJson(savedJson);
             Toast.makeText(MainActivity.this, "Reading from SharedPreferences", Toast.LENGTH_SHORT).show();
         }
@@ -128,8 +135,9 @@ public class MainActivity extends AppCompatActivity
                 if(current_playing != null){
                     current_playing.stop();
                 }
-                mp.start();
                 current_playing = mp;
+                current_playing.start();
+
                 music_next = ordered_musics.get((music_current_position + 1) % ordered_musics.size());
                 if(music_current_position == 0){
                     music_prev = ordered_musics.get(ordered_musics.size() - 1);
@@ -140,17 +148,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //listview1.setOnTouchListener();
+
         btn_play_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mp != null){
-                    if(music_paused_position == -1){
-                        if(mp.isPlaying()) {
-                            music_paused_position = mp.getCurrentPosition();
-                            mp.pause();
-                        }else{
-                            mp.seekTo(music_paused_position);
-                        }
+                if(current_playing != null){
+                    if(!paused){
+                        music_paused_position = current_playing.getCurrentPosition();
+                        current_playing.pause();
+                        paused = true;
+                    }else{
+                        current_playing.seekTo(music_paused_position);
+                        current_playing.start();
+                        paused = false;
                     }
 
                 }
@@ -161,13 +172,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(current_playing != null && music_next != null){
-                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_next.getLinks().get(0)));
-                    current_playing.stop();
-                    mp.start();
-                    current_playing = mp;
+
                     music_prev = music_current;
                     music_current = music_next;
                     music_next = ordered_musics.get((music_current_position + 1) % ordered_musics.size());
+                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_current.getLinks().get(0)));
+                    current_playing.stop();
+                    current_playing = mp;
+                    current_playing.start();
+
                 }
             }
         });
@@ -176,9 +189,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(current_playing != null && music_prev != null){
-                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_prev.getLinks().get(0)));
-                    current_playing.stop();
-                    mp.start();
+
                     music_next = music_current;
                     music_current = music_prev;
                     if(music_current_position == 0){
@@ -186,6 +197,11 @@ public class MainActivity extends AppCompatActivity
                     }else{
                         music_prev = ordered_musics.get(music_current_position - 1);
                     }
+                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_current.getLinks().get(0)));
+                    current_playing.stop();
+                    current_playing = mp;
+                    current_playing.start();
+
                 }
 
             }
@@ -198,7 +214,7 @@ public class MainActivity extends AppCompatActivity
                     int music_current_position = mp.getCurrentPosition()/1000;
                     music_seek_bar.setProgress(music_current_position);
                 }
-                music_handler.postDelayed(this, 100);
+                music_handler.postDelayed(this, 0);
             }
         });
 
@@ -236,17 +252,33 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        //OnRefreshListener Implementations starts ---------------------------------
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter1.clearAllData();
+                new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
+            }
+        });
+
+        //OnRefreshListener Implementations ends ---------------------------------
+
+
     }
 
     private void parseJson(String result){
         JSONParser jsonParser = new JSONParser(result);
         ordered_musics = jsonParser.getMusicsArray();
         Log.e("", "Array size " + ordered_musics.size());
+        Log.e("", "JSON" + result);
         for(int i = 0; i < ordered_musics.size(); i++){
             adapter1.addItem(ordered_musics.get(i));
         }
         adapter1.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
+
+
     //class to GET and Parse from server starts ---------------------------------
     private class GetJson extends AsyncTask<String, String, String> {
         private ProgressDialog pd;
@@ -346,7 +378,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_refresh) {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -359,15 +393,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_new) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_genres) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_list) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_charts) {
+
+        }else if (id == R.id.nav_daily) {
+
+        }else if (id == R.id.nav_weekly) {
+
+        }else if (id == R.id.nav_monthly) {
+
+        }else if (id == R.id.nav_playlist) {
 
         }
 

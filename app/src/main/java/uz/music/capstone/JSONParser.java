@@ -28,17 +28,19 @@ public class JSONParser {
 
     public JSONParser(String JSONText) {
         parsed_musics = new ArrayList<Music>();
-        links = new ArrayList<String>();
+        //links = new ArrayList<String>();
         this.JSONText = JSONText;
     }
 
     public ArrayList<Music> getMusicsArray(){
         if(JSONText != null){
             try{
+
                 JSONObject json_obj = new JSONObject(JSONText);
 
                 JSONArray musics = json_obj.getJSONArray("results");
                 for (int i = 0; i < musics.length(); i++){
+                    links = new ArrayList<String>();
                     JSONObject m = musics.getJSONObject(i);
                     music_name = m.getString("music_name");
                     position = m.getInt("position");
@@ -47,9 +49,10 @@ public class JSONParser {
                     artist = m.getString("artist");
                     genre = m.getString("genre");
 
-                    JSONArray m_add_links = m.getJSONArray("links");
-                    for(int j = 0; j < m_add_links.length(); j++){
-                        links.add(m_add_links.getString(j));
+                    JSONArray jsonlinks = m.getJSONArray("links");
+                    for(int j = 0; j < jsonlinks.length(); j++){
+                        links.add(jsonlinks.getString(j));
+                        Log.i(music_name, jsonlinks.getString(j));
                     }
 
                     music_pk = m.getInt("music_pk");
