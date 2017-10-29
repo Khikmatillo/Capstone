@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="uz.music.capstone.Nowplaying">
+
+    <LinearLayout
+        android:id="@+id/_currenttrackinfoXML"
+        android:layout_width="match_parent"
+        android:layout_height="32pt"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:background="@drawable/shadowinfobgd"
+        >
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="0.7"
+            >
+            <TextView
+                android:id="@+id/_currenttracknameXML"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/currentname"
+                android:textSize="8pt"
+                android:textStyle="bold"
+                android:paddingStart="20pt"
+                android:textColor="#494949"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/_currenttrackartistXML"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/currentartist"
+                android:textSize="7pt"
+                android:paddingStart="20pt"
+                android:textColor="#a7a7a7"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:textAlignment="center"
+            android:layout_weight="0.3"
+            android:layout_gravity="center"
+            android:id="@+id/_currenttrackdurationXML"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/currentduration"
+            android:textSize="22sp"
+            android:textColor="#4cb6cb"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/_currenttrackartXML"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#f1f1f1"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        >
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical"
+            android:layout_margin="9pt"
+            >
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/albumartmoozee"
+                android:layout_margin="8pt"
+                android:contentDescription="@string/artdpt" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/_currenttrackstatusXML"
+        android:layout_width="match_parent"
+        android:layout_height="35pt"
+        android:background="@drawable/shadowstatusbgd"
+        android:orientation="vertical"
+       >
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/_currentseekbarXML"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10pt"
+            android:layout_marginRight="10pt"
+            android:thumb="@drawable/mythumb"
+            android:progress="0"
+            android:progressTint="#4cb6cb"/>
+
+        <RelativeLayout
+            android:layout_marginTop="5pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/_currentrepeatXML"
+                android:layout_centerInParent="true"
+                android:src="@drawable/trackrepeat"
+                android:layout_alignParentStart="true"
+                android:background="#fff"
+                android:layout_marginLeft="20pt"
+
+                />
+
+            <ImageButton
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/_currentprevXML"
+                android:layout_toLeftOf="@+id/_currentpauseXML"
+                android:src="@drawable/trackprev"
+                android:background="#fff"
+
+                />
+
+            <ImageButton
+                android:layout_centerInParent="true"
+                android:id="@+id/_currentpauseXML"
+                android:layout_marginRight="20pt"
+                android:layout_marginLeft="20pt"
+                android:src="@drawable/trackpause"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                />
+
+            <ImageButton
+                android:layout_centerInParent="true"
+                android:src="@drawable/tracknext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/_currentpauseXML"
+                android:id="@+id/_currentnextXML"
+                android:background="#fff"/>
+
+            <ImageButton
+                android:layout_centerInParent="true"
+                android:src="@drawable/trackshuffle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/_currentshuffleXML"
+                android:background="#fff"
+                android:layout_marginRight="20pt"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

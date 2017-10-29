@@ -5,4 +5,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Refresh</string>
+
+    <string name="currentname">She\'\s On My Mind</string>
+    <string name="currentartist">JP Cooper</string>
+    <string name="currentduration">3:26</string>
+    <string name="artdpt">Moozee Album Art</string>
+
 </resources>
