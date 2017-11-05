@@ -1,8 +1,11 @@
 package uz.music.capstone;
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
@@ -10,6 +13,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -105,17 +110,37 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
 
         //get JSON and parse JSON starts ------------------------------------
-        SharedPreferences sp1 = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
-        String savedJson = sp1.getString(User.KEY_JSON, "");
-        if (savedJson.equals("")) {
-            new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
-        }else{
-            Log.i("JSON", savedJson);
-            parseJson(savedJson);
-            Toast.makeText(MainActivity.this, "Reading from SharedPreferences", Toast.LENGTH_SHORT).show();
-        }
+//        SharedPreferences sp1 = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+//        String savedJson = sp1.getString(User.KEY_JSON, "");
+//        if (savedJson.equals("")) {
+//            new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
+//        }else{
+//            Log.i("JSON", savedJson);
+//            parseJson(savedJson);
+//            Toast.makeText(MainActivity.this, "Reading from SharedPreferences", Toast.LENGTH_SHORT).show();
+//        }
 
         //get JSON and parse JSON ends --------------------------------------
+
+
+        //ooffline mode starts
+
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (shouldShowRequestPermissionRationale(
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            }
+
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1234);
+
+            return;
+        }
+        getAllSongs();
+
+
+        //ooffline mode ends
+
 
         /////////////////////////////////////////
 
@@ -257,7 +282,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRefresh() {
                 adapter1.clearAllData();
-                new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
+//                new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
+                getAllSongs();
             }
         });
 
@@ -265,6 +291,67 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
+    //offline mode functions starts ---------------------------------------------------------
+
+
+    public void getAllSongs() {
+
+        Uri allsongsuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+
+        String[] STAR=null;
+        Cursor cursor = managedQuery(allsongsuri, STAR, selection, null, null);
+
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String music_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+                    String music_artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+                    int song_id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
+                    String fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                    String Duration = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
+                    //String content_type = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.CONTENT_TYPE));
+                    String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
+                    Music music = new Music(music_name, music_artist);
+                    adapter1.addItem(music);
+                    Log.e("Data", "Path :: " + fullpath);
+
+                } while (cursor.moveToNext());
+                adapter1.notifyDataSetChanged();
+            }
+            cursor.close();
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1234) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+                Toast.makeText(MainActivity.this, "grant", Toast.LENGTH_LONG).show();
+                getAllSongs();
+            } else {
+                // User refused to grant permission.
+                Toast.makeText(MainActivity.this, "denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+
+    //offline mode functions starts ---------------------------------------------------------
+
+
+
+
+
 
     private void parseJson(String result){
         JSONParser jsonParser = new JSONParser(result);

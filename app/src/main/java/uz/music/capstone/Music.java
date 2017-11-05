@@ -20,7 +20,10 @@ public class Music {
     private ArrayList<String> links;
     private int music_pk;
 
-
+    public Music(String name, String artist){
+        this.music_name = name;
+        this.artist = artist;
+    }
 
     public Music(String music_name, int position, int num_of_views, int best_position_ever,
                  String artist, String genre, ArrayList<String> links, int music_pk) {
