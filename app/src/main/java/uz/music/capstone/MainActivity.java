@@ -52,6 +52,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
+import uz.music.capstone.offline.MusicPlayer;
 import uz.music.capstone.profile.ProfileActivity;
 import uz.music.capstone.profile.User;
 
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     private File json_file = null;
     private boolean paused = false;
 
-
+    private MusicPlayer musicPlayer;
 
     public static User CURRENT_USER = null;
 
@@ -109,6 +110,8 @@ public class MainActivity extends AppCompatActivity
         ordered_musics = new ArrayList<Music>();
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
 
+        musicPlayer = new MusicPlayer(MainActivity.this);
+
         //get JSON and parse JSON starts ------------------------------------
 //        SharedPreferences sp1 = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
 //        String savedJson = sp1.getString(User.KEY_JSON, "");
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity
 
             return;
         }
-        getAllSongs();
+       // musicPlayer.getAllSongs(adapter1);
 
 
         //ooffline mode ends
@@ -283,7 +286,7 @@ public class MainActivity extends AppCompatActivity
             public void onRefresh() {
                 adapter1.clearAllData();
 //                new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
-                getAllSongs();
+               // musicPlayer.getAllSongs(adapter1);
             }
         });
 
@@ -295,38 +298,63 @@ public class MainActivity extends AppCompatActivity
 
     //offline mode functions starts ---------------------------------------------------------
 
-
-    public void getAllSongs() {
-
-        Uri allsongsuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
-
-        String[] STAR=null;
-        Cursor cursor = managedQuery(allsongsuri, STAR, selection, null, null);
-
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    String music_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
-                    String music_artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
-                    int song_id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
-                    String fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-                    String Duration = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
-                    //String content_type = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.CONTENT_TYPE));
-                    String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
-                    Music music = new Music(music_name, music_artist);
-                    adapter1.addItem(music);
-                    Log.e("Data", "Path :: " + fullpath);
-
-                } while (cursor.moveToNext());
-                adapter1.notifyDataSetChanged();
-            }
-            cursor.close();
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    }
-
+//
+//    public void getAllSongs() {
+//
+//        Uri allsongsuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+//        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+//        String[] STAR=null;
+//        Cursor cursor = managedQuery(allsongsuri, STAR, selection, null, null);
+//        if (cursor != null) {
+//            if (cursor.moveToFirst()) {
+//                do {
+//                    String music_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+//                    String music_artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+//                    Music music = new Music(music_name, music_artist);
+//                    adapter1.addItem(music);
+//                    String fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+//                    String[] paths = fullpath.split("/");
+//                    String folder = paths[paths.length - 2];
+//                    Log.e("Data", "Path :: " + fullpath);
+//                    Log.e("Data", "Folder :: " + paths[paths.length - 2]);
+//                    addMusicToFolder(folder, music);
+//                } while (cursor.moveToNext());
+//                adapter1.notifyDataSetChanged();
+//                Log.e("Folder size", FOLDER_NAMES.size() + "");
+//                for(int i = 0; i < FOLDER_NAMES.size(); i++){
+//                    //Log.e("Folders", FOLDER_NAMES.get(i));
+//                    for(int j = 0; j < FOLDER_MUSICS.get(i).size(); j++){
+//                        Log.e("Musics", FOLDER_MUSICS.get(i).get(j).getMusic_name() + " ::from:: " + FOLDER_NAMES.get(i));
+//                    }
+//
+//                }
+//            }
+//            cursor.close();
+//            swipeRefreshLayout.setRefreshing(false);
+//        }
+//    }
+//
+//    public void addMusicToFolder(String folder, Music music){
+//        int index = -1;
+//        for(int i = 0; i < FOLDER_NAMES.size(); i++){
+//            if(FOLDER_NAMES.get(i).equals(folder)){
+//                index = i;
+//            }
+//        }
+//        if(index == -1){
+//            FOLDER_MUSICS.add(new ArrayList<Music>());
+//            FOLDER_NAMES.add(folder);
+//            index = FOLDER_MUSICS.size() - 1;
+//        }
+//        FOLDER_MUSICS.get(index).add(music);
+//    }
+//
+//    int song_id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
+//    String fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+//    String Duration = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
+//    //String content_type = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.CONTENT_TYPE));
+//    String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
+//     Log.e("Data", "Path :: " + fullpath);
 
 
     @Override
@@ -336,7 +364,7 @@ public class MainActivity extends AppCompatActivity
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
                 Toast.makeText(MainActivity.this, "grant", Toast.LENGTH_LONG).show();
-                getAllSongs();
+                //musicPlayer.getAllSongs(adapter1);
             } else {
                 // User refused to grant permission.
                 Toast.makeText(MainActivity.this, "denied", Toast.LENGTH_LONG).show();
