@@ -1,12 +1,17 @@
 package uz.music.capstone;
 import android.Manifest;
+import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -15,11 +20,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -32,9 +39,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -52,21 +62,22 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-import uz.music.capstone.offline.MusicPlayer;
 import uz.music.capstone.profile.ProfileActivity;
 import uz.music.capstone.profile.User;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        {
 
     private ListView listview1;
     private MusicAdapter adapter1;
     private MediaPlayer current_playing = null, mp = null;
-    private ImageButton btn_play_pause, btn_next, btn_prev;
+    private ImageButton btn_play_pause, btn_next, btn_prev, option_menu;
+    private ImageView imgbar;
     private SeekBar music_seek_bar;
     private Handler music_handler;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private FloatingActionButton startPlay;
 
     private int music_paused_position;
     private ArrayList<Music> ordered_musics;
@@ -75,27 +86,19 @@ public class MainActivity extends AppCompatActivity
     private File json_file = null;
     private boolean paused = false;
 
-    private MusicPlayer musicPlayer;
+
 
     public static User CURRENT_USER = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        // IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!
-
-
+        setTitle("Favorite");
 
         listview1  = (ListView)findViewById(R.id.list_view); // listview of memo items
 
@@ -104,13 +107,20 @@ public class MainActivity extends AppCompatActivity
         btn_play_pause = (ImageButton) findViewById(R.id.btn_pause);
         btn_next = (ImageButton) findViewById(R.id.btn_next);
         btn_prev = (ImageButton) findViewById(R.id.btn_prev);
+        imgbar = (ImageView) findViewById(R.id.imgbar);
         adapter1.notifyDataSetChanged();
         music_seek_bar = (SeekBar) findViewById(R.id.music_seek_bar);
         music_handler = new Handler();
         ordered_musics = new ArrayList<Music>();
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        startPlay = (FloatingActionButton) findViewById(R.id.fab);
 
-        musicPlayer = new MusicPlayer(MainActivity.this);
+
+
+
+
+        startPlay.setBackgroundTintList(ColorStateList.valueOf(Color
+                .parseColor("#0074b2")));
 
         //get JSON and parse JSON starts ------------------------------------
 //        SharedPreferences sp1 = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
@@ -125,6 +135,24 @@ public class MainActivity extends AppCompatActivity
 
         //get JSON and parse JSON ends --------------------------------------
 
+//        final String[] option = {"Hello", "Adele", "Add to playlist", "Share"};
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, option);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Option menu");
+//        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//            }
+//        });
+//        final AlertDialog alertDialog = builder.create();
+//        option_menu = (ImageButton)findViewById(R.id.menu_button);
+//        option_menu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                alertDialog.show();
+//            }
+//        });
 
         //ooffline mode starts
 
@@ -139,7 +167,7 @@ public class MainActivity extends AppCompatActivity
 
             return;
         }
-       // musicPlayer.getAllSongs(adapter1);
+        getAllSongs();
 
 
         //ooffline mode ends
@@ -276,8 +304,7 @@ public class MainActivity extends AppCompatActivity
 
         ////////////////////////////////////////////////
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
 
 
         //OnRefreshListener Implementations starts ---------------------------------
@@ -286,76 +313,70 @@ public class MainActivity extends AppCompatActivity
             public void onRefresh() {
                 adapter1.clearAllData();
 //                new GetJson().execute("http://moozee.pythonanywhere.com/daily/?format=json");
-               // musicPlayer.getAllSongs(adapter1);
+                getAllSongs();
             }
         });
 
         //OnRefreshListener Implementations ends ---------------------------------
-
-
     }
 
 
     //offline mode functions starts ---------------------------------------------------------
 
-//
-//    public void getAllSongs() {
-//
-//        Uri allsongsuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-//        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
-//        String[] STAR=null;
-//        Cursor cursor = managedQuery(allsongsuri, STAR, selection, null, null);
-//        if (cursor != null) {
-//            if (cursor.moveToFirst()) {
-//                do {
-//                    String music_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
-//                    String music_artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
-//                    Music music = new Music(music_name, music_artist);
-//                    adapter1.addItem(music);
-//                    String fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-//                    String[] paths = fullpath.split("/");
-//                    String folder = paths[paths.length - 2];
-//                    Log.e("Data", "Path :: " + fullpath);
-//                    Log.e("Data", "Folder :: " + paths[paths.length - 2]);
-//                    addMusicToFolder(folder, music);
-//                } while (cursor.moveToNext());
-//                adapter1.notifyDataSetChanged();
-//                Log.e("Folder size", FOLDER_NAMES.size() + "");
-//                for(int i = 0; i < FOLDER_NAMES.size(); i++){
-//                    //Log.e("Folders", FOLDER_NAMES.get(i));
-//                    for(int j = 0; j < FOLDER_MUSICS.get(i).size(); j++){
-//                        Log.e("Musics", FOLDER_MUSICS.get(i).get(j).getMusic_name() + " ::from:: " + FOLDER_NAMES.get(i));
-//                    }
-//
-//                }
-//            }
-//            cursor.close();
-//            swipeRefreshLayout.setRefreshing(false);
-//        }
-//    }
-//
-//    public void addMusicToFolder(String folder, Music music){
-//        int index = -1;
-//        for(int i = 0; i < FOLDER_NAMES.size(); i++){
-//            if(FOLDER_NAMES.get(i).equals(folder)){
-//                index = i;
-//            }
-//        }
-//        if(index == -1){
-//            FOLDER_MUSICS.add(new ArrayList<Music>());
-//            FOLDER_NAMES.add(folder);
-//            index = FOLDER_MUSICS.size() - 1;
-//        }
-//        FOLDER_MUSICS.get(index).add(music);
-//    }
-//
-//    int song_id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
-//    String fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-//    String Duration = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
-//    //String content_type = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.CONTENT_TYPE));
-//    String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
-//     Log.e("Data", "Path :: " + fullpath);
 
+    public void getAllSongs() {
+
+        Uri allsongsuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+
+        String[] STAR=null;
+        Cursor cursor = managedQuery(allsongsuri, STAR, selection, null, null);
+
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String music_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+                    String music_artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+                    int song_id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
+                    String fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                    String Duration = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
+                    //String content_type = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.CONTENT_TYPE));
+                    String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
+                    Music music = new Music(music_name, music_artist);
+                    adapter1.addItem(music);
+                    Log.e("Data", "Path :: " + fullpath);
+
+                } while (cursor.moveToNext());
+                adapter1.notifyDataSetChanged();
+            }
+            cursor.close();
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+
+
+    public void showMenu (View view)
+    {
+        PopupMenu menu = new PopupMenu (this, view);
+        menu.setOnMenuItemClickListener (new PopupMenu.OnMenuItemClickListener ()
+        {
+            @Override
+            public boolean onMenuItemClick (MenuItem item)
+            {
+                int id = item.getItemId();
+                switch (id)
+                {
+                    case R.id.item_settings: Toast.makeText(getApplicationContext(), "Setting", Toast.LENGTH_LONG).show(); break;
+                    case R.id.item_about: Toast.makeText(getApplicationContext(), "Setting", Toast.LENGTH_LONG).show(); break;
+                }
+                return true;
+            }
+        });
+        menu.inflate (R.menu.music_item_option);
+        menu.show();
+    }
 
     @Override
     public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
@@ -363,8 +384,9 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == 1234) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
+
                 Toast.makeText(MainActivity.this, "grant", Toast.LENGTH_LONG).show();
-                //musicPlayer.getAllSongs(adapter1);
+                getAllSongs();
             } else {
                 // User refused to grant permission.
                 Toast.makeText(MainActivity.this, "denied", Toast.LENGTH_LONG).show();
@@ -468,15 +490,15 @@ public class MainActivity extends AppCompatActivity
     //navigation bar begins
 
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -502,34 +524,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_new) {
-
-        } else if (id == R.id.nav_genres) {
-
-        } else if (id == R.id.nav_list) {
-
-        } else if (id == R.id.nav_charts) {
-
-        }else if (id == R.id.nav_daily) {
-
-        }else if (id == R.id.nav_weekly) {
-
-        }else if (id == R.id.nav_monthly) {
-
-        }else if (id == R.id.nav_playlist) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
 
 

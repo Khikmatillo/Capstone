@@ -1,188 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
+    android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/activity_main">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-
-    <LinearLayout
-
-        android:id="@+id/main_content"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:background="#f1f1f1"
-        android:paddingTop="5px"
-        >
-
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/swipe_layout">
-            <ListView
-                android:id="@+id/list_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alwaysDrawnWithCache="true"
-                android:horizontalSpacing="3dp"
-                android:scrollingCache="true"
-                android:smoothScrollbar="true"
-                android:stretchMode="columnWidth"
-                android:divider="@null"
-                android:dividerHeight="0dp"
-                android:verticalSpacing="3dp">
-            </ListView>
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-        <LinearLayout
-            android:id="@+id/_currenttrackstatusXML"
+        <ListView
+            android:id="@+id/list_view"
             android:layout_width="match_parent"
-            android:layout_height="43pt"
-            android:background="@drawable/shadowstatusbgd"
-            android:orientation="vertical"
-            >
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/music_seek_bar"
-                android:layout_marginTop="12dp"
-                android:thumb="@drawable/mythumb"
-                android:progress="0"
-                android:progressTint="#4cb6cb"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-                <com.lucasurbas.listitemview.ListItemView
-                    android:id="@+id/list_item_multi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#fff"
-                    app:liv_subtitle="Adele"
-                    app:liv_title="Hello"
-                    android:padding="0dp"
-                    android:layout_marginTop="-20dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_prev"
-                    android:layout_toLeftOf="@+id/btn_pause"
-                    android:src="@drawable/trackprev"
-                    android:background="#fff"
-                    android:layout_marginTop="12dp"
-                    />
-
-                <ImageButton
-                    android:id="@+id/btn_pause"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginLeft="30dp"
-                    android:src="@drawable/trackpause"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_toLeftOf="@+id/btn_next"
-                    android:layout_height="wrap_content"
-                    android:background="#fff"
-                    android:layout_marginTop="12dp"
-                    />
-
-                <ImageButton
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/tracknext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_next"
-                    android:layout_marginRight="30px"
-                    android:background="#fff"
-                    android:layout_marginTop="12dp"/>
-
-
-
-            </RelativeLayout>
-
-        </LinearLayout>
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
-            <!--<SeekBar-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/music_seek_bar"/>-->
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50pt"-->
-                <!--android:background="@drawable/playingbckgrd">-->
-
-                <!--<ImageButton-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/btn_repeat"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:src="@drawable/rszrepeatsource"-->
-                    <!--android:layout_alignParentStart="true"-->
-                    <!--android:backgroundTint="#f5f5f5"-->
-
-                    <!--/>-->
-
-                <!--<ImageButton-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/btn_prev"-->
-                    <!--android:layout_toStartOf="@+id/btn_pause"-->
-                    <!--android:src="@drawable/rszprevsource"-->
-                    <!--android:backgroundTint="#f5f5f5"-->
-                    <!--/>-->
-
-                <!--<ImageButton-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:id="@+id/btn_pause"-->
-                    <!--android:src="@drawable/rszplaysource"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:backgroundTint="#f5f5f5"-->
-
-
-                    <!--/>-->
-
-                <!--<ImageButton-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:src="@drawable/rsznextsource"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:backgroundTint="#f5f5f5"-->
-                    <!--android:layout_toEndOf="@+id/btn_pause"-->
-                    <!--android:id="@+id/btn_next"/>-->
-
-                <!--<ImageButton-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:src="@drawable/rszshufflesource"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:backgroundTint="#f5f5f5"-->
-                    <!--android:layout_alignParentEnd="true"-->
-                    <!--android:id="@+id/btn_shuffle"/>-->
-            <!--</RelativeLayout>-->
-        <!--</LinearLayout>-->
-    </LinearLayout>
-
-
-
-
-</RelativeLayout>
+            android:layout_height="match_parent"
+            android:alwaysDrawnWithCache="true"
+            android:divider="#505050"
+            android:dividerHeight="0.1dp"
+            android:horizontalSpacing="3dp"
+            android:nestedScrollingEnabled="true"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="3dp"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</android.support.v4.widget.NestedScrollView>

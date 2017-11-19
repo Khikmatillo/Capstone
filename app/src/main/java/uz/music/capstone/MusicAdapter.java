@@ -10,18 +10,13 @@ package uz.music.capstone;
 
 
         import android.util.Log;
-        import android.view.Gravity;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.BaseAdapter;
 
-        import android.widget.CheckBox;
-        import android.widget.CompoundButton;
-        import android.widget.LinearLayout;
         import android.widget.RelativeLayout;
         import android.widget.TextView;
-        import android.widget.Toast;
 
 
         import com.lucasurbas.listitemview.ListItemView;
@@ -33,11 +28,6 @@ package uz.music.capstone;
  */
 
 public class MusicAdapter extends BaseAdapter{
-    private int type = 0;
-    public MusicAdapter(){}
-    public MusicAdapter(int type){
-        this.type = type;
-    }
 
     private ArrayList<Music> listviewitemsList=
             new ArrayList<Music>();
@@ -67,16 +57,14 @@ public class MusicAdapter extends BaseAdapter{
             }else{
                 view  = inflater.inflate(R.layout.music_list_item, viewGroup, false);
             }
-
         }
         Music music  = listviewitemsList.get(i);
 
-        ListItemView item = (ListItemView) view.findViewById(R.id.list_item_multi);
-        item.setTitle(music.getMusic_name());
-        item.setSubtitle(music.getArtist());
-
-
-
+        ImageView image = (ImageView) view.findViewById(R.id.imageView2);
+        TextView text_name = (TextView) view.findViewById(R.id.music_title);
+        TextView text_artist = (TextView) view.findViewById(R.id.music_artist);
+        text_name.setText(music.getMusic_name());
+        text_artist.setText(music.getArtist());
         return view;
     }
 
