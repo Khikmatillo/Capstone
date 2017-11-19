@@ -19,10 +19,16 @@ public class Music {
     private String genre;
     private ArrayList<String> links;
     private int music_pk;
+    private int artist_id;
 
     public Music(String name, String artist){
         this.music_name = name;
         this.artist = artist;
+    }
+    public Music(String name, String artist, int artist_id){
+        this.music_name = name;
+        this.artist = artist;
+        this.artist_id = artist_id;
     }
 
     public Music(String music_name, int position, int num_of_views, int best_position_ever,
@@ -69,6 +75,10 @@ public class Music {
         return music_pk;
     }
 
+    public int getArtist_id() {
+        return artist_id;
+    }
+
     public void setMusic_name(String music_name) {
         this.music_name = music_name;
     }
@@ -99,5 +109,9 @@ public class Music {
 
     public void setMusic_pk(int music_pk) {
         this.music_pk = music_pk;
+    }
+
+    public void setArtist_id(int artist_id) {
+        this.artist_id = artist_id;
     }
 }

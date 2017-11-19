@@ -4,10 +4,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/offline_playlist_container">
-    <ListView
+    android:padding="5dp">
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/offline_playlist_list"></ListView>
+        android:id="@+id/txt_offline_playlist_create"
+        android:text="+ Create Playlist"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:padding="5dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/offline_playlist_container">
+    </LinearLayout>
 
 </LinearLayout>

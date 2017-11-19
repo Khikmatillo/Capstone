@@ -2,6 +2,9 @@ package uz.music.capstone.profile;
 
 import java.util.ArrayList;
 
+import uz.music.capstone.Music;
+import uz.music.capstone.Playlist;
+
 /**
  * Created by Nemo on 10/7/2017.
  */
@@ -27,7 +30,9 @@ public class User {
     public static final int TYPE_LOGIN = 1, TYPE_CREATE = 2, TYPE_FORGET = 3, TYPE_RESET = 4, TYPE_CHANGE = 5;
     public static final String KEY_TYPE = "type_call", KEY_USERNAME = "username", KEY_EMAIL = "email", KEY_PASSWORD = "password",
                             KEY_PASSWORD1 = "password1", KEY_PASSWORD2 = "password2", FILE_PREFERENCES = "myPref", KEY_TOKEN = "token",
-                            KEY_JSON = "myjson";
+                            KEY_JSON = "myjson", FILE_PLAYLISTS = "playlists";
+
+    public static ArrayList<Playlist> PLAYLISTS = new ArrayList<Playlist>();
 
     public User(String name, String mail, String password, String password_confirm) {
         this.name = name;
