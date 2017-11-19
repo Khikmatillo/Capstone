@@ -15,6 +15,7 @@ package uz.music.capstone;
         import android.view.ViewGroup;
         import android.widget.BaseAdapter;
 
+        import android.widget.ImageView;
         import android.widget.RelativeLayout;
         import android.widget.TextView;
 
@@ -56,9 +57,12 @@ public class MusicAdapter extends BaseAdapter{
         }
         Music music  = listviewitemsList.get(i);
 
-        ListItemView item = (ListItemView) view.findViewById(R.id.list_item_multi);
-        item.setTitle(music.getMusic_name());
-        item.setSubtitle(music.getArtist());
+       ImageView image = (ImageView) view.findViewById(R.id.imageView2);
+       TextView text_name = (TextView) view.findViewById(R.id.music_title);
+       TextView text_artist = (TextView) view.findViewById(R.id.music_artist);
+       text_name.setText(music.getMusic_name());
+       text_artist.setText(music.getArtist());
+
         return view;
     }
 

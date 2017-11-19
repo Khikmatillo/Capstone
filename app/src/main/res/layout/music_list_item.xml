@@ -4,36 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#f1f1f1"
-    >
+    android:background="#262626"
+    android:orientation="vertical">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginRight="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginTop="5px"
-    android:layout_marginBottom="5px">
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="75dp"
-        android:layout_height="72dp"
-        android:background="@drawable/smallalbumart"
-        android:padding="3dp" />
-
-    <com.lucasurbas.listitemview.ListItemView
-        android:id="@+id/list_item_multi"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:layout_weight="5"
-        app:liv_circularIcon="true"
-        app:liv_menu="@menu/multi_menu"
-        app:liv_multiline="false"
-        app:liv_subtitle="Beyonce"
-        app:liv_title="Halo" />
+        android:layout_marginBottom="5px"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5px"
 
-</LinearLayout>
+        >
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="65dp"
+            android:layout_height="62dp"
+            android:background="@drawable/btnfollow"
+            android:padding="3dp"
+            android:layout_marginTop="5dp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:maxLength="15"
+                android:id="@+id/music_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Hello"
+                android:textColor="#e3e3e3"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/music_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Adele"
+                android:textColor="#cecdcd"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="73dp"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/menu_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#262626"
+                android:onClick="showMenu"
+                android:src="@drawable/ic_more_horiz_black_24dp" />
+
+        </LinearLayout>
+
+
+        <!--<com.lucasurbas.listitemview.ListItemView-->
+        <!--android:id="@+id/list_item_multi"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="#fff"-->
+        <!--android:layout_weight="5"-->
+        <!--app:liv_circularIcon="true"-->
+        <!--app:liv_menu="@menu/multi_menu"-->
+        <!--app:liv_multiline="false"-->
+        <!--app:liv_subtitle="Beyonce"-->
+        <!--app:liv_title="Halo" />-->
+
+    </LinearLayout>
 
 </LinearLayout>
