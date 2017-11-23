@@ -70,17 +70,17 @@
         </LinearLayout>
 
 
-        <!--<com.lucasurbas.listitemview.ListItemView-->
-        <!--android:id="@+id/list_item_multi"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="#fff"-->
-        <!--android:layout_weight="5"-->
-        <!--app:liv_circularIcon="true"-->
-        <!--app:liv_menu="@menu/multi_menu"-->
-        <!--app:liv_multiline="false"-->
-        <!--app:liv_subtitle="Beyonce"-->
-        <!--app:liv_title="Halo" />-->
+        <com.lucasurbas.listitemview.ListItemView
+        android:id="@+id/list_item_multi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:layout_weight="5"
+        app:liv_circularIcon="true"
+        app:liv_menu="@menu/multi_menu"
+        app:liv_multiline="false"
+        app:liv_subtitle="Beyonce"
+        app:liv_title="Halo" />
 
     </LinearLayout>
 

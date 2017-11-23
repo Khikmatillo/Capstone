@@ -11,4 +11,19 @@
     <string name="currentduration">3:26</string>
     <string name="artdpt">Moozee Album Art</string>
 
+
+    <string name="tab_recycler">recycler</string>
+    <string name="tab_nested_scroll">nested</string>
+    <string name="tab_view_pager">viewpager</string>
+
+    <string name="hometab">home</string>
+    <string name="profiletab">my profile</string>
+    <string name="searchtab">search</string>
+
+
+    <string name="action_bottom_sheet_dialog">Bottom Sheet Dialog</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
