@@ -28,14 +28,20 @@
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Nowplaying"></activity>
         <activity android:name=".offline.OfflineMainActivity">
+
+        </activity>
+        <activity android:name=".offline.PlaylistChooseActivity"></activity>
+        <activity android:name=".offline.DefaultListActivity"></activity>
+        <activity android:name=".HomeActivity">
+
+        </activity>
+        <activity android:name=".IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".offline.PlaylistChooseActivity"></activity>
-        <activity android:name=".offline.DefaultListActivity"></activity>
     </application>
 
 </manifest>
