@@ -156,18 +156,18 @@ public class MainActivity extends AppCompatActivity
 
         //ooffline mode starts
 
-        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (shouldShowRequestPermissionRationale(
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            }
-
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1234);
-
-            return;
-        }
-        getAllSongs();
+//        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            if (shouldShowRequestPermissionRationale(
+//                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//            }
+//
+//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1234);
+//
+//            return;
+//        }
+//        getAllSongs();
 
 
         //ooffline mode ends
@@ -343,8 +343,8 @@ public class MainActivity extends AppCompatActivity
                     String Duration = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                     //String content_type = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.CONTENT_TYPE));
                     String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
-                    Music music = new Music(music_name, music_artist);
-                    adapter1.addItem(music);
+                    //Music music = new Music(music_name, music_artist);
+                    //adapter1.addItem(music);
                     Log.e("Data", "Path :: " + fullpath);
 
                 } while (cursor.moveToNext());

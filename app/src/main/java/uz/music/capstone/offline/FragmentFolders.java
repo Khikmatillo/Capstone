@@ -1,11 +1,13 @@
 package uz.music.capstone.offline;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,7 +23,7 @@ import uz.music.capstone.R;
 public class FragmentFolders extends Fragment {
 
     MusicPlayer musicPlayer;
-
+    ListView lw;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class FragmentFolders extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.activity_offline_folders, container, false);
 
 
@@ -38,12 +40,21 @@ public class FragmentFolders extends Fragment {
         musicPlayer.getAllSongs(null, 1);
         Log.e("FolDERS ARRAY :: ", musicPlayer.getFolders().size() + "");
         CustomAdapter adapter = new CustomAdapter();
-        ListView lw = (ListView) view.findViewById(R.id.offline_folders_list);
+        lw = (ListView) view.findViewById(R.id.offline_folders_list);
         lw.setAdapter(adapter);
         for(int i = 0; i < musicPlayer.getFolders().size(); i++){
             adapter.addItem(musicPlayer.getFolders().get(i), musicPlayer.getFolderMusics().get(i));
         }
         adapter.notifyDataSetChanged();
+
+        lw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), DefaultListActivity.class);
+                intent.putExtra("position", position);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

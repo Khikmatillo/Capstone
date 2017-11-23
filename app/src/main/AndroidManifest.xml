@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".offline.PlaylistChooseActivity"></activity>
+        <activity android:name=".offline.DefaultListActivity"></activity>
     </application>
 
 </manifest>

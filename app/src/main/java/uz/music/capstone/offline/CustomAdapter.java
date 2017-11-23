@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.lucasurbas.listitemview.ListItemView;
 
@@ -51,9 +52,10 @@ public class CustomAdapter extends BaseAdapter {
         }
 
         ImageView image = (ImageView) view.findViewById(R.id.imageView2);
-        ListItemView item = (ListItemView) view.findViewById(R.id.list_item_multi);
-        item.setTitle(listviewitemsList.get(i));
-        item.setSubtitle(folderMusics.get(i).size() + " songs");
+        TextView text_name = (TextView) view.findViewById(R.id.music_title);
+        TextView text_artist = (TextView) view.findViewById(R.id.music_artist);
+        text_name.setText(listviewitemsList.get(i));
+        text_artist.setText(folderMusics.get(i).size() + " songs");
 
         image.setBackground(ContextCompat.getDrawable(context, R.drawable.default_folder));
         return view;

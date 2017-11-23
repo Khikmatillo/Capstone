@@ -53,14 +53,10 @@ public class PlaylistChooseActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         final String name = intent.getStringExtra("name");
         playlist = new Playlist(name);
-
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
                 Music music = (Music) list_view.getItemAtPosition(position);
-
                 CheckBox checkBox  = (CheckBox) view.findViewById(R.id.check_playlist_choose);
                 if(checkBox.isChecked()){
                     //uncheck
@@ -72,9 +68,9 @@ public class PlaylistChooseActivity extends AppCompatActivity {
                     playlist.addMusic(music);
                 }
                 txt_number.setText(playlist.getMusics().size() + " selected");
-
             }
         });
+
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,8 +80,6 @@ public class PlaylistChooseActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
         btn_select_all.setOnClickListener(new View.OnClickListener() {
             @Override

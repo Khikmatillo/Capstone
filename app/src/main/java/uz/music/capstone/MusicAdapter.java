@@ -15,6 +15,7 @@ package uz.music.capstone;
         import android.view.ViewGroup;
         import android.widget.BaseAdapter;
 
+        import android.widget.ImageView;
         import android.widget.RelativeLayout;
         import android.widget.TextView;
 
@@ -28,6 +29,12 @@ package uz.music.capstone;
  */
 
 public class MusicAdapter extends BaseAdapter{
+    int type=0;
+    public MusicAdapter(){}
+    public MusicAdapter(int type){
+        this.type = type;
+    }
+
 
     private ArrayList<Music> listviewitemsList=
             new ArrayList<Music>();

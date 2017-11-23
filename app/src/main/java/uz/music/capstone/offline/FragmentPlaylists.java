@@ -54,14 +54,12 @@ public class FragmentPlaylists extends Fragment {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("New Playlist");
-
                 // Set up the input
                 final EditText input = new EditText(getActivity());
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 input.setGravity(Gravity.CENTER);
                 builder.setView(input);
-
                 // Set up the buttons
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
@@ -78,7 +76,6 @@ public class FragmentPlaylists extends Fragment {
                         dialog.cancel();
                     }
                 });
-
                 builder.show();
             }
         });

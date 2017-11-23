@@ -7,6 +7,99 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/offline_track_list"></ListView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/container_offline_tracks"
+        android:visibility="gone">
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seek_bar_offline_tracks"
+            android:layout_marginTop="12dp"
+            android:thumb="@drawable/mythumb"
+            android:progress="0"
+            android:progressBackgroundTint="#585858"
+            android:progressTint="#4cb6cb"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp">
+
+                <TextView
+                    android:id="@+id/txt_title_offline_tracks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#585858"
+                    android:text="Hello"/>
+
+                <TextView
+                    android:id="@+id/txt_artist_offline_tracks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#7e7e7e"
+                    android:text="Adele"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_prev_offline_tracks"
+                    android:layout_toLeftOf="@+id/btn_pause"
+                    android:src="@drawable/trackprev"
+                    android:background="#fff"
+
+                    android:layout_marginTop="10dp"
+                    />
+
+                <ImageButton
+                    android:id="@+id/btn_pause_offline_tracks"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:src="@drawable/trackpause"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_toLeftOf="@+id/btn_next"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <ImageButton
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/tracknext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_next_offline_tracks"
+                    android:layout_marginRight="30px"
+                    android:background="#fff"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>
