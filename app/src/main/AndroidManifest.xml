@@ -32,9 +32,7 @@
         <activity android:name=".authentication.ResetPasswordActivity" />
         <activity android:name=".authentication.ForgetPasswordActivity" />
         <activity android:name=".authentication.ChangePasswordActivity" />
-        <activity android:name=".IndexBottomSheetFragments.ProfileFragment" android:theme="@style/AppTheme.NoActionBar" >
 
-        </activity>
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Nowplaying"></activity>
 
