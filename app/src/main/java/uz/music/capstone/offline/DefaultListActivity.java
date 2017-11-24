@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import uz.music.capstone.MainActivity;
 import uz.music.capstone.Music;
 import uz.music.capstone.MusicAdapter;
 import uz.music.capstone.R;

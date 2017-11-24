@@ -1,11 +1,9 @@
 package uz.music.capstone.authentication;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +15,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import uz.music.capstone.MainActivity;
+import uz.music.capstone.ListedMusicsActivity;
 import uz.music.capstone.R;
 import uz.music.capstone.profile.User;
 
@@ -45,7 +43,7 @@ public class SignInActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
         String token = sp.getString(User.KEY_TOKEN, "");
         if (token != "") {
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            Intent intent = new Intent(SignInActivity.this, ListedMusicsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
@@ -66,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
                             Log.e("data0", jsonObject.toString());
                             new SendJSON(getApplicationContext(), jsonObject);
                             if (User.USER_ACCEPTED) {
-                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                Intent intent = new Intent(SignInActivity.this, ListedMusicsActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }

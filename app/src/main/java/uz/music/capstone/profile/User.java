@@ -34,6 +34,14 @@ public class User {
 
     public static ArrayList<Playlist> PLAYLISTS = new ArrayList<Playlist>();
 
+    public User(){
+        name = "Tillo";
+        city = "Andijan";
+        country = "Uzbekistan";
+        followers = new ArrayList<User>();
+        following = new ArrayList<User>();
+    }
+
     public User(String name, String mail, String password, String password_confirm) {
         this.name = name;
         this.mail = mail;

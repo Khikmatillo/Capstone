@@ -1,20 +1,17 @@
 package uz.music.capstone.offline;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import uz.music.capstone.MainActivity;
 import uz.music.capstone.Music;
 import uz.music.capstone.MusicAdapter;
 

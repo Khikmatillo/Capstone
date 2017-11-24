@@ -1,4 +1,4 @@
-package uz.music.capstone.offline;
+package uz.music.capstone.IndexBottomSheetFragments;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -6,43 +6,50 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import uz.music.capstone.R;
+import uz.music.capstone.offline.FragmentAlbums;
+import uz.music.capstone.offline.FragmentArtists;
+import uz.music.capstone.offline.FragmentFolders;
+import uz.music.capstone.offline.FragmentPlaylists;
+import uz.music.capstone.offline.FragmentTracks;
 
 /**
  * Created by Nemo on 11/6/2017.
  */
 
-public class OfflineMainActivity extends AppCompatActivity{
+public class LocalFragment extends Fragment{
     TabLayout tab_layout;
     ViewPager view_pager;
     //TextView txt_default;
     public static int mode = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offline_main);
-
-        view_pager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(view_pager);
-        tab_layout = (TabLayout) findViewById(R.id.tablayout);
-        tab_layout.setupWithViewPager(view_pager);
 
 
-        //txt_default = (TextView) findViewById(R.id.txt_offline);
 
-        switch (mode){
-            case 0:
-                //txt_default.setText("Playlist");
-                break;
-            case 1:
-        }
+
+
 
     }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_offline_main, container, false);
+        view_pager = (ViewPager) view.findViewById(R.id.viewpager);
+        setupViewPager(view_pager);
+        tab_layout = (TabLayout) view.findViewById(R.id.tablayout);
+        tab_layout.setupWithViewPager(view_pager);
+        return view;
+    }
+
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(adapter);
     }
 
@@ -63,10 +70,10 @@ public class OfflineMainActivity extends AppCompatActivity{
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    OfflineMainActivity.mode = 0;
+                    LocalFragment.mode = 0;
                     return new FragmentPlaylists();
                 case 1:
-                    OfflineMainActivity.mode = 1;
+                    LocalFragment.mode = 1;
                     return new FragmentTracks();
                 case 2:
                     return new FragmentAlbums();

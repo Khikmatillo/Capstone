@@ -1,18 +1,12 @@
 package uz.music.capstone;
-import android.Manifest;
-import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,17 +15,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,8 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,10 +32,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -63,11 +42,11 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-import uz.music.capstone.profile.ProfileActivity;
+import uz.music.capstone.IndexBottomSheetFragments.ProfileFragment;
 import uz.music.capstone.profile.User;
 
 
-public class MainActivity extends AppCompatActivity
+public class ListedMusicsActivity extends AppCompatActivity
         {
 
     private ListView listview1;
@@ -90,12 +69,12 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    public static User CURRENT_USER = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_listed_musics);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -133,7 +112,7 @@ public class MainActivity extends AppCompatActivity
 //        }else{
 //            Log.i("JSON", savedJson);
 //            parseJson(savedJson);
-//            Toast.makeText(MainActivity.this, "Reading from SharedPreferences", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(ListedMusicsActivity.this, "Reading from SharedPreferences", Toast.LENGTH_SHORT).show();
 //        }
 
         //get JSON and parse JSON ends --------------------------------------
@@ -195,9 +174,9 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 music_current_position = position;
                 music_current = (Music) listview1.getItemAtPosition(music_current_position);
-                Toast.makeText(MainActivity.this, music_current.getMusic_name(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListedMusicsActivity.this, music_current.getMusic_name(), Toast.LENGTH_SHORT).show();
                 if(music_current.getLinks().get(0) != null) {
-                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_current.getLinks().get(0)));
+                    mp = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music_current.getLinks().get(0)));
                 }
                 if(current_playing != null){
                     current_playing.stop();
@@ -243,7 +222,7 @@ public class MainActivity extends AppCompatActivity
                     music_prev = music_current;
                     music_current = music_next;
                     music_next = ordered_musics.get((music_current_position + 1) % ordered_musics.size());
-                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_current.getLinks().get(0)));
+                    mp = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music_current.getLinks().get(0)));
                     current_playing.stop();
                     current_playing = mp;
                     current_playing.start();
@@ -264,7 +243,7 @@ public class MainActivity extends AppCompatActivity
                     }else{
                         music_prev = ordered_musics.get(music_current_position - 1);
                     }
-                    mp = MediaPlayer.create(MainActivity.this, Uri.parse(music_current.getLinks().get(0)));
+                    mp = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music_current.getLinks().get(0)));
                     current_playing.stop();
                     current_playing = mp;
                     current_playing.start();
@@ -274,7 +253,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         //control seekbar starts -----------------------------------------
-        MainActivity.this.runOnUiThread(new Runnable() {
+        ListedMusicsActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(mp != null){
@@ -396,11 +375,11 @@ public class MainActivity extends AppCompatActivity
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
 
-                Toast.makeText(MainActivity.this, "grant", Toast.LENGTH_LONG).show();
+                Toast.makeText(ListedMusicsActivity.this, "grant", Toast.LENGTH_LONG).show();
                 getAllSongs();
             } else {
                 // User refused to grant permission.
-                Toast.makeText(MainActivity.this, "denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(ListedMusicsActivity.this, "denied", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -432,7 +411,7 @@ public class MainActivity extends AppCompatActivity
         private ProgressDialog pd;
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(MainActivity.this, "Downloading JSON data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ListedMusicsActivity.this, "Downloading JSON data", Toast.LENGTH_SHORT).show();
         }
 
         protected String doInBackground(String... params) {
@@ -478,7 +457,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Toast.makeText(MainActivity.this, "Download process finish", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ListedMusicsActivity.this, "Download process finish", Toast.LENGTH_SHORT).show();
 
             //Parsing the JSON starts --------------------------------------
             parseJson(result);
@@ -527,7 +506,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            Intent intent = new Intent(ListedMusicsActivity.this, ProfileFragment.class);
             startActivity(intent);
             return true;
         }

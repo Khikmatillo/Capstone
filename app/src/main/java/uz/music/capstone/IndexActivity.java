@@ -24,6 +24,8 @@ import java.util.Arrays;
 import biz.laenger.android.vpbs.BottomSheetUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uz.music.capstone.IndexBottomSheetFragments.LocalFragment;
+import uz.music.capstone.profile.User;
 
 
 import static uz.music.capstone.R.id.center_horizontal;
@@ -35,6 +37,7 @@ public class IndexActivity extends AppCompatActivity {
     @BindView(R.id.bottom_sheet_viewpager) ViewPager bottomSheetViewPager;
     @BindView(R.id.clickableSheet) LinearLayout sheetClickable;
 
+    public static User CURRENT_USER = null;
 
     // ArrayList for person names
     ArrayList musicNames = new ArrayList<>(Arrays.asList("What's Your Dream", "What's Your Dream", "Music 3", "Music 4", "Music 5", "Music 6", "Music 7"));
@@ -47,6 +50,7 @@ public class IndexActivity extends AppCompatActivity {
     private int[] tabIcons = {
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_local_black_24dp,
             R.drawable.ic_search_black_24dp
     };
 
@@ -75,6 +79,7 @@ public class IndexActivity extends AppCompatActivity {
         final PagerAdapterForBottomSheetTab sectionsPagerAdapter = new PagerAdapterForBottomSheetTab(getSupportFragmentManager());
         sectionsPagerAdapter.addFragment(new HomeFragment(), "HOME");
         sectionsPagerAdapter.addFragment(new ProfileFragment(), "PROFILE");
+        sectionsPagerAdapter.addFragment(new LocalFragment(), "LOCAL");
         sectionsPagerAdapter.addFragment(new SearchFragment(), "SEARCH");
 
         bottomSheetViewPager.setOffscreenPageLimit(1);
@@ -87,19 +92,23 @@ public class IndexActivity extends AppCompatActivity {
         tabHome.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[0], 0, 0);
         bottomSheetTabLayout.getTabAt(0).setCustomView(tabHome);
 
-
         TextView tabProfile = (TextView) LayoutInflater.from(this).inflate(R.layout.tabcustomize, null);
         tabProfile.setText("PROFILE");
         tabProfile.setGravity(center_horizontal);
         tabProfile.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[1], 0, 0);
         bottomSheetTabLayout.getTabAt(1).setCustomView(tabProfile);
 
+        TextView tabLocal = (TextView) LayoutInflater.from(this).inflate(R.layout.tabcustomize, null);
+        tabLocal.setText("LOCAL");
+        tabLocal.setGravity(center_horizontal);
+        tabLocal.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[2], 0, 0);
+        bottomSheetTabLayout.getTabAt(2).setCustomView(tabLocal);
 
         TextView tabSearch = (TextView) LayoutInflater.from(this).inflate(R.layout.tabcustomize, null);
         tabSearch.setText("SEARCH");
         tabSearch.setGravity(center_horizontal);
-        tabSearch.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[2], 0, 0);
-        bottomSheetTabLayout.getTabAt(2).setCustomView(tabSearch);
+        tabSearch.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[3], 0, 0);
+        bottomSheetTabLayout.getTabAt(3).setCustomView(tabSearch);
 
         BottomSheetUtils.setupViewPager(bottomSheetViewPager);
 

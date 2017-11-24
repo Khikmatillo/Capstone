@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,95 +22,116 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradientbackgoung"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="35dp"
-                    android:background="@drawable/circleicon" />
+                android:orientation="vertical"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:text="William Snoe"
-                    android:textColor="#fff"
-                    android:textSize="16dp" />
+                    android:text=" + Create Account"
+                    android:textSize="30dp"
+                    android:textColor="#ffff"
+                    android:id="@+id/profile_create"/>
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/profile_container_info">
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_location_on_black_24dp"/>
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="35dp"
+                        android:background="@drawable/ic_person_black_24dp"
+                        android:id="@+id/profile_img"/>
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="London, UK"
-                        android:paddingTop="2dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Name"
                         android:textColor="#fff"
-                        android:textSize="12dp" />
+                        android:textSize="16dp"
+                        android:id="@+id/profile_name"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_location_on_black_24dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:text="City, Country"
+                            android:paddingTop="2dp"
+                            android:textColor="#fff"
+                            android:textSize="12dp"
+                            android:id="@+id/profile_location"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="#fff"
+                                android:textSize="16dp"
+                                android:textStyle="bold"
+                                android:id="@+id/profile_followers"/>
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Followers"
+                                android:textColor="#fff"
+                                android:textSize="16dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="#fff"
+                                android:textSize="16dp"
+                                android:textStyle="bold"
+                                android:id="@+id/profile_following"/>
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Following"
+                                android:textColor="#fff"
+                                android:textSize="16dp" />
+                        </LinearLayout>
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12"
-                            android:textColor="#fff"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_marginLeft="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Follower"
-                            android:textColor="#fff"
-                            android:textSize="16dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="24"
-                            android:textColor="#fff"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_marginLeft="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Following"
-                            android:textColor="#fff"
-                            android:textSize="16dp" />
-                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -133,7 +155,9 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true">
+                android:clickable="true"
+                android:descendantFocusability="blocksDescendants"
+                android:id="@+id/profile_downloads">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -144,7 +168,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Download"
+                    android:text="Downloads"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
@@ -157,7 +181,9 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true">
+                android:clickable="true"
+                android:descendantFocusability="blocksDescendants"
+                android:id="@+id/profile_favourites">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -168,7 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Favourite"
+                    android:text="Favourites"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
@@ -181,7 +207,9 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true">
+                android:clickable="true"
+                android:descendantFocusability="blocksDescendants"
+                android:id="@+id/profile_playlists">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -217,7 +245,9 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true">
+                    android:clickable="true"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/profile_mixes">
 
                     <ImageView
                         android:layout_width="75dp"
@@ -241,7 +271,9 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true">
+                    android:clickable="true"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/profile_settings">
 
                     <ImageView
                         android:layout_width="75dp"
@@ -265,7 +297,9 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true">
+                    android:clickable="true"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/profile_about_app">
 
                     <ImageView
                         android:layout_width="75dp"

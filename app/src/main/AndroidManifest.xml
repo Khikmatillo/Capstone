@@ -13,7 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ListedMusicsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".authentication.SignInActivity">
+
+        </activity>
+        <activity android:name=".IndexActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,22 +28,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".authentication.SignInActivity">
-
-        </activity>
-        <activity android:name=".IndexActivity">
-
-        </activity>
         <activity android:name=".authentication.SignUpActivity" />
         <activity android:name=".authentication.ResetPasswordActivity" />
         <activity android:name=".authentication.ForgetPasswordActivity" />
         <activity android:name=".authentication.ChangePasswordActivity" />
-        <activity android:name=".profile.ProfileActivity" android:theme="@style/AppTheme.NoActionBar" >
+        <activity android:name=".IndexBottomSheetFragments.ProfileFragment" android:theme="@style/AppTheme.NoActionBar" >
 
         </activity>
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Nowplaying"></activity>
-        <activity android:name=".offline.OfflineMainActivity"/>
+
     </application>
 
 </manifest>

@@ -1,11 +1,8 @@
 package uz.music.capstone.authentication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -23,7 +20,6 @@ import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import uz.music.capstone.MainActivity;
 import uz.music.capstone.profile.User;
 
 /**
