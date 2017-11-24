@@ -22,7 +22,8 @@ import uz.music.capstone.MusicAdapter;
  * Created by Nemo on 11/12/2017.
  */
 
-public class MusicPlayer {
+public class
+MusicPlayer {
     Activity activity;
 
     private static ArrayList<String> folders;

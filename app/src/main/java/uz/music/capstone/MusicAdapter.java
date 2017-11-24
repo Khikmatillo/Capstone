@@ -74,6 +74,11 @@ public class MusicAdapter extends BaseAdapter{
         text_artist.setText(music.getArtist());
         return view;
     }
+    /*ImageView image = (ImageView) view.findViewById(R.id.imageView2);
+        TextView text_name = (TextView) view.findViewById(R.id.music_title);
+        TextView text_artist = (TextView) view.findViewById(R.id.music_artist);
+        text_name.setText(listviewitemsList.get(i));
+        text_artist.setText(folderMusics.get(i).size() + " songs");*/
 
 
     public void clearAllData(){

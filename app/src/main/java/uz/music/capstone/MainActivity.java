@@ -43,6 +43,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SeekBar;
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity
     private Handler music_handler;
     private SwipeRefreshLayout swipeRefreshLayout;
     private FloatingActionButton startPlay;
+    private LinearLayout currentTrack;
 
     private int music_paused_position;
     private ArrayList<Music> ordered_musics;
@@ -109,11 +111,12 @@ public class MainActivity extends AppCompatActivity
         btn_prev = (ImageButton) findViewById(R.id.btn_prev);
         imgbar = (ImageView) findViewById(R.id.imgbar);
         adapter1.notifyDataSetChanged();
-        music_seek_bar = (SeekBar) findViewById(R.id.music_seek_bar);
+        //music_seek_bar = (SeekBar) findViewById(R.id.music_seek_bar);
         music_handler = new Handler();
         ordered_musics = new ArrayList<Music>();
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         startPlay = (FloatingActionButton) findViewById(R.id.fab);
+        currentTrack = (LinearLayout)findViewById(R.id._currenttrackstatusXML);
 
 
 
@@ -176,6 +179,14 @@ public class MainActivity extends AppCompatActivity
         /////////////////////////////////////////
 
 
+
+        currentTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), Nowplaying.class);
+                startActivity(i);
+            }
+        });
 
 
 
@@ -274,31 +285,31 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        music_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int seek_bar_position = 0;
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser){
-                    seek_bar_position = progress * 1000;
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                if(mp != null){
-                    mp.seekTo(seek_bar_position);
-                }else{
-                    music_seek_bar.setProgress(0);
-                }
-
-            }
-        });
+//        music_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            int seek_bar_position = 0;
+//
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                if(fromUser){
+//                    seek_bar_position = progress * 1000;
+//                }
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                if(mp != null){
+//                    mp.seekTo(seek_bar_position);
+//                }else{
+//                    music_seek_bar.setProgress(0);
+//                }
+//
+//            }
+//        });
 
         //control seekbar ends -------------------------------------------
 

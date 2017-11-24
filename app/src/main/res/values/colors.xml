@@ -4,7 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="laengerPrimary">#1B1357</color>
-    <color name="laengerPrimaryDark">#14003C</color>
-    <color name="laengerAccent">#E6E6E6</color>
+    <color name="colorBlueMain">#0074b2</color>
 </resources>

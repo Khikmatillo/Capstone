@@ -51,6 +51,7 @@ public class CustomAdapter extends BaseAdapter {
             view  = inflater.inflate(R.layout.music_list_item, viewGroup, false);
         }
 
+
         ImageView image = (ImageView) view.findViewById(R.id.imageView2);
         TextView text_name = (TextView) view.findViewById(R.id.music_title);
         TextView text_artist = (TextView) view.findViewById(R.id.music_artist);
