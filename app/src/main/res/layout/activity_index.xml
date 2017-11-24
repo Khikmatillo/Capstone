@@ -33,9 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorBackgroundFloating"
-        android:clickable="true"
         android:orientation="vertical"
-        app:behavior_peekHeight="420dp">
+        app:behavior_peekHeight="420dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/bottom_sheet_appbar"
