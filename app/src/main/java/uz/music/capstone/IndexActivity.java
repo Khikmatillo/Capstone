@@ -63,10 +63,10 @@ public class IndexActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setupBottomSheet();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+//
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
+//        recyclerView.setLayoutManager(linearLayoutManager);
 
 
 //        CustomAdapterForRecyclerItem customAdapterIndexPage = new CustomAdapterForRecyclerItem(IndexActivity.this, musicNames,artistNames, musicImages, true);

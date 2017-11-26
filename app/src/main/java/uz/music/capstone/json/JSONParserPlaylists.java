@@ -25,6 +25,7 @@ public class JSONParserPlaylists {
     private String name;
     private String description;
     private String photoLink;
+    private int pk;
 
     public JSONParserPlaylists(String jsonText){
         this.JSONText = jsonText;
@@ -42,8 +43,8 @@ public class JSONParserPlaylists {
                     name = p.getString("name");
                     description = p.getString("description");
                     photoLink = p.getString("photo");
-
-                    Playlist playlist = new Playlist(name, description, photoLink);
+                    pk = p.getInt("pk");
+                    Playlist playlist = new Playlist(name, description, photoLink, pk);
                     parsed_playlists.add(playlist);
 
                     Log.e("", "JSON PARSING SUCCESS ");

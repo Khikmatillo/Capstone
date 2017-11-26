@@ -9,7 +9,7 @@
     tools:context=".IndexActivity">
 
 
-    <android.support.v4.widget.NestedScrollView
+    <!--android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -25,7 +25,8 @@
                 />
         </RelativeLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView-->
+
 
 
     <LinearLayout
@@ -33,9 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorBackgroundFloating"
-        android:orientation="vertical"
-        app:behavior_peekHeight="420dp"
-        app:layout_behavior="@string/bottom_sheet_behavior">
+        android:orientation="vertical">
+        <!--app:behavior_peekHeight="420dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"-->
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/bottom_sheet_appbar"

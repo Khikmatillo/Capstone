@@ -11,12 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".ListedMusicsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".ListedMusicsActivity"></activity>
         <activity android:name=".authentication.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,15 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".IndexActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+        <activity android:name=".IndexActivity"></activity>
         <activity android:name=".authentication.SignUpActivity" />
         <activity android:name=".authentication.ResetPasswordActivity" />
         <activity android:name=".authentication.ForgetPasswordActivity" />
         <activity android:name=".authentication.ChangePasswordActivity" />
-
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Nowplaying"></activity>
 

@@ -17,15 +17,17 @@ public class Playlist {
     private String name;
     private String description;
     private String photoLink;
+    private int pk;
     public Playlist(String name){
         this.name = name;
         musics = new ArrayList<Music>();
     }
 
-    public Playlist(String name, String description, String photoLink) {
+    public Playlist(String name, String description, String photoLink, int pk) {
         this.name = name;
         this.description = description;
         this.photoLink = photoLink;
+        this.pk = pk;
     }
 
 
@@ -63,5 +65,9 @@ public class Playlist {
 
     public String getPhotoLink() {
         return photoLink;
+    }
+
+    public int getPk() {
+        return pk;
     }
 }

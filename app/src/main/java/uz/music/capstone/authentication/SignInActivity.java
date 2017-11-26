@@ -44,6 +44,7 @@ public class SignInActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
         String token = sp.getString(User.KEY_TOKEN, "");
         if (token != "") {
+            IndexActivity.CURRENT_USER = new User();
             Intent intent = new Intent(SignInActivity.this, IndexActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -65,6 +66,8 @@ public class SignInActivity extends AppCompatActivity {
                             Log.e("data0", jsonObject.toString());
                             new SendJSON(getApplicationContext(), jsonObject);
                             if (User.USER_ACCEPTED) {
+                                IndexActivity.CURRENT_USER = new User();
+                                User.USER_ACCEPTED = false;
                                 Intent intent = new Intent(SignInActivity.this, ListedMusicsActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
