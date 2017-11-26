@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import uz.music.capstone.IndexActivity;
 import uz.music.capstone.R;
-import uz.music.capstone.authentication.SignUpActivity;
+import uz.music.capstone.profile.EditProfileActivity;
 import uz.music.capstone.profile.User;
 
 
@@ -24,7 +24,7 @@ import uz.music.capstone.profile.User;
 
 public class ProfileFragment extends Fragment {
 
-    LinearLayout ll_downloads, ll_favourites, ll_playlists, ll_mixes, ll_settings, ll_about_app, ll_conatiner_info;
+    LinearLayout ll_favourites, ll_playlists, ll_settings, ll_conatiner_info;
     TextView txt_create, txt_name, txt_location, txt_following, txt_followers;
     ImageView image;
 
@@ -78,7 +78,8 @@ public class ProfileFragment extends Fragment {
         ll_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

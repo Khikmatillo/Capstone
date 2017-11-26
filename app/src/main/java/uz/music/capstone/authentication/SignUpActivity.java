@@ -94,8 +94,6 @@ public class SignUpActivity extends AppCompatActivity {
         txt_sign_up_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
                 Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@drawable/musicback">
+    android:background="@drawable/musicback"
+    tools:context=".authentication.WelcomeActivity">
 
     <TextView
         android:id="@+id/logo"
@@ -34,12 +36,14 @@
         <Button
             android:layout_width="150dp"
             android:layout_height="60dp"
-            android:text="Log in"/>
+            android:text="Log in"
+            android:id="@+id/btnLogIn"/>
         <Button
             android:layout_width="150dp"
             android:layout_height="60dp"
             android:layout_marginLeft="10dp"
-            android:text="Sigh up"/>
+            android:text="Sigh up"
+            android:id="@+id/btnSignUp"/>
     </LinearLayout>
 
 </RelativeLayout>
