@@ -80,11 +80,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#312929">
 
             <LinearLayout
                 android:id="@+id/music_info"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
@@ -94,15 +95,17 @@
                     android:id="@+id/music_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="25"
                     android:text="Hello"
-                    android:textColor="#585858" />
+                    android:textColor="#b5b5b5" />
 
                 <TextView
                     android:id="@+id/music_artist"
                     android:layout_width="match_parent"
+                    android:maxLength="25"
                     android:layout_height="wrap_content"
                     android:text="Adele"
-                    android:textColor="#7e7e7e" />
+                    android:textColor="#6b6b6b" />
 
             </LinearLayout>
 
@@ -121,8 +124,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/btn_pause"
-                    android:background="#fff"
-                    android:src="@drawable/trackprev" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:src="@drawable/ic_skip_previous_black_24dp" />
 
                 <ImageButton
                     android:id="@+id/btn_pause"
@@ -133,8 +137,9 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/btn_next"
-                    android:background="#fff"
-                    android:src="@drawable/trackpause" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:src="@drawable/ic_pause_black_24dp" />
 
                 <ImageButton
                     android:id="@+id/btn_next"
@@ -143,8 +148,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="30px"
                     android:layout_marginTop="10dp"
-                    android:background="#fff"
-                    android:src="@drawable/tracknext" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:src="@drawable/ic_skip_next_black_24dp" />
             </LinearLayout>
 
 
