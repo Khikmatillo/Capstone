@@ -119,17 +119,17 @@ public class HomeFragment extends Fragment {
             //Parsing the JSON starts --------------------------------------
             //parseJson(result);
 
-            SharedPreferences shp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = shp.edit();
+//            SharedPreferences shp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = shp.edit();
             if(parsing_playlsts){
                 parsePlaylists(result);
-                editor.putString(User.KEY_JSON_PLAYLISTS, result);
-                editor.commit();
+//                editor.putString(User.KEY_JSON_PLAYLISTS, result);
+//                editor.commit();
                 parsing_playlsts = false;
             }else if(parsing_genres){
                 parseGenres(result);
-                editor.putString(User.KEY_JSON_GENRES, result);
-                editor.commit();
+//                editor.putString(User.KEY_JSON_GENRES, result);
+//                editor.commit();
                 parsing_genres = false;
             }
 

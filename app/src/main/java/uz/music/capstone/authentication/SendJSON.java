@@ -1,6 +1,7 @@
 package uz.music.capstone.authentication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -21,6 +22,8 @@ import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import uz.music.capstone.IndexActivity;
+import uz.music.capstone.ListedMusicsActivity;
 import uz.music.capstone.profile.User;
 
 /**
@@ -132,6 +135,12 @@ public class SendJSON {
                 SharedPreferences.Editor editor = shp.edit();
                 editor.putString(User.KEY_TOKEN, token);
                 editor.commit();
+                if (User.USER_ACCEPTED) {
+                    Intent intent = new Intent(context, IndexActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    User.USER_ACCEPTED = false;
+                    context.startActivity(intent);
+                }
             } catch (JSONException e) {
                 Log.e("Something", e.getMessage());
                 //e.printStackTrace();
