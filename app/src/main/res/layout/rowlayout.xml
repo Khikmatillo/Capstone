@@ -24,7 +24,10 @@
         android:layout_gravity="center_vertical"
         android:text="What's Your problem"
         android:textSize="12sp"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/artist"
@@ -34,5 +37,8 @@
         android:layout_marginTop="4dp"
         android:text="Shay Lia"
         android:textSize="16sp"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 </LinearLayout>

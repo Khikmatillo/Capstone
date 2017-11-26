@@ -49,7 +49,10 @@
 
                     android:text="What's Your problem"
                     android:textColor="#000"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
 
                 <TextView
                     android:id="@+id/artist"
@@ -57,18 +60,24 @@
                     android:layout_height="wrap_content"
                     android:text="Shay Lia"
                     android:textColor="#000"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
 
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-smallcaps"
-                    android:text="Hot Discovery"
+                    android:text="Hot DiscoverY"
 
                     android:textColor="#000"
                     android:textSize="12sp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
             </LinearLayout>
 
         </LinearLayout>

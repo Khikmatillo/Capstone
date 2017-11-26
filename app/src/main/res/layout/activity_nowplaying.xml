@@ -95,6 +95,9 @@
         android:textColor="#000"
         android:textSize="14sp"
         android:layout_centerHorizontal="true"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:ellipsize="end"
         />
 
     <TextView
@@ -108,6 +111,9 @@
         android:layout_marginTop="5dp"
         android:textSize="12sp"
         android:layout_gravity="center"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:ellipsize="end"
         />
 
     <RelativeLayout
@@ -119,7 +125,7 @@
         <ImageButton
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:background="#fff"
+            android:background="@android:color/transparent"
             android:layout_toStartOf="@+id/pauseBtnXML"
             android:src="@drawable/prevbutton"
             android:scaleType="fitCenter"
@@ -132,7 +138,7 @@
             android:id="@+id/pauseBtnXML"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#fff"
+            android:background="@android:color/transparent"
             android:layout_centerHorizontal="true"
             android:src="@drawable/pausebutton"
             android:scaleType="fitCenter"
@@ -140,7 +146,7 @@
         <ImageButton
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:background="#fff"
+            android:background="@android:color/transparent"
             android:layout_toEndOf="@id/pauseBtnXML"
             android:src="@drawable/nextbutton"
             android:scaleType="fitCenter"
@@ -160,7 +166,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/ratebutton"
-        android:background="#fff"
+        android:background="@android:color/transparent"
         android:scaleType="fitCenter"/>
 
         <ImageButton
@@ -168,7 +174,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_shuffle_black_24dp"
-            android:background="#fff"
+            android:background="@android:color/transparent"
             android:layout_toEndOf="@id/rateButtonXML"
             android:layout_marginStart="90dp"
             android:tint="#0270ac"/>
@@ -179,7 +185,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_repeat_black_24dp"
-            android:background="#fff"
+            android:background="@android:color/transparent"
             android:layout_marginEnd="90dp"
             android:tint="#0270ac"
             />
@@ -190,7 +196,7 @@
             android:layout_height="20dp"
             android:src="@drawable/options"
             android:layout_alignParentEnd="true"
-            android:background="#fff"
+            android:background="@android:color/transparent"
             android:scaleType="fitCenter"/>
 
     </RelativeLayout>
