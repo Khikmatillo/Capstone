@@ -34,9 +34,8 @@ import uz.music.capstone.profile.User;
 
 public class FragmentPlaylists extends Fragment {
 
-    TextView create;
     private String playlist_name="";
-    LinearLayout layout;
+    LinearLayout layout, create;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +45,7 @@ public class FragmentPlaylists extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.activity_offline_playlists, container, false);
-        create = (TextView) view.findViewById(R.id.txt_offline_playlist_create);
+        create = (LinearLayout) view.findViewById(R.id.txt_offline_playlist_create);
         layout = (LinearLayout)view.findViewById(R.id.offline_playlist_container);
 
         create.setOnClickListener(new View.OnClickListener() {

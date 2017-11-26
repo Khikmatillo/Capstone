@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp">
+        android:layout_height="250dp">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -22,83 +21,112 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradientbackgoung"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <TextView
+                android:gravity="center"
+                android:orientation="vertical">
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" + Create Account"
-                    android:textSize="30dp"
-                    android:textColor="#ffff"
-                    android:id="@+id/profile_create"/>
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:layout_gravity="right">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/followbtn"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="3dp"
+                            android:background="@drawable/ic_person_add_black_24dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:text="FOLLOW"
+                            android:textColor="@color/colorBlueMain" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!--</LinearLayout>-->
+
 
                 <LinearLayout
+                    android:id="@+id/profile_container_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:id="@+id/profile_container_info">
+                    android:orientation="vertical">
+
                     <ImageView
+                        android:id="@+id/profile_img"
                         android:layout_width="85dp"
                         android:layout_height="85dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="35dp"
-                        android:background="@drawable/ic_person_black_24dp"
-                        android:id="@+id/profile_img"/>
+                        android:background="@drawable/ic_person_black_24dp" />
 
                     <TextView
+                        android:id="@+id/profile_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
                         android:text="Name"
                         android:textColor="#fff"
-                        android:textSize="16dp"
-                        android:id="@+id/profile_name"/>
+                        android:textSize="16dp" />
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/ic_location_on_black_24dp"/>
+                            android:background="@drawable/ic_location_on_black_24dp" />
+
                         <TextView
+                            android:id="@+id/profile_location"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_horizontal"
-                            android:text="City, Country"
                             android:paddingTop="2dp"
+                            android:text="City, Country"
                             android:textColor="#fff"
-                            android:textSize="12dp"
-                            android:id="@+id/profile_location"/>
+                            android:textSize="12dp" />
                     </LinearLayout>
 
 
                     <LinearLayout
-                        android:layout_marginTop="10dp"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center">
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
                             <TextView
+                                android:id="@+id/profile_followers"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:textColor="#fff"
                                 android:textSize="16dp"
-                                android:textStyle="bold"
-                                android:id="@+id/profile_followers"/>
+                                android:textStyle="bold" />
+
                             <TextView
-                                android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Followers"
@@ -110,27 +138,28 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
                             <TextView
+                                android:id="@+id/profile_following"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:textColor="#fff"
                                 android:textSize="16dp"
-                                android:textStyle="bold"
-                                android:id="@+id/profile_following"/>
+                                android:textStyle="bold" />
+
                             <TextView
-                                android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Following"
                                 android:textColor="#fff"
                                 android:textSize="16dp" />
                         </LinearLayout>
-                </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -144,46 +173,46 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="130dp"
             android:orientation="horizontal"
             android:weightSum="3">
 
             <LinearLayout
+                android:id="@+id/profile_playlists"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:descendantFocusability="blocksDescendants"
-                android:id="@+id/profile_downloads">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/circlewithimage" />
+                    android:background="@drawable/cirleplaylist" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Downloads"
+                    android:text="Playlists"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/profile_favourites"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:descendantFocusability="blocksDescendants"
-                android:id="@+id/profile_favourites">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="60dp"
@@ -201,195 +230,30 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/profile_settings"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:descendantFocusability="blocksDescendants"
-                android:id="@+id/profile_playlists">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/cirleplaylist" />
+                    android:background="@drawable/circlesetting" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Playlists"
+                    android:text="Settings"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:descendantFocusability="blocksDescendants"
-                    android:id="@+id/profile_mixes">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/circlemixes" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="Mixes"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:descendantFocusability="blocksDescendants"
-                    android:id="@+id/profile_settings">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/circlesetting" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="Settings"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:descendantFocusability="blocksDescendants"
-                    android:id="@+id/profile_about_app">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/circleapp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="About App"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
-
-    <!--<LinearLayout--><!--android:background="@drawable/gradientbackgoung"--><!--android:layout_width="match_parent"--><!--android:layout_height="275dp"--><!--android:orientation="vertical">--><!--<ImageView--><!--android:layout_gravity="center_horizontal"--><!--android:layout_marginTop="35dp"--><!--android:layout_width="125dp"--><!--android:layout_height="125dp"--><!--android:background="@drawable/circleicon"/>--><!--<TextView--><!--android:layout_gravity="center_horizontal"--><!--android:layout_marginTop="10dp"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="William Snoe"--><!--android:textColor="#fff"--><!--android:textStyle="bold"--><!--android:textSize="21dp"--><!--/>--><!--</LinearLayout>--><!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:gravity="center|top"--><!--android:orientation="vertical"--><!--android:padding="10dp">-->
-
-    <!--<ImageView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="10dp"--><!--android:layout_marginTop="20dp"--><!--android:background="@drawable/circle"--><!--android:src="@drawable/person"--><!--android:tint="#788188" />-->
-
-    <!--<TextView--><!--android:id="@+id/txt_profile_name"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:text="Akhrorjon Aliev"--><!--android:textAlignment="center"--><!--android:textColor="#788188"--><!--android:textSize="24dp" />-->
-
-    <!--<TextView--><!--android:id="@+id/txt_profile_city"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:text="London, UK"--><!--android:textAlignment="center"--><!--android:textColor="#788188" />-->
-
-    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="10dp"--><!--android:background="#fff"--><!--android:orientation="horizontal">-->
-
-    <!--<LinearLayout--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:gravity="center_vertical|center_horizontal"--><!--android:orientation="vertical"--><!--android:padding="10dp">-->
-
-    <!--<TextView--><!--android:id="@+id/txt_profile_followers"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="5dp"--><!--android:text="245"--><!--android:textColor="#545a5f" />-->
-
-    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="Followers"--><!--android:textColor="#788188" />--><!--</LinearLayout>-->
-
-    <!--<LinearLayout--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:gravity="center_vertical|center_horizontal"--><!--android:orientation="vertical"--><!--android:padding="10dp">-->
-
-    <!--<TextView--><!--android:id="@+id/txt_profile_following"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="5dp"--><!--android:text="245"--><!--android:textColor="#545a5f" />-->
-
-    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="Following"--><!--android:textColor="#788188" />--><!--</LinearLayout>--><!--</LinearLayout>-->
-
-    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="15dp">-->
-
-    <!--<LinearLayout--><!--android:id="@+id/btn_profile_follow"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:background="@drawable/leftcircled"--><!--android:gravity="center"--><!--android:padding="5dp">-->
-
-    <!--<ImageView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginRight="5dp"--><!--android:src="@drawable/ic_person_add_black_24dp"--><!--android:tint="#fff" />-->
-
-    <!--<TextView--><!--android:id="@+id/txt_profile_follow"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="Follow" />--><!--</LinearLayout>-->
-
-    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:background="@drawable/rightcircled"--><!--android:gravity="center"--><!--android:padding="5dp">-->
-
-    <!--<ImageView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginRight="5dp"--><!--android:src="@drawable/ic_visibility_black_24dp"--><!--android:tint="#fff" />-->
-
-    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="Watch" />--><!--</LinearLayout>--><!--</LinearLayout>-->
-
-    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="left"--><!--android:layout_marginTop="20dp"--><!--android:text="About Me"--><!--android:textColor="#788188" />-->
-
-    <!--<TextView--><!--android:id="@+id/txt_profile_about"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="left"--><!--android:layout_marginTop="5dp"--><!--android:text="Artist"--><!--android:textColor="#545f5f" />-->
-
-    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="left"--><!--android:layout_marginTop="10dp"--><!--android:text="Info"--><!--android:textColor="#788188" />-->
-
-    <!--<TextView--><!--android:id="@+id/txt_profile_info"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="left"--><!--android:layout_marginTop="5dp"--><!--android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam."--><!--android:textColor="#545f5f" />-->
-
-    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="10dp"--><!--android:gravity="left|center_vertical">-->
-
-    <!--<ImageView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:src="@drawable/mode_edit"--><!--android:tint="#53595d" />-->
-
-    <!--<TextView--><!--android:id="@+id/txt_profile_edit"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:text="Edit Profile"--><!--android:textColor="#53595d" />--><!--</LinearLayout>-->
-
-    <!--<TextView--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="1dp"--><!--android:layout_marginTop="20dp"--><!--android:background="#fff"--><!--android:padding="10dp"--><!--android:text="Latest Tweets"--><!--android:textColor="#53595d" />-->
-
-    <!--<ListView--><!--android:id="@+id/sampleListView"--><!--android:layout_width="fill_parent"--><!--android:layout_height="fill_parent"--><!--android:layout_marginBottom="10dp"--><!--android:background="#fff"--><!--android:cacheColorHint="@android:color/transparent"--><!--android:divider="#CCCCCC"--><!--android:dividerHeight="0.5dp"--><!--android:paddingLeft="2dp">-->
-
-    <!--</ListView>-->
-
-    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="#fff"--><!--android:orientation="horizontal">-->
-
-    <!--<ImageView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="10dp"--><!--android:layout_marginLeft="20dp"--><!--android:layout_marginTop="20dp"--><!--android:background="@drawable/circle"--><!--android:src="@drawable/person"--><!--android:tint="#788188" />-->
-
-    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginLeft="15dp"--><!--android:layout_marginTop="20dp"--><!--android:orientation="vertical">-->
-
-
-    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="5dp"--><!--android:layout_marginTop="10dp"--><!--android:gravity="left|center_vertical">-->
-
-    <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginRight="5dp"--><!--android:text=" @Akhror Aliev"--><!--android:textColor="#4cb6cb" />-->
-
-    <!--<ImageView--><!--android:layout_width="20dp"--><!--android:layout_height="20dp"--><!--android:src="@drawable/twitter"--><!--android:tint="#4cb6cb" />-->
-
-    <!--</LinearLayout>-->
-
-    <!--<TextView--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:text="2,415 followers / 225 tweets"--><!--android:textColor="#788188" />-->
-
-    <!--<Button--><!--android:layout_width="100dp"--><!--android:layout_height="30dp"--><!--android:layout_marginTop="5dp"--><!--android:background="@drawable/btnfollow"--><!--android:text="Follow" />--><!--</LinearLayout>--><!--</LinearLayout>--><!--</LinearLayout>-->
