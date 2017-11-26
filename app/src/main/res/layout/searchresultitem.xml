@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:text="Albums"
             android:textSize="22sp"
-            android:textColor="#000"/>
+            android:textColor="#000"
+            />
         <ImageView
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/searchResultCategoryXML"
@@ -36,7 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name of item"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
     <TextView
         android:layout_marginTop="3dp"
         android:paddingLeft="15dp"
@@ -45,7 +50,10 @@
         android:text="Detail of item"
         android:textSize="12sp"
         android:textColor="#0074b2"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
 
     <TextView
@@ -54,7 +62,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name of item"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:ellipsize="end"/>
     <TextView
         android:layout_marginTop="3dp"
         android:paddingLeft="15dp"
@@ -63,7 +74,10 @@
         android:text="Detail of item"
         android:textSize="12sp"
         android:textColor="#0074b2"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
 
     <View
