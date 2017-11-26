@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,10 +58,12 @@ public class ListedMusicsActivity extends AppCompatActivity{
     private TextView txt_name, txt_artist;
     private ImageButton btn_prev, btn_pause, btn_next;
 
+
     private Intent intent;
 
 
 
+    private int music_position;
 
 
     @Override
@@ -84,12 +87,11 @@ public class ListedMusicsActivity extends AppCompatActivity{
         list_view = (ListView) findViewById(R.id.list_view);
 
         fab_start_play.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0074b2")));
-        container_current_music.setVisibility(View.GONE);
 
         PlaylistMusicsAdapter adapter = new PlaylistMusicsAdapter();
         list_view.setAdapter(adapter);
 
-        String jsonText = intent.getStringExtra("json");
+        final String jsonText = intent.getStringExtra("json");
         Log.e("RECEIVED JSON DATA", jsonText);
         JSONParserPlaylistMusics jsonParserPlaylistMusics = new JSONParserPlaylistMusics(jsonText);
         ArrayList<PlaylistMusic> playlistMusics = jsonParserPlaylistMusics.getMusicsArray();
@@ -99,17 +101,133 @@ public class ListedMusicsActivity extends AppCompatActivity{
         }
         adapter.notifyDataSetChanged();
 
-        container_current_music.setOnClickListener(new View.OnClickListener() {
+
+
+
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Nowplaying.class);
-                startActivity(i);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                music_position = i;
+                PlaylistMusic music = (PlaylistMusic)list_view.getItemAtPosition(i);
+                if(Nowplaying.mediaPlayer != null){
+                    Nowplaying.mediaPlayer.stop();
+                }
+                try{
+                    Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
+                    container_current_music.setVisibility(View.VISIBLE);
+                    txt_name.setText(music.getName());
+                    txt_artist.setText(music.getFile());
+                    Nowplaying.mediaPlayer.start();
+                }catch (Exception e){
+                    Toast.makeText(ListedMusicsActivity.this, "Url error", Toast.LENGTH_SHORT).show();
+                    Log.e("MediaPlayer ERROR", e.getMessage());
+                }
+                btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
+
             }
         });
 
 
 
+        btn_prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Nowplaying.mediaPlayer != null){
+                    PlaylistMusic music;
+                    if(music_position != 0){
+                        music = (PlaylistMusic)list_view.getItemAtPosition(music_position - 1);
+                        music_position = music_position - 1;
+                    }else{
+                        music = (PlaylistMusic)list_view.getItemAtPosition(music_position);
+                    }
+                    try{
+                        Nowplaying.mediaPlayer.stop();
+                        Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
+                        Nowplaying.mediaPlayer.start();
+                    }catch (Exception e){
+                        Log.e("MediaPlayer ERROR", e.getMessage());
+                    }
+                    txt_name.setText(music.getName());
+                    txt_artist.setText(music.getFile());
+                    btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
+                }
 
+            }
+        });
+
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Nowplaying.mediaPlayer != null){
+                    PlaylistMusic music;
+                    if(music_position != list_view.getChildCount()){
+                        music = (PlaylistMusic)list_view.getItemAtPosition(music_position + 1);
+                        music_position = music_position + 1;
+                    }else{
+                        music = (PlaylistMusic)list_view.getItemAtPosition(music_position);
+                    }
+                    try{
+                        Nowplaying.mediaPlayer.stop();
+                        Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
+                        Nowplaying.mediaPlayer.start();
+                    }catch (Exception e){
+                        Log.e("MediaPlayer ERROR", e.getMessage());
+                    }
+                    txt_name.setText(music.getName());
+                    txt_artist.setText(music.getFile());
+                    btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
+                }
+
+            }
+        });
+
+        btn_pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Nowplaying.mediaPlayer != null){
+                    if(Nowplaying.mediaPlayer.isPlaying()){
+                        Nowplaying.mediaPlayer.pause();
+                        btn_pause.setBackgroundResource(R.drawable.ic_play_black_24dp);
+                    }else{
+                        Nowplaying.mediaPlayer.start();
+                        btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
+                    }
+                }
+            }
+        });
+
+        container_current_music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), Nowplaying.class);
+                i.putExtra("json", jsonText);
+                i.putExtra("from", "PlaylistMusics");
+                i.putExtra("position", music_position);
+                startActivity(i);
+            }
+        });
+
+        fab_start_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                music_position = 0;
+                PlaylistMusic music = (PlaylistMusic)list_view.getItemAtPosition(0);
+                if(Nowplaying.mediaPlayer != null){
+                    Nowplaying.mediaPlayer.stop();
+                }
+                try{
+                    Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
+                    container_current_music.setVisibility(View.VISIBLE);
+                    txt_name.setText(music.getName());
+                    txt_artist.setText(music.getFile());
+                    Nowplaying.mediaPlayer.start();
+                }catch (Exception e){
+                    Toast.makeText(ListedMusicsActivity.this, "Url error", Toast.LENGTH_SHORT).show();
+                    Log.e("MediaPlayer ERROR", e.getMessage());
+                }
+                btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
+            }
+        });
     }
 
 

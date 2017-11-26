@@ -36,10 +36,10 @@
         >
 
         <com.github.siyamed.shapeimageview.RoundedImageView
-            android:id="@+id/trackAlbumArtXML"
+            android:id="@+id/roundedImageView"
             android:layout_width="280dp"
             android:layout_height="280dp"
-            android:src="@drawable/a19"
+            android:background="@drawable/a19"
             app:siRadius="5dp"
             app:siBorderWidth="0dp"
             app:siBorderColor="#fff"
@@ -51,7 +51,7 @@
 
         android:layout_below="@id/trackAlbumContainerXML"
         android:layout_marginTop="20dp"
-        android:id="@+id/trackSeekBarXML"
+        android:id="@+id/seekBarCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="2500sp"
@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/trackSeekBarXML">
+        android:layout_below="@id/seekBarCompat">
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,6 +74,7 @@
             android:textSize="11sp"
             android:textColor="#000"
             android:text="1:52"
+            android:id="@+id/txtCurrentTimeMusic"
             android:paddingLeft="10dp"/>
 
         <TextView
@@ -83,11 +84,12 @@
             android:textSize="11sp"
             android:textColor="#000"
             android:text="1:36"
+            android:id="@+id/txtFullTimeMusic"
             android:paddingRight="14dp"/>
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/_currenttracknameXML"
+        android:id="@+id/currentMusicName"
         android:layout_below="@id/timeInformationXML"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,9 +100,9 @@
         />
 
     <TextView
-        android:id="@+id/_currenttrackartistXML"
+        android:id="@+id/currentMusicArtist"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/_currenttracknameXML"
+        android:layout_below="@id/currentMusicName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Luis Armstrong"
@@ -112,7 +114,7 @@
 
     <RelativeLayout
         android:id="@+id/playerButtonsXML"
-        android:layout_below="@id/_currenttrackartistXML"
+        android:layout_below="@id/currentMusicArtist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp">
@@ -120,30 +122,30 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:background="#fff"
-            android:layout_toStartOf="@+id/pauseBtnXML"
+            android:layout_toStartOf="@+id/btnPauseNowPlaying"
             android:src="@drawable/prevbutton"
             android:scaleType="fitCenter"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
-
+            android:id="@+id/btnPrevNowPlaying"
             />
 
         <ImageButton
-            android:id="@+id/pauseBtnXML"
+            android:id="@+id/btnPauseNowPlaying"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#fff"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/pausebutton"
+            android:background="@drawable/pausebutton"
             android:scaleType="fitCenter"
             android:layout_centerVertical="true"/>
         <ImageButton
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:background="#fff"
-            android:layout_toEndOf="@id/pauseBtnXML"
+            android:layout_toEndOf="@id/btnPauseNowPlaying"
             android:src="@drawable/nextbutton"
             android:scaleType="fitCenter"
+            android:id="@+id/btnNextNowPlaying"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"/>
 
@@ -156,7 +158,7 @@
         android:padding="12dp">
 
         <ImageButton
-        android:id="@+id/rateButtonXML"
+        android:id="@+id/btnLove"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/ratebutton"
@@ -164,18 +166,18 @@
         android:scaleType="fitCenter"/>
 
         <ImageButton
-            android:id="@+id/shuffletrackButtonXML"
+            android:id="@+id/btnShuffle"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_shuffle_black_24dp"
             android:background="#fff"
-            android:layout_toEndOf="@id/rateButtonXML"
+            android:layout_toEndOf="@id/btnLove"
             android:layout_marginStart="90dp"
             android:tint="#0270ac"/>
 
         <ImageButton
-            android:layout_toStartOf="@id/optionsButtonXML"
-            android:id="@+id/repeattrackButtonXML"
+            android:layout_toStartOf="@id/btnOptions"
+            android:id="@+id/btnRepeat"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_repeat_black_24dp"
@@ -185,7 +187,7 @@
             />
 
         <ImageButton
-            android:id="@+id/optionsButtonXML"
+            android:id="@+id/btnOptions"
             android:layout_width="18dp"
             android:layout_height="20dp"
             android:src="@drawable/options"

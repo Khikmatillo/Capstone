@@ -86,14 +86,6 @@ public class HomeFragment extends Fragment {
     private void parsePlaylists(String result){
         JSONParserPlaylists parser = new JSONParserPlaylists(result);
         ArrayList<Playlist> playlists = parser.getPlaylistsArray();
-//        ArrayList<String> names = new ArrayList<String>();
-//        ArrayList<String> descriptions = new ArrayList<String>();
-//        ArrayList<String> photoLinks = new ArrayList<String>();
-//        for(int i = 0; i < playlists.size(); i++){
-//            names.add(playlists.get(i).getName());
-//            descriptions.add(playlists.get(i).getDescription());
-//            photoLinks.add(playlists.get(i).getPhotoLink());
-//        }
         CustomAdapterForRecyclerItem customAdapterRecycler = new CustomAdapterForRecyclerItem(getContext(), playlists, null, false, 1);
         topPlaylistrecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         topPlaylistrecyclerView.setAdapter(customAdapterRecycler);
