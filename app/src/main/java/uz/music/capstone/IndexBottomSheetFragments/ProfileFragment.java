@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
         ll_conatiner_info = (LinearLayout) view.findViewById(R.id.profile_container_info);
 
         txt_name = (TextView) view.findViewById(R.id.profile_name);
-        txt_location = (TextView) view.findViewById(R.id.profile_location);
         txt_followers = (TextView) view.findViewById(R.id.profile_followers);
         txt_following = (TextView) view.findViewById(R.id.profile_following);
         image = (ImageView) view.findViewById(R.id.profile_img);
@@ -139,7 +138,6 @@ public class ProfileFragment extends Fragment {
                     txt_create.setVisibility(View.GONE);
                     ll_conatiner_info.setVisibility(View.VISIBLE);
                     txt_name.setText(user.getName());
-                    txt_location.setText(user.getCity() + ", " + user.getCountry());
                     txt_following.setText(user.getFollowing().size() + "");
                     txt_followers.setText(user.getFollowers().size() + "");
                 }else{

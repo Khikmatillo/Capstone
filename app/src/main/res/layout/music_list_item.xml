@@ -22,12 +22,12 @@
             android:layout_width="80dp"
             android:layout_height="78dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/musictrackicon"/>
+            android:background="@drawable/musictrackicon" />
 
         <LinearLayout
-            android:layout_marginTop="2dp"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
+            android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
