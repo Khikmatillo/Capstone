@@ -28,7 +28,7 @@
             android:id="@+id/imageView2"
             android:layout_width="75dp"
             android:layout_height="72dp"
-            android:background="@drawable/smallalbumart"
+            android:background="@drawable/music"
             android:padding="3dp" />
 
         <LinearLayout
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Hello"
-                android:textColor="#e3e3e3"
+                android:textColor="#4d4d4d"
                 android:textSize="18dp" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Adele"
-                android:textColor="#cecdcd"
+                android:textColor="#8c8c8c"
                 android:textSize="14dp" />
         </LinearLayout>
 
