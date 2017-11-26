@@ -36,42 +36,32 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_profile, container, false);
 
-        ll_downloads = (LinearLayout) view.findViewById(R.id.profile_downloads);
         ll_favourites = (LinearLayout) view.findViewById(R.id.profile_favourites);
         ll_playlists = (LinearLayout) view.findViewById(R.id.profile_playlists);
-        ll_mixes = (LinearLayout) view.findViewById(R.id.profile_mixes);
         ll_settings = (LinearLayout) view.findViewById(R.id.profile_settings);
-        ll_about_app = (LinearLayout) view.findViewById(R.id.profile_about_app);
         ll_conatiner_info = (LinearLayout) view.findViewById(R.id.profile_container_info);
 
-        txt_create = (TextView) view.findViewById(R.id.profile_create);
         txt_name = (TextView) view.findViewById(R.id.profile_name);
-        txt_location = (TextView) view.findViewById(R.id.profile_location);
         txt_followers = (TextView) view.findViewById(R.id.profile_followers);
         txt_following = (TextView) view.findViewById(R.id.profile_following);
         image = (ImageView) view.findViewById(R.id.profile_img);
 
-        if(IndexActivity.CURRENT_USER == null){
-            ll_conatiner_info.setVisibility(View.GONE);
-        }else{
-            txt_create.setVisibility(View.GONE);
-        }
+//        if(IndexActivity.CURRENT_USER == null){
+//            ll_conatiner_info.setVisibility(View.GONE);
+//        }else{
+//            txt_create.setVisibility(View.GONE);
+//        }
+//
+//        txt_create.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), SignUpActivity.class);
+//                startActivityForResult(intent, 1);
+//            }
+//        });
 
-        txt_create.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SignUpActivity.class);
-                startActivityForResult(intent, 1);
-            }
-        });
 
 
-        ll_downloads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
         ll_favourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,24 +74,14 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        ll_mixes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
         ll_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        ll_about_app.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
 
         return view;
     }
@@ -158,7 +138,6 @@ public class ProfileFragment extends Fragment {
                     txt_create.setVisibility(View.GONE);
                     ll_conatiner_info.setVisibility(View.VISIBLE);
                     txt_name.setText(user.getName());
-                    txt_location.setText(user.getCity() + ", " + user.getCountry());
                     txt_following.setText(user.getFollowing().size() + "");
                     txt_followers.setText(user.getFollowers().size() + "");
                 }else{

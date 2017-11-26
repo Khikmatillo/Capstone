@@ -58,7 +58,7 @@ public class CustomAdapter extends BaseAdapter {
         text_name.setText(listviewitemsList.get(i));
         text_artist.setText(folderMusics.get(i).size() + " songs");
 
-        image.setBackground(ContextCompat.getDrawable(context, R.drawable.default_folder));
+        image.setBackground(ContextCompat.getDrawable(context, R.drawable.musicfoldericon));
         return view;
     }
 

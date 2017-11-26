@@ -14,13 +14,15 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".ListedMusicsActivity"></activity>
         <activity android:name=".authentication.SignInActivity">
+
+        </activity>
+        <activity android:name=".IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".IndexActivity"></activity>
         <activity android:name=".authentication.SignUpActivity" />
         <activity android:name=".authentication.ResetPasswordActivity" />
         <activity android:name=".authentication.ForgetPasswordActivity" />
