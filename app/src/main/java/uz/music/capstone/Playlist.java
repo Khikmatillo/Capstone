@@ -15,10 +15,19 @@ import uz.music.capstone.profile.User;
 public class Playlist {
     private ArrayList<Music> musics;
     private String name;
+    private String description;
+    private String photoLink;
     public Playlist(String name){
         this.name = name;
         musics = new ArrayList<Music>();
     }
+
+    public Playlist(String name, String description, String photoLink) {
+        this.name = name;
+        this.description = description;
+        this.photoLink = photoLink;
+    }
+
 
     public void addMusic(Music m){
         musics.add(m);
@@ -48,4 +57,11 @@ public class Playlist {
         editor.commit();
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getPhotoLink() {
+        return photoLink;
+    }
 }

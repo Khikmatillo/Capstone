@@ -3,6 +3,7 @@ package uz.music.capstone.authentication;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -82,6 +83,9 @@ public class SendJSON {
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
                 String data = jsonData[0].toString();
+                Log.e("Sending data", data);
+                Log.e("Sending Link", url_string);
+
                 writer.write(data);
                 writer.flush();
                 writer.close();
@@ -129,7 +133,8 @@ public class SendJSON {
                 editor.putString(User.KEY_TOKEN, token);
                 editor.commit();
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.e("Something", e.getMessage());
+                //e.printStackTrace();
             }
 
         }

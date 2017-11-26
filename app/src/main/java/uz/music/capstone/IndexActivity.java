@@ -69,8 +69,8 @@ public class IndexActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        CustomAdapterForRecyclerItem customAdapterIndexPage = new CustomAdapterForRecyclerItem(IndexActivity.this, musicNames,artistNames, musicImages, true);
-        recyclerView.setAdapter(customAdapterIndexPage);
+//        CustomAdapterForRecyclerItem customAdapterIndexPage = new CustomAdapterForRecyclerItem(IndexActivity.this, musicNames,artistNames, musicImages, true);
+//        recyclerView.setAdapter(customAdapterIndexPage);
     }
 
     private void setupBottomSheet() {

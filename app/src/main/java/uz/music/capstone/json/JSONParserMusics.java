@@ -1,4 +1,4 @@
-package uz.music.capstone;
+package uz.music.capstone.json;
 
 import android.util.Log;
 import android.widget.Toast;
@@ -9,11 +9,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import uz.music.capstone.Music;
+
 /**
  * Created by Nemo on 9/13/2017.
  */
 
-public class JSONParser {
+public class JSONParserMusics {
     private String JSONText = null;
     private ArrayList<Music> parsed_musics;
 
@@ -26,7 +28,7 @@ public class JSONParser {
     private ArrayList<String> links;
     private int music_pk;
 
-    public JSONParser(String JSONText) {
+    public JSONParserMusics(String JSONText) {
         parsed_musics = new ArrayList<Music>();
         //links = new ArrayList<String>();
         this.JSONText = JSONText;

@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 
@@ -19,19 +21,27 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
 
     ArrayList<String> musicNames;
     ArrayList<String> musicArtists;
-    ArrayList<Integer> musicImages;
+    ArrayList<String> musicImages;
     Boolean upOrdown;
     Context context;
+    int type = 0;
 
     public CustomAdapterForRecyclerItem(Context context, ArrayList<String> musicNames, ArrayList<String> musicArtists,
-                                        ArrayList<Integer> musicImages, Boolean upOrdown)
+                                        ArrayList<String> musicImages, Boolean upOrdown, int type)
     {
+        /*
+
+        type 1: playlists
+        type 2: genres
+        type 3:
+
+         */
         this.context = context;
         this.musicNames = musicNames;
         this.musicArtists =musicArtists;
         this.musicImages = musicImages;
         this.upOrdown = upOrdown;
-
+        this.type = type;
 
     }
 
@@ -52,8 +62,15 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
         holder.name.setText(musicNames.get(position));
-        holder.artist.setText(musicArtists.get(position));
-        holder.image.setImageResource(musicImages.get(position));
+        if(type == 1){
+            holder.artist.setText(musicArtists.get(position));
+        }
+
+        if(musicImages.get(position) != null){
+            Picasso.with(context).load("http://moozee.pythonanywhere.com" + musicImages.get(position)).into(holder.image);
+        }else{
+            holder.image.setImageResource(R.drawable.a19);
+        }
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

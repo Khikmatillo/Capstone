@@ -30,9 +30,11 @@ public class User {
     public static final int TYPE_LOGIN = 1, TYPE_CREATE = 2, TYPE_FORGET = 3, TYPE_RESET = 4, TYPE_CHANGE = 5;
     public static final String KEY_TYPE = "type_call", KEY_USERNAME = "username", KEY_EMAIL = "email", KEY_PASSWORD = "password",
                             KEY_PASSWORD1 = "password1", KEY_PASSWORD2 = "password2", FILE_PREFERENCES = "myPref", KEY_TOKEN = "token",
-                            KEY_JSON = "myjson", FILE_PLAYLISTS = "playlists";
+                            KEY_JSON_MUSICS = "myjsonmusics", KEY_JSON_PLAYLISTS = "myjsonplaylists", KEY_JSON_GENRES = "myjsongenres",
+                            FILE_PLAYLISTS = "playlists";
 
     public static ArrayList<Playlist> PLAYLISTS = new ArrayList<Playlist>();
+    public ArrayList<Music> favourites;
 
     public User(){
         name = "Tillo";
@@ -40,6 +42,7 @@ public class User {
         country = "Uzbekistan";
         followers = new ArrayList<User>();
         following = new ArrayList<User>();
+        favourites = new ArrayList<Music>();
     }
 
     public User(String name, String mail, String password, String password_confirm) {
@@ -49,6 +52,7 @@ public class User {
         this.password_confirm = password_confirm;
         followers = new ArrayList<User>();
         following = new ArrayList<User>();
+        favourites = new ArrayList<Music>();
     }
 
     public User(String name, String mail, String password, String password_confirm, String city,
@@ -64,6 +68,9 @@ public class User {
         this.about = about;
         this.info = info;
         this.image = image;
+        followers = new ArrayList<User>();
+        following = new ArrayList<User>();
+        favourites = new ArrayList<Music>();
     }
 
     public String getName() {
@@ -144,5 +151,9 @@ public class User {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public ArrayList<Music> getFavourites() {
+        return favourites;
     }
 }

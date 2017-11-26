@@ -181,6 +181,7 @@ MusicPlayer {
         current_playing = mp;
         current_playing.start();
 
+        //music_seek_bar.setMax(current_playing.getDuration());
         music_next = ordered_musics.get((position + 1) % ordered_musics.size());
         if(position == 0){
             music_prev = ordered_musics.get(ordered_musics.size() - 1);
@@ -191,6 +192,9 @@ MusicPlayer {
 
     public void seekBarControl(SeekBar seek_bar){
         music_seek_bar = seek_bar;
+        if(current_playing != null){
+            music_seek_bar.setMax(current_playing.getDuration());
+        }
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

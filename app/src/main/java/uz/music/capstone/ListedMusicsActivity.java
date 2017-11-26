@@ -43,6 +43,7 @@ import java.util.ArrayList;
 
 
 import uz.music.capstone.IndexBottomSheetFragments.ProfileFragment;
+import uz.music.capstone.json.JSONParserMusics;
 import uz.music.capstone.profile.User;
 
 
@@ -394,8 +395,8 @@ public class ListedMusicsActivity extends AppCompatActivity
 
 
     private void parseJson(String result){
-        JSONParser jsonParser = new JSONParser(result);
-        ordered_musics = jsonParser.getMusicsArray();
+        JSONParserMusics jsonParserMusics = new JSONParserMusics(result);
+        ordered_musics = jsonParserMusics.getMusicsArray();
         Log.e("", "Array size " + ordered_musics.size());
         Log.e("", "JSON" + result);
         for(int i = 0; i < ordered_musics.size(); i++){
@@ -462,10 +463,10 @@ public class ListedMusicsActivity extends AppCompatActivity
             //Parsing the JSON starts --------------------------------------
             parseJson(result);
 
-            SharedPreferences shp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = shp.edit();
-            editor.putString(User.KEY_JSON, result);
-            editor.commit();
+//            SharedPreferences shp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = shp.edit();
+//            editor.putString(User.KEY_JSON, result);
+//            editor.commit();
             //Parsing the JSON ends --------------------------------------
         }
     }
