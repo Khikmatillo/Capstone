@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import uz.music.capstone.IndexActivity;
 import uz.music.capstone.R;
-import uz.music.capstone.authentication.SignUpActivity;
+import uz.music.capstone.profile.EditProfileActivity;
 import uz.music.capstone.profile.User;
 
 
@@ -24,7 +24,7 @@ import uz.music.capstone.profile.User;
 
 public class ProfileFragment extends Fragment {
 
-    LinearLayout ll_downloads, ll_favourites, ll_playlists, ll_mixes, ll_settings, ll_about_app, ll_conatiner_info;
+    LinearLayout ll_favourites, ll_playlists, ll_settings, ll_conatiner_info;
     TextView txt_create, txt_name, txt_location, txt_following, txt_followers;
     ImageView image;
 
@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
         ll_conatiner_info = (LinearLayout) view.findViewById(R.id.profile_container_info);
 
         txt_name = (TextView) view.findViewById(R.id.profile_name);
-        txt_location = (TextView) view.findViewById(R.id.profile_location);
         txt_followers = (TextView) view.findViewById(R.id.profile_followers);
         txt_following = (TextView) view.findViewById(R.id.profile_following);
         image = (ImageView) view.findViewById(R.id.profile_img);
@@ -79,7 +78,8 @@ public class ProfileFragment extends Fragment {
         ll_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
@@ -139,7 +139,6 @@ public class ProfileFragment extends Fragment {
                     txt_create.setVisibility(View.GONE);
                     ll_conatiner_info.setVisibility(View.VISIBLE);
                     txt_name.setText(user.getName());
-                    txt_location.setText(user.getCity() + ", " + user.getCountry());
                     txt_following.setText(user.getFollowing().size() + "");
                     txt_followers.setText(user.getFollowers().size() + "");
                 }else{

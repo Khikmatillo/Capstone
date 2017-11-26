@@ -67,7 +67,8 @@
         android:background="@drawable/shadowstatusbgd"
         android:orientation="vertical"
         app:layout_anchor="@+id/app_bar"
-        app:layout_anchorGravity="bottom">
+        app:layout_anchorGravity="bottom"
+        android:visibility="gone">
 
         <!--<SeekBar-->
         <!--android:layout_width="match_parent"-->
@@ -121,8 +122,8 @@
 
                 <ImageButton
                     android:id="@+id/btn_prev"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/btn_pause"
                     android:background="?attr/selectableItemBackgroundBorderless"
@@ -131,21 +132,20 @@
 
                 <ImageButton
                     android:id="@+id/btn_pause"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/btn_next"
-                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
-                    android:src="@drawable/ic_pause_black_24dp" />
+                    android:background="@drawable/ic_pause_black_24dp" />
 
                 <ImageButton
                     android:id="@+id/btn_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="30px"
                     android:layout_marginTop="10dp"

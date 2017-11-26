@@ -14,20 +14,19 @@
         android:layout_marginBottom="5px"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true">
+        android:background="?attr/selectableItemBackgroundBorderless">
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="80dp"
             android:layout_height="78dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/musictrackicon"/>
+            android:background="@drawable/musictrackicon" />
 
         <LinearLayout
-            android:layout_marginTop="2dp"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
+            android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">

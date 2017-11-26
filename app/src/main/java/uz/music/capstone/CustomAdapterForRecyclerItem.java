@@ -44,11 +44,12 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
     ArrayList<String> musicDescriptions;
     ArrayList<String> musicImages;
     ArrayList<Integer> musicPks;
+    String currentName = "";
 
     Boolean upOrdown;
     Context context;
     int type = 0;
-    String jsonResult = "";
+    String jsonResult = null;
 
     public CustomAdapterForRecyclerItem(Context context, ArrayList<Playlist> playlists, ArrayList<Genre> genres, Boolean upOrdown, int type)
     {
@@ -108,7 +109,9 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
         }
 
         if(musicImages.get(position) != null){
-            Picasso.with(context).load("http://moozee.pythonanywhere.com" + musicImages.get(position)).into(holder.image);
+            Picasso.with(context)
+                    .load("http://moozee.pythonanywhere.com" + musicImages.get(position))
+                    .into(holder.image);
         }else{
             holder.image.setImageResource(R.drawable.a19);
         }
@@ -121,15 +124,11 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
 
                 if(type == 1){
                     try {
+                        currentName = musicNames.get(position);
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("pk", musicPks.get(position));
                         new GetJson().execute(jsonObject);
 
-                        Intent intent  = new Intent(context, ListedMusicsActivity.class);
-                        intent.putExtra("name", musicNames.get(position));
-                        intent.putExtra("json", jsonResult);
-                        Log.e("DOWNLOADED JSON ", jsonResult );
-                        context.startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -242,6 +241,11 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
             super.onPostExecute(result);
             Toast.makeText(context, "Downloading musics finish", Toast.LENGTH_SHORT).show();
             jsonResult = result;
+            Intent intent  = new Intent(context, ListedMusicsActivity.class);
+            intent.putExtra("name", currentName);
+            intent.putExtra("json", jsonResult);
+            Log.e("DOWNLOADED JSON ", jsonResult );
+            context.startActivity(intent);
         }
     }
 }
