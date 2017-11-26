@@ -55,13 +55,11 @@ public class SignInActivity extends AppCompatActivity {
                             jsonObject.put(User.KEY_TYPE, User.TYPE_LOGIN);
                             Log.e("data0", jsonObject.toString());
                             new SendJSON(getApplicationContext(), jsonObject);
-                            if (User.USER_ACCEPTED) {
-                                IndexActivity.CURRENT_USER = new User();
-                                User.USER_ACCEPTED = false;
-                                Intent intent = new Intent(SignInActivity.this, ListedMusicsActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
+//                            if (User.USER_ACCEPTED) {
+//                                Intent intent = new Intent(SignInActivity.this, ListedMusicsActivity.class);
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                startActivity(intent);
+//                            }
                         } else {
                             Toast.makeText(SignInActivity.this, "Enter valid password", Toast.LENGTH_SHORT).show();
                         }

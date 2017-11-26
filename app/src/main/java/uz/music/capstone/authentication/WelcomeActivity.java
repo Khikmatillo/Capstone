@@ -29,7 +29,6 @@ public class WelcomeActivity extends AppCompatActivity{
         SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
         String token = sp.getString(User.KEY_TOKEN, "");
         if (!token.equals("")) {
-            IndexActivity.CURRENT_USER = new User();
             Intent intent = new Intent(WelcomeActivity.this, IndexActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

@@ -23,7 +23,6 @@
         <activity android:name=".authentication.ResetPasswordActivity" />
         <activity android:name=".authentication.ForgetPasswordActivity" />
         <activity android:name=".authentication.ChangePasswordActivity" />
-        <activity android:name=".profile.EditProfileActivity" />
         <activity android:name=".Nowplaying"></activity>
         <activity android:name=".authentication.WelcomeActivity">
             <intent-filter>

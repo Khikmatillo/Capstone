@@ -64,11 +64,11 @@ public class SignUpActivity extends AppCompatActivity {
                                         jsonObject.put(User.KEY_TYPE, User.TYPE_CREATE);
                                         Log.e("data0", jsonObject.toString());
                                         new SendJSON(getApplicationContext(), jsonObject);
-                                        if(User.USER_ACCEPTED){
-                                            Intent intent = new Intent(SignUpActivity.this, IndexActivity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
-                                        }
+//                                        if(User.USER_ACCEPTED){
+//                                            Intent intent = new Intent(SignUpActivity.this, IndexActivity.class);
+//                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                            startActivity(intent);
+//                                        }
                                     } catch (JSONException e) {
                                         Log.e("Sign Up", e.getMessage());
                                     }

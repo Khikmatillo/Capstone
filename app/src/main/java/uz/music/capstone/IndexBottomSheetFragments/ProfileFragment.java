@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import uz.music.capstone.IndexActivity;
 import uz.music.capstone.R;
-import uz.music.capstone.profile.EditProfileActivity;
+import uz.music.capstone.profile.EditProfile;
 import uz.music.capstone.profile.User;
 
 
@@ -78,7 +78,7 @@ public class ProfileFragment extends Fragment {
         ll_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                Intent intent = new Intent(getActivity(), EditProfile.class);
                 getActivity().startActivity(intent);
             }
         });
