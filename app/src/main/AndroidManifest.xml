@@ -12,26 +12,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ListedMusicsActivity"></activity>
-        <activity android:name=".authentication.SignInActivity">
-
-        </activity>
-        <activity android:name=".IndexActivity">
-
-        </activity>
+        <activity android:name=".ListedMusicsActivity" />
+        <activity android:name=".authentication.SignInActivity" />
+        <activity android:name=".IndexActivity" />
         <activity android:name=".authentication.SignUpActivity" />
         <activity android:name=".authentication.ResetPasswordActivity" />
         <activity android:name=".authentication.ForgetPasswordActivity" />
         <activity android:name=".authentication.ChangePasswordActivity" />
-        <activity android:name=".Nowplaying"></activity>
+        <activity android:name=".Nowplaying" />
+        <activity android:name=".ViewAllActivity">
+
+        </activity>
         <activity android:name=".authentication.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+        </activity>
     </application>
 
 </manifest>

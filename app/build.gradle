@@ -25,6 +25,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //noinspection GradleDynamicVersion
+    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.koushikdutta.ion:ion:2.+'
     compile 'com.jakewharton:butterknife:8.8.1'
     compile 'biz.laenger.android:vpbs:0.0.4'
