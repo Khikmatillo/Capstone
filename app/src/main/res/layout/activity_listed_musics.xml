@@ -70,16 +70,6 @@
         app:layout_anchorGravity="bottom"
         android:visibility="gone">
 
-        <!--<SeekBar-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/music_seek_bar"-->
-        <!--android:layout_marginTop="12dp"-->
-        <!--android:thumb="@drawable/mythumb"-->
-        <!--android:progress="0"-->
-        <!--android:progressBackgroundTint="#585858"-->
-        <!--android:progressTint="#4cb6cb"/>-->
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
