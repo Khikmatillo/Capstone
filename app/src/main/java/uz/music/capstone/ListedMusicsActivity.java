@@ -1,4 +1,5 @@
 package uz.music.capstone;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +51,7 @@ import uz.music.capstone.json.JSONParserPlaylistMusics;
 import uz.music.capstone.profile.User;
 
 
-public class ListedMusicsActivity extends AppCompatActivity{
+public class ListedMusicsActivity extends AppCompatActivity {
 
     private FloatingActionButton fab_start_play;
     private LinearLayout container_current_music;
@@ -60,7 +61,6 @@ public class ListedMusicsActivity extends AppCompatActivity{
 
 
     private Intent intent;
-
 
 
     private int music_position;
@@ -78,15 +78,14 @@ public class ListedMusicsActivity extends AppCompatActivity{
 
 
         fab_start_play = (FloatingActionButton) findViewById(R.id.fab);
-        container_current_music = (LinearLayout)findViewById(R.id._currenttrackstatusXML);
-        txt_name = (TextView)findViewById(R.id.music_title);
+        container_current_music = (LinearLayout) findViewById(R.id._currenttrackstatusXML);
+        txt_name = (TextView) findViewById(R.id.music_title);
         txt_artist = (TextView) findViewById(R.id.music_artist);
-        btn_prev = (ImageButton)findViewById(R.id.btn_prev);
-        btn_pause = (ImageButton)findViewById(R.id.btn_pause);
-        btn_next = (ImageButton)findViewById(R.id.btn_next);
+        btn_prev = (ImageButton) findViewById(R.id.btn_prev);
+        btn_pause = (ImageButton) findViewById(R.id.btn_pause);
+        btn_next = (ImageButton) findViewById(R.id.btn_next);
         list_view = (ListView) findViewById(R.id.list_view);
 
-        fab_start_play.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0074b2")));
 
         PlaylistMusicsAdapter adapter = new PlaylistMusicsAdapter();
         list_view.setAdapter(adapter);
@@ -96,29 +95,27 @@ public class ListedMusicsActivity extends AppCompatActivity{
         JSONParserPlaylistMusics jsonParserPlaylistMusics = new JSONParserPlaylistMusics(jsonText);
         ArrayList<PlaylistMusic> playlistMusics = jsonParserPlaylistMusics.getMusicsArray();
 
-        for(int i = 0; i < playlistMusics.size(); i++){
+        for (int i = 0; i < playlistMusics.size(); i++) {
             adapter.addItem(playlistMusics.get(i));
         }
         adapter.notifyDataSetChanged();
-
-
 
 
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 music_position = i;
-                PlaylistMusic music = (PlaylistMusic)list_view.getItemAtPosition(i);
-                if(Nowplaying.mediaPlayer != null){
+                PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(i);
+                if (Nowplaying.mediaPlayer != null) {
                     Nowplaying.mediaPlayer.stop();
                 }
-                try{
+                try {
                     Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
                     container_current_music.setVisibility(View.VISIBLE);
                     txt_name.setText(music.getName());
                     txt_artist.setText(music.getFile());
                     Nowplaying.mediaPlayer.start();
-                }catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(ListedMusicsActivity.this, "Url error", Toast.LENGTH_SHORT).show();
                     Log.e("MediaPlayer ERROR", e.getMessage());
                 }
@@ -128,23 +125,22 @@ public class ListedMusicsActivity extends AppCompatActivity{
         });
 
 
-
         btn_prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Nowplaying.mediaPlayer != null){
+                if (Nowplaying.mediaPlayer != null) {
                     PlaylistMusic music;
-                    if(music_position != 0){
-                        music = (PlaylistMusic)list_view.getItemAtPosition(music_position - 1);
+                    if (music_position != 0) {
+                        music = (PlaylistMusic) list_view.getItemAtPosition(music_position - 1);
                         music_position = music_position - 1;
-                    }else{
-                        music = (PlaylistMusic)list_view.getItemAtPosition(music_position);
+                    } else {
+                        music = (PlaylistMusic) list_view.getItemAtPosition(music_position);
                     }
-                    try{
+                    try {
                         Nowplaying.mediaPlayer.stop();
                         Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
                         Nowplaying.mediaPlayer.start();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Log.e("MediaPlayer ERROR", e.getMessage());
                     }
                     txt_name.setText(music.getName());
@@ -158,19 +154,19 @@ public class ListedMusicsActivity extends AppCompatActivity{
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Nowplaying.mediaPlayer != null){
+                if (Nowplaying.mediaPlayer != null) {
                     PlaylistMusic music;
-                    if(music_position != list_view.getChildCount()){
-                        music = (PlaylistMusic)list_view.getItemAtPosition(music_position + 1);
+                    if (music_position != list_view.getChildCount()) {
+                        music = (PlaylistMusic) list_view.getItemAtPosition(music_position + 1);
                         music_position = music_position + 1;
-                    }else{
-                        music = (PlaylistMusic)list_view.getItemAtPosition(music_position);
+                    } else {
+                        music = (PlaylistMusic) list_view.getItemAtPosition(music_position);
                     }
-                    try{
+                    try {
                         Nowplaying.mediaPlayer.stop();
                         Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
                         Nowplaying.mediaPlayer.start();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Log.e("MediaPlayer ERROR", e.getMessage());
                     }
                     txt_name.setText(music.getName());
@@ -184,11 +180,11 @@ public class ListedMusicsActivity extends AppCompatActivity{
         btn_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Nowplaying.mediaPlayer != null){
-                    if(Nowplaying.mediaPlayer.isPlaying()){
+                if (Nowplaying.mediaPlayer != null) {
+                    if (Nowplaying.mediaPlayer.isPlaying()) {
                         Nowplaying.mediaPlayer.pause();
                         btn_pause.setBackgroundResource(R.drawable.ic_play_black_24dp);
-                    }else{
+                    } else {
                         Nowplaying.mediaPlayer.start();
                         btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
                     }
@@ -211,49 +207,47 @@ public class ListedMusicsActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 music_position = 0;
-                PlaylistMusic music = (PlaylistMusic)list_view.getItemAtPosition(0);
-                if(Nowplaying.mediaPlayer != null){
+                PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(0);
+                if (Nowplaying.mediaPlayer != null) {
                     Nowplaying.mediaPlayer.stop();
                 }
-                try{
+                try {
                     Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
                     container_current_music.setVisibility(View.VISIBLE);
                     txt_name.setText(music.getName());
                     txt_artist.setText(music.getFile());
                     Nowplaying.mediaPlayer.start();
-                }catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(ListedMusicsActivity.this, "Url error", Toast.LENGTH_SHORT).show();
                     Log.e("MediaPlayer ERROR", e.getMessage());
                 }
                 btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
             }
         });
+        fab_start_play.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0074b2")));
     }
 
 
-
-
-    public void showMenu (View view)
-    {
-        PopupMenu menu = new PopupMenu (this, view);
-        menu.setOnMenuItemClickListener (new PopupMenu.OnMenuItemClickListener ()
-        {
+    public void showMenu(View view) {
+        PopupMenu menu = new PopupMenu(this, view);
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick (MenuItem item)
-            {
+            public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-                switch (id)
-                {
-                    case R.id.item_download: Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_LONG).show(); break;
-                    case R.id.item_add: Toast.makeText(getApplicationContext(), "Add", Toast.LENGTH_LONG).show(); break;
+                switch (id) {
+                    case R.id.item_download:
+                        Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.item_add:
+                        Toast.makeText(getApplicationContext(), "Add", Toast.LENGTH_LONG).show();
+                        break;
                 }
                 return true;
             }
         });
-        menu.inflate (R.menu.music_item_option);
+        menu.inflate(R.menu.music_item_option);
         menu.show();
     }
-
 
 
     @Override
@@ -279,9 +273,6 @@ public class ListedMusicsActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
 }

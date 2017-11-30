@@ -3,18 +3,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
 
     <dimen name="player_control_height">30pt</dimen>
-
-
-
-
-
-
-
-
-
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="item_offset">10dp</dimen>
     <dimen name="detail_backdrop_height">250dp</dimen>
     <dimen name="backdrop_title">30dp</dimen>
@@ -29,4 +19,5 @@
     <dimen name="ic_album_overflow_width">20dp</dimen>
     <dimen name="ic_album_overflow_height">30dp</dimen>
     <dimen name="ic_album_overflow_margin_top">10dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
