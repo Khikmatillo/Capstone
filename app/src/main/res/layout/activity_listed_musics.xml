@@ -48,13 +48,13 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="16dp"
 
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@android:drawable/ic_media_play" />
+            app:srcCompat="@drawable/ic_play_black_24dp" />
 
 
     </android.support.design.widget.CoordinatorLayout>
@@ -69,16 +69,6 @@
         app:layout_anchor="@+id/app_bar"
         app:layout_anchorGravity="bottom"
         android:visibility="gone">
-
-        <!--<SeekBar-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/music_seek_bar"-->
-        <!--android:layout_marginTop="12dp"-->
-        <!--android:thumb="@drawable/mythumb"-->
-        <!--android:progress="0"-->
-        <!--android:progressBackgroundTint="#585858"-->
-        <!--android:progressTint="#4cb6cb"/>-->
 
         <RelativeLayout
             android:layout_width="match_parent"
