@@ -35,6 +35,7 @@ public class EditProfile extends AppCompatActivity {
                 SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.remove(User.KEY_TOKEN);
+                editor.remove(User.KEY_USERNAME);
                 editor.commit();
                 IndexActivity.CURRENT_USER = null;
                 Intent intent = new Intent(EditProfile.this, WelcomeActivity.class);

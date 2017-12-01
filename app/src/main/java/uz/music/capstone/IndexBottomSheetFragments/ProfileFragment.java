@@ -1,7 +1,9 @@
 package uz.music.capstone.IndexBottomSheetFragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import java.io.File;
+
 import uz.music.capstone.IndexActivity;
+import uz.music.capstone.PlaylistCreateActivity;
 import uz.music.capstone.R;
 import uz.music.capstone.profile.EditProfile;
 import uz.music.capstone.profile.User;
@@ -46,20 +54,10 @@ public class ProfileFragment extends Fragment {
         txt_following = (TextView) view.findViewById(R.id.profile_following);
         image = (ImageView) view.findViewById(R.id.profile_img);
 
-//        if(IndexActivity.CURRENT_USER == null){
-//            ll_conatiner_info.setVisibility(View.GONE);
-//        }else{
-//            txt_create.setVisibility(View.GONE);
-//        }
-//
-//        txt_create.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), SignUpActivity.class);
-//                startActivityForResult(intent, 1);
-//            }
-//        });
 
+        SharedPreferences shp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+        String username = shp.getString(User.KEY_USERNAME, "");
+        txt_name.setText(username);
 
 
         ll_favourites.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +69,8 @@ public class ProfileFragment extends Fragment {
         ll_playlists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent1 = new Intent(getActivity(), PlaylistCreateActivity.class);
+                startActivity(intent1);
             }
         });
 
@@ -129,24 +128,24 @@ public class ProfileFragment extends Fragment {
 //        });
 
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if(requestCode == 1){
-            if(resultCode == Activity.RESULT_OK){
-                User user = IndexActivity.CURRENT_USER;
-                if(user != null){
-                    txt_create.setVisibility(View.GONE);
-                    ll_conatiner_info.setVisibility(View.VISIBLE);
-                    txt_name.setText(user.getName());
-                    txt_following.setText(user.getFollowing().size() + "");
-                    txt_followers.setText(user.getFollowers().size() + "");
-                }else{
-                    Toast.makeText(getActivity(), "error while signing up", Toast.LENGTH_SHORT).show();
-                }
-            }else{
-                Toast.makeText(getActivity(), "sign in cancelled", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//        if(requestCode == 1){
+//            if(resultCode == Activity.RESULT_OK){
+//                User user = IndexActivity.CURRENT_USER;
+//                if(user != null){
+//                    txt_create.setVisibility(View.GONE);
+//                    ll_conatiner_info.setVisibility(View.VISIBLE);
+//                    txt_name.setText(user.getName());
+//                    txt_following.setText(user.getFollowing().size() + "");
+//                    txt_followers.setText(user.getFollowers().size() + "");
+//                }else{
+//                    Toast.makeText(getActivity(), "error while signing up", Toast.LENGTH_SHORT).show();
+//                }
+//            }else{
+//                Toast.makeText(getActivity(), "sign in cancelled", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 }

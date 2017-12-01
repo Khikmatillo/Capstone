@@ -33,6 +33,7 @@ import uz.music.capstone.profile.User;
 public class SendJSON {
 
     Context context;
+    JSONObject jsonObject = null;
 
     public SendJSON(Context context, JSONObject data) {
         this.context = context;
@@ -51,6 +52,8 @@ public class SendJSON {
         protected String doInBackground(JSONObject... jsonData) {
 
             try {
+
+                jsonObject = jsonData[0];
                 int type = jsonData[0].getInt(User.KEY_TYPE);
                 if(type == User.TYPE_CREATE){
                     accepted_response = HttpsURLConnection.HTTP_CREATED;
@@ -129,13 +132,16 @@ public class SendJSON {
 
 
             try {
-                JSONObject jsonObject = new JSONObject(result);
-                String token = jsonObject.getString(User.KEY_TOKEN);
-                SharedPreferences shp = context.getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = shp.edit();
-                editor.putString(User.KEY_TOKEN, token);
-                editor.commit();
+
                 if (User.USER_ACCEPTED) {
+                    JSONObject jsonObject1 = new JSONObject(result);
+                    String token = jsonObject1.getString(User.KEY_TOKEN);
+                    SharedPreferences shp = context.getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = shp.edit();
+                    editor.putString(User.KEY_TOKEN, token);
+                    editor.putString(User.KEY_USERNAME, jsonObject.getString(User.KEY_USERNAME));
+                    editor.commit();
+
                     Intent intent = new Intent(context, IndexActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     User.USER_ACCEPTED = false;

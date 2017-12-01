@@ -1,8 +1,11 @@
 package uz.music.capstone.authentication;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +28,8 @@ public class WelcomeActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        checkPermissionForReadExtertalStorage();
 
         SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
         String token = sp.getString(User.KEY_TOKEN, "");
@@ -55,5 +60,13 @@ public class WelcomeActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    public boolean checkPermissionForReadExtertalStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = getApplicationContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
     }
 }
