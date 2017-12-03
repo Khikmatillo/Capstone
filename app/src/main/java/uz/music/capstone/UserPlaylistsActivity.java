@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,6 +58,7 @@ public class UserPlaylistsActivity extends AppCompatActivity {
         containerMyP = (LinearLayout)findViewById(R.id.containerMyPlaylists);
         containerFollowedP = (LinearLayout)findViewById(R.id.containerFollowedPlaylists);
 
+        txtCreate.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0074b2")));
 
         txtCreate.setOnClickListener(new View.OnClickListener() {
             @Override
