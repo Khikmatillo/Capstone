@@ -33,6 +33,8 @@
         </activity>
         <activity android:name=".profile.EditProfile"></activity>
         <activity android:name=".PlaylistCreateActivity"></activity>
+        <activity android:name=".UserPlaylistsActivity"></activity>
+        <activity android:name=".ProfileActivity"></activity>
 
     </application>
 

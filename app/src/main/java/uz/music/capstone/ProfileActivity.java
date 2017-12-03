@@ -1,26 +1,22 @@
-package uz.music.capstone.IndexBottomSheetFragments;
+package uz.music.capstone;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,76 +24,87 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-import uz.music.capstone.IndexActivity;
-import uz.music.capstone.ListedMusicsActivity;
-import uz.music.capstone.Playlist;
-import uz.music.capstone.PlaylistCreateActivity;
-import uz.music.capstone.PlaylistMusic;
-import uz.music.capstone.R;
-import uz.music.capstone.UserPlaylistsActivity;
-import uz.music.capstone.json.JSONParserPlaylists;
-import uz.music.capstone.profile.EditProfile;
+import uz.music.capstone.IndexBottomSheetFragments.ProfileFragment;
 import uz.music.capstone.profile.User;
 
-
 /**
- * Created by Nemo on 10/13/2017.
+ * Created by Nemo on 12/2/2017.
  */
 
-public class ProfileFragment extends Fragment {
-
-    LinearLayout ll_favourites, ll_playlists, ll_settings, ll_conatiner_info, ll_follow, seeFollowers, seeFollowings;
-    TextView txt_name, txt_following, txt_followers;
-    ImageView image;
-
+public class ProfileActivity extends AppCompatActivity {
+    Intent intent;
+    TextView txtName, txtFollow, txt_following, txt_followers;;
+    LinearLayout followUser, containerExtra, seeFollowers, seeFollowings;;
+    ImageView imageFollow, imgProfile;
     String txtJsonFollowers = "", txtJsonFollowings = "";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-    @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_profile, container, false);
+        setContentView(R.layout.activity_profile);
 
-        ll_favourites = (LinearLayout) view.findViewById(R.id.profile_favourites);
-        ll_playlists = (LinearLayout) view.findViewById(R.id.profile_playlists);
-        ll_settings = (LinearLayout) view.findViewById(R.id.profile_settings);
-        ll_conatiner_info = (LinearLayout) view.findViewById(R.id.profile_container_info);
-        ll_follow = (LinearLayout) view.findViewById(R.id.followUser) ;
-        ll_follow.setVisibility(View.GONE);
-        seeFollowers = (LinearLayout) view.findViewById(R.id.containerSeeFollowers);
-        seeFollowings = (LinearLayout) view.findViewById(R.id.containerSeeFollowings);
-
-        txt_name = (TextView) view.findViewById(R.id.profile_name);
-        txt_followers = (TextView) view.findViewById(R.id.profile_followers);
-        txt_following = (TextView) view.findViewById(R.id.profile_following);
-        image = (ImageView) view.findViewById(R.id.profile_img);
+        intent = getIntent();
+        txtName = (TextView)findViewById(R.id.profile_name);
+        txtFollow = (TextView)findViewById(R.id.txtFollowUser);
+        followUser = (LinearLayout)findViewById(R.id.followUser);
+        containerExtra = (LinearLayout) findViewById(R.id.containerExtra);
+        imageFollow = (ImageView) findViewById(R.id.imgFollowUser);
+        imgProfile = (ImageView)findViewById(R.id.profile_img);
+        txt_followers = (TextView) findViewById(R.id.profile_followers);
+        txt_following = (TextView) findViewById(R.id.profile_following);
+        seeFollowers = (LinearLayout) findViewById(R.id.containerSeeFollowers);
+        seeFollowings = (LinearLayout) findViewById(R.id.containerSeeFollowings);
 
 
-        SharedPreferences shp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
-        String username = shp.getString(User.KEY_USERNAME, "");
-        txt_name.setText(username);
 
-        try{
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("username", username);
+        try {
+            JSONObject jsonObject = new JSONObject(intent.getStringExtra("json"));
+            containerExtra.setVisibility(View.GONE);
+            txtName.setText(jsonObject.getString("username"));
+            Picasso.with(getApplicationContext())
+                    .load("http://moozee.pythonanywhere.com" + jsonObject.getString("photo"))
+                    .into(imgProfile);
 
-            new SendDataFollowers().execute(jsonObject);
-            new SendDataFollowings().execute(jsonObject);
-        }catch (JSONException e){
 
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("username", txtName.getText().toString());
+            new SendDataFollowers().execute(jsonObject1);
+            new SendDataFollowings().execute(jsonObject1);
+
+
+
+
+            followUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        JSONObject jsonObject1 = new JSONObject();
+                        if(txtFollow.getText().toString().equals("FOLLOW")){
+                            jsonObject1.put("username", txtName.getText().toString());
+                            jsonObject1.put("action", "follow");
+                            new FollowUser().execute(jsonObject1);
+                        }else{
+                            jsonObject1.put("username", txtName.getText().toString());
+                            jsonObject1.put("action", "unfollow");
+                            new FollowUser().execute(jsonObject1);
+                        }
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
 
@@ -113,7 +120,7 @@ public class ProfileFragment extends Fragment {
                     }
 
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
                     builder.setTitle("Followers");
                     builder.setItems(playlistNames, new DialogInterface.OnClickListener() {
                         @Override
@@ -149,7 +156,7 @@ public class ProfileFragment extends Fragment {
                     }
 
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
                     builder.setTitle("Followings");
                     builder.setItems(playlistNames, new DialogInterface.OnClickListener() {
                         @Override
@@ -173,90 +180,99 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ll_favourites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new GetFavourites().execute("http://moozee.pythonanywhere.com/api/get-liked-musics/");
-            }
-        });
-        ll_playlists.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent(getActivity(), UserPlaylistsActivity.class);
-                startActivity(intent1);
-            }
-        });
-
-        ll_settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), EditProfile.class);
-                getActivity().startActivity(intent);
-            }
-        });
 
 
-        return view;
     }
 
-    private class GetFavourites extends AsyncTask<String, String, String> {
-        private ProgressDialog pd;
+    private class FollowUser extends AsyncTask<JSONObject, Void, String> {
+
         protected void onPreExecute() {
-            super.onPreExecute();
         }
 
-        protected String doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
+        @Override
+        protected String doInBackground(JSONObject... jsonData) {
 
-                SharedPreferences sp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+            try {
+
+                URL url = new URL("http://moozee.pythonanywhere.com/auth/api/users/follow/"); // here is your URL path
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
                 String token = sp.getString(User.KEY_TOKEN, "");
-                connection.setRequestProperty("Authorization", "Token " + token);
-                connection.setRequestMethod("GET");
-                connection.connect();
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line+"\n");
-                    Log.e("Response: ", "> " + line);
-                }
-                return buffer.toString();
-            } catch (MalformedURLException e) {
-                Log.e("MafformedURLException", e.getMessage());
-                e.printStackTrace();
-            } catch (IOException e) {
-                Log.e("IOException", e.getMessage());
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
+                conn.setRequestProperty("Authorization", "Token " + token);
+
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                String data = jsonData[0].toString();
+                Log.e("Sending data", data);
+
+                writer.write(data);
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
                 }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
             }
-            return null;
+
         }
 
         @Override
         protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
-            Intent intent  = new Intent(getActivity(), ListedMusicsActivity.class);
-            intent.putExtra("name", "Favourites");
-            intent.putExtra("json", result);
-            getActivity().startActivity(intent);
-        }
 
+            if(txtFollow.getText().toString().equals("FOLLOW")){
+                txtFollow.setText("UNFOLLOW");
+                imageFollow.setVisibility(View.GONE);
+            }else{
+                txtFollow.setText("FOLLOW");
+                imageFollow.setVisibility(View.VISIBLE);
+            }
+
+
+            try {
+                JSONObject jsonObject2 = new JSONObject();
+                jsonObject2.put("username", txtName.getText().toString());
+                new SendDataFollowers().execute(jsonObject2);
+                new SendDataFollowings().execute(jsonObject2);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+            Toast.makeText(ProfileActivity.this, result, Toast.LENGTH_LONG).show();
+            Log.e("SEARCH RESULT:::", result);
+
+        }
     }
 
 
@@ -273,7 +289,7 @@ public class ProfileFragment extends Fragment {
                 URL url = new URL("http://moozee.pythonanywhere.com/auth/user-followers/"); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-                SharedPreferences sp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
                 String token = sp.getString(User.KEY_TOKEN, "");
                 conn.setRequestProperty("Authorization", "Token " + token);
 
@@ -333,7 +349,7 @@ public class ProfileFragment extends Fragment {
                 JSONArray jsonArray = new JSONArray(result);
                 txtJsonFollowers = result;
                 txt_followers.setText(jsonArray.length() + "");
-                Log.e("FOLLOWERS RESULT:::", result);
+                    Log.e("FOLLOWERS RESULT:::", result);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -356,7 +372,7 @@ public class ProfileFragment extends Fragment {
                 URL url = new URL("http://moozee.pythonanywhere.com/auth/user-followings/"); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-                SharedPreferences sp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
                 String token = sp.getString(User.KEY_TOKEN, "");
                 conn.setRequestProperty("Authorization", "Token " + token);
 
@@ -425,5 +441,4 @@ public class ProfileFragment extends Fragment {
 
         }
     }
-
 }

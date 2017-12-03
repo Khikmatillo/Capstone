@@ -7,10 +7,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import uz.music.capstone.IndexActivity;
 import uz.music.capstone.R;
@@ -29,7 +31,15 @@ public class WelcomeActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        checkPermissionForReadExtertalStorage();
+//        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            if (shouldShowRequestPermissionRationale(
+//                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//            }
+//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                    1234);
+//            return;
+//        }
 
         SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
         String token = sp.getString(User.KEY_TOKEN, "");
@@ -61,12 +71,19 @@ public class WelcomeActivity extends AppCompatActivity{
         });
 
     }
+//    @Override
+//    public void onRequestPermissionsResult(final int requestCode, @NonNull final
+//    String[] permissions, @NonNull final int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == 1234) {
+//            if (grantResults.length > 0 && grantResults[0] ==
+//                    PackageManager.PERMISSION_GRANTED) {
+//// Permission granted.
+//                Toast.makeText(WelcomeActivity.this, "grant", Toast.LENGTH_LONG).show();
+//            } else {
+//                Toast.makeText(WelcomeActivity.this, "deny", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    }
 
-    public boolean checkPermissionForReadExtertalStorage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int result = getApplicationContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            return result == PackageManager.PERMISSION_GRANTED;
-        }
-        return false;
-    }
 }

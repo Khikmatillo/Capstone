@@ -2,11 +2,6 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/item_download"
-        android:title="Download"
-        android:visible="true"
-        app:showAsAction="ifRoom|withText" />
-    <item
         android:id="@+id/item_add"
         android:title="Add to Playlist"
         android:visible="true"

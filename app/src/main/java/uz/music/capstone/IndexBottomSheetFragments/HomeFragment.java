@@ -16,6 +16,12 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import org.json.JSONObject;
+
 import uz.music.capstone.CustomAdapterForRecyclerItem;
 import uz.music.capstone.Genre;
 import uz.music.capstone.ListedMusicsActivity;
@@ -23,9 +29,11 @@ import uz.music.capstone.Playlist;
 import uz.music.capstone.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uz.music.capstone.json.JSONParserAlbums;
 import uz.music.capstone.json.JSONParserGenres;
 import uz.music.capstone.json.JSONParserPlaylists;
 import uz.music.capstone.json.PostRequestForJSON;
+import uz.music.capstone.profile.Album;
 import uz.music.capstone.profile.User;
 
 import java.io.BufferedReader;
@@ -42,9 +50,9 @@ public class HomeFragment extends Fragment {
 
     @BindView(R.id.recyclerViewTopPlaylist) RecyclerView topPlaylistrecyclerView;
     @BindView(R.id.recyclerViewTopGenres) RecyclerView topGenresrecyclerView;
-    @BindView(R.id.recyclerViewDiscover) RecyclerView DiscoverrecyclerView;
+    @BindView(R.id.recyclerViewDiscover) RecyclerView topAlbumsrecyclerView;
 
-    private boolean parsing_playlsts = false, parsing_genres = false;
+    private boolean parsing_playlsts = false, parsing_genres = false, parsing_albums = false;
 
     ArrayList musicNames = new ArrayList<>(Arrays.asList("This Is The Name", "This Is The Name", "This Is The Name", "Music 4", "Music 5", "Music 6", "Music 7"));
 
@@ -74,19 +82,29 @@ public class HomeFragment extends Fragment {
 //            parseGenres(json_genres);
 //        }else{
         parsing_playlsts = true;
-        new GetJson().execute("https://moozee.pythonanywhere.com/top-playlists/");
+        new GetJson().execute("http://moozee.pythonanywhere.com/top-playlists/", "true");
         parsing_genres = true;
-        new GetJson().execute("https://moozee.pythonanywhere.com/top-genres/");
+        new GetJson().execute("http://moozee.pythonanywhere.com/top-genres/", "true");
 //        }
 
+        parsing_albums = true;
+        new GetJson().execute("http://moozee.pythonanywhere.com/api/top-albums/", "false");
         
     }
 
 
+    private void parseAlbums(String result){
+        JSONParserAlbums jsonParserAlbums = new JSONParserAlbums(result);
+        ArrayList<Album> albums = jsonParserAlbums.getAlbumsArray();
+        CustomAdapterForRecyclerItem customAdapterRecycler = new CustomAdapterForRecyclerItem(getContext(), null, null, albums, false, 3);
+        topAlbumsrecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        topAlbumsrecyclerView.setAdapter(customAdapterRecycler);
+    }
+
     private void parsePlaylists(String result){
         JSONParserPlaylists parser = new JSONParserPlaylists(result);
         ArrayList<Playlist> playlists = parser.getPlaylistsArray();
-        CustomAdapterForRecyclerItem customAdapterRecycler = new CustomAdapterForRecyclerItem(getContext(), playlists, null, false, 1);
+        CustomAdapterForRecyclerItem customAdapterRecycler = new CustomAdapterForRecyclerItem(getContext(), playlists, null, null, false, 1);
         topPlaylistrecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         topPlaylistrecyclerView.setAdapter(customAdapterRecycler);
     }
@@ -94,7 +112,7 @@ public class HomeFragment extends Fragment {
     private void parseGenres(String result){
         JSONParserGenres parser = new JSONParserGenres(result);
         ArrayList<Genre> genres = parser.getGenresArray();
-        CustomAdapterForRecyclerItem customAdapterRecycler = new CustomAdapterForRecyclerItem(getContext(), null, genres, false, 2);
+        CustomAdapterForRecyclerItem customAdapterRecycler = new CustomAdapterForRecyclerItem(getContext(), null, genres, null, false, 2);
         topGenresrecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         topGenresrecyclerView.setAdapter(customAdapterRecycler);
     }
@@ -108,7 +126,12 @@ public class HomeFragment extends Fragment {
 
         protected String doInBackground(String... params) {
             PostRequestForJSON requestForJSON = new PostRequestForJSON();
-            return  requestForJSON.PostRequest(getActivity(), params[0]);
+            if(params[1].equals("false")){
+                return  requestForJSON.PostRequest(getActivity(), params[0], false);
+            }else{
+                return  requestForJSON.PostRequest(getActivity(), params[0], true);
+            }
+
         }
 
         @Override
@@ -131,6 +154,9 @@ public class HomeFragment extends Fragment {
 //                editor.putString(User.KEY_JSON_GENRES, result);
 //                editor.commit();
                 parsing_genres = false;
+            }else if(parsing_albums){
+                parseAlbums(result);
+                parsing_albums = false;
             }
 
 

@@ -22,7 +22,7 @@ import uz.music.capstone.profile.User;
 public class PostRequestForJSON {
     public PostRequestForJSON(){}
 
-    public String PostRequest(Context context, String param){
+    public String PostRequest(Context context, String param, boolean post){
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         try {
@@ -32,8 +32,11 @@ public class PostRequestForJSON {
             SharedPreferences sp = context.getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
             String token = sp.getString(User.KEY_TOKEN, "");
             connection.setRequestProperty("Authorization", "Token " + token);
-
-            connection.setRequestMethod("POST");
+            if(post){
+                connection.setRequestMethod("POST");
+            }else{
+                connection.setRequestMethod("GET");
+            }
             connection.connect();
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));

@@ -1,8 +1,12 @@
 package uz.music.capstone;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,16 +15,28 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
 import uz.music.capstone.json.JSONParserPlaylistMusics;
+import uz.music.capstone.profile.User;
 
 public class Nowplaying extends AppCompatActivity {
 
@@ -79,6 +95,38 @@ public class Nowplaying extends AppCompatActivity {
 
         txtCurrentMusic.setText(musics.get(music_position).getName());
 
+        if(btnLove.getTag().toString().equals("love")){
+            btnLove.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+        }else{
+            btnLove.setBackgroundResource(R.drawable.ic_fill_favorite_black_24dp);
+        }
+
+        btnLove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("id", musics.get(music_position).getPk());
+                    if(btnLove.getTag().toString().equals("love")){
+                        jsonObject.put("action", "like");
+                        btnLove.setBackgroundResource(R.drawable.ic_fill_favorite_black_24dp);
+                        btnLove.setTag("loved");
+                    }else{
+                        jsonObject.put("action", "unlike");
+                        btnLove.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+                        btnLove.setTag("love");
+                    }
+                    new LoveMusic().execute(jsonObject);
+                }catch(JSONException e){
+
+                }
+
+
+
+            }
+        });
+
+
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +148,7 @@ public class Nowplaying extends AppCompatActivity {
                         Log.e("MediaPlayer ERROR", e.getMessage());
                     }
                     txtCurrentMusic.setText(music.getName());
-                    btnPause.setBackgroundResource(R.drawable.pausebutton);
+                    btnPause.setBackgroundResource(R.drawable.ic_pause_circle_filled_black_24dp);
                 }
             }
         });
@@ -126,7 +174,7 @@ public class Nowplaying extends AppCompatActivity {
                         Log.e("MediaPlayer ERROR", e.getMessage());
                     }
                     txtCurrentMusic.setText(music.getName());
-                    btnPause.setBackgroundResource(R.drawable.pausebutton);
+                    btnPause.setBackgroundResource(R.drawable.ic_pause_circle_filled_black_24dp);
                 }
             }
         });
@@ -137,10 +185,10 @@ public class Nowplaying extends AppCompatActivity {
                 if(mediaPlayer != null){
                     if(mediaPlayer.isPlaying()){
                         mediaPlayer.pause();
-                        btnPause.setBackgroundResource(R.drawable.playbutton);
+                        btnPause.setBackgroundResource(R.drawable.ic_play_circle_filled_black_24dp);
                     }else{
                         mediaPlayer.start();
-                        btnPause.setBackgroundResource(R.drawable.pausebutton);
+                        btnPause.setBackgroundResource(R.drawable.ic_pause_circle_filled_black_24dp);
                     }
                 }
             }
@@ -219,4 +267,75 @@ public class Nowplaying extends AppCompatActivity {
         handler.postDelayed(run, 1000);
     }
 
+
+    private class LoveMusic extends AsyncTask<JSONObject, String, String> {
+        private ProgressDialog pd;
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(JSONObject... jsonData) {
+            try {
+
+                URL url = new URL("http://moozee.pythonanywhere.com/api/music-like/"); // here is your URL path
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                String token = sp.getString(User.KEY_TOKEN, "");
+                conn.setRequestProperty("Authorization", "Token " + token);
+
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                String data = jsonData[0].toString();
+                Log.e("Sending data", data);
+
+                writer.write(data);
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    User.USER_ACCEPTED = true;
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Toast.makeText(Nowplaying.this, result, Toast.LENGTH_SHORT).show();
+            Log.e("DOWNLOADED JSON ", result);
+        }
+    }
 }

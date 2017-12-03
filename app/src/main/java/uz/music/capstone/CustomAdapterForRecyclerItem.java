@@ -35,6 +35,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import uz.music.capstone.json.JSONParserPlaylistMusics;
 import uz.music.capstone.json.PostRequestForJSON;
+import uz.music.capstone.profile.Album;
 import uz.music.capstone.profile.User;
 
 
@@ -42,16 +43,19 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
 
     ArrayList<String> musicNames;
     ArrayList<String> musicDescriptions;
+    ArrayList<String> musicArtists;
     ArrayList<String> musicImages;
     ArrayList<Integer> musicPks;
     String currentName = "";
+    int currentPk = -1;
 
     Boolean upOrdown;
     Context context;
     int type = 0;
-    String jsonResult = null;
+    String jsonResult = "";
 
-    public CustomAdapterForRecyclerItem(Context context, ArrayList<Playlist> playlists, ArrayList<Genre> genres, Boolean upOrdown, int type)
+    public CustomAdapterForRecyclerItem(Context context, ArrayList<Playlist> playlists, ArrayList<Genre> genres, ArrayList<Album> albums,
+                                        Boolean upOrdown, int type)
     {
         /*
 
@@ -68,6 +72,7 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
         this.musicDescriptions = new ArrayList<String>();
         this.musicImages = new ArrayList<String>();
         this.musicPks = new ArrayList<Integer>();
+        this.musicArtists = new ArrayList<String>();
 
         if(type == 1){
             for(int i = 0; i < playlists.size(); i++){
@@ -80,6 +85,13 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
             for(int i = 0; i < genres.size(); i++) {
                 musicNames.add(genres.get(i).getName());
                 musicImages.add(genres.get(i).getPhotoLink());
+            }
+        }else if(type == 3){
+            for(int i = 0; i < albums.size(); i++) {
+                musicNames.add(albums.get(i).getName());
+                musicImages.add(albums.get(i).getPhotoLink());
+                musicArtists.add(albums.get(i).getArtist());
+                musicPks.add(albums.get(i).getPk());
             }
         }
 
@@ -106,6 +118,8 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
         holder.name.setText(musicNames.get(position));
         if(type == 1){
             holder.artist.setText(musicDescriptions.get(position));
+        }else if(type == 3){
+            holder.artist.setText(musicArtists.get(position));
         }
 
         if(musicImages.get(position) != null){
@@ -125,6 +139,7 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
                 if(type == 1){
                     try {
                         currentName = musicNames.get(position);
+                        currentPk = musicPks.get(position);
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("pk", musicPks.get(position));
                         new GetJson().execute(jsonObject);
@@ -243,6 +258,7 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
             jsonResult = result;
             Intent intent  = new Intent(context, ListedMusicsActivity.class);
             intent.putExtra("name", currentName);
+            intent.putExtra("pk", currentPk);
             intent.putExtra("json", jsonResult);
             Log.e("DOWNLOADED JSON ", jsonResult );
             context.startActivity(intent);

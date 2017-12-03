@@ -1,7 +1,9 @@
 package uz.music.capstone;
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,6 +19,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,12 +36,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,6 +57,7 @@ import java.util.ArrayList;
 import uz.music.capstone.IndexBottomSheetFragments.ProfileFragment;
 import uz.music.capstone.json.JSONParserMusics;
 import uz.music.capstone.json.JSONParserPlaylistMusics;
+import uz.music.capstone.json.JSONParserPlaylists;
 import uz.music.capstone.profile.User;
 
 
@@ -65,6 +75,7 @@ public class ListedMusicsActivity extends AppCompatActivity {
 
     private int music_position;
 
+    private boolean follow = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +132,16 @@ public class ListedMusicsActivity extends AppCompatActivity {
                 }
                 btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
 
+            }
+        });
+
+        list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                music_position = i;
+                new GetUserPlaylists().execute("http://moozee.pythonanywhere.com/api/user-playlists/");
+
+                return true;
             }
         });
 
@@ -207,21 +228,23 @@ public class ListedMusicsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 music_position = 0;
-                PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(0);
-                if (Nowplaying.mediaPlayer != null) {
-                    Nowplaying.mediaPlayer.stop();
+                if(list_view.getChildCount() >= 1){
+                    PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(0);
+                    if (Nowplaying.mediaPlayer != null) {
+                        Nowplaying.mediaPlayer.stop();
+                    }
+                    try {
+                        Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
+                        container_current_music.setVisibility(View.VISIBLE);
+                        txt_name.setText(music.getName());
+                        txt_artist.setText(music.getFile());
+                        Nowplaying.mediaPlayer.start();
+                    } catch (Exception e) {
+                        Toast.makeText(ListedMusicsActivity.this, "Url error", Toast.LENGTH_SHORT).show();
+                        Log.e("MediaPlayer ERROR", e.getMessage());
+                    }
+                    btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
                 }
-                try {
-                    Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
-                    container_current_music.setVisibility(View.VISIBLE);
-                    txt_name.setText(music.getName());
-                    txt_artist.setText(music.getFile());
-                    Nowplaying.mediaPlayer.start();
-                } catch (Exception e) {
-                    Toast.makeText(ListedMusicsActivity.this, "Url error", Toast.LENGTH_SHORT).show();
-                    Log.e("MediaPlayer ERROR", e.getMessage());
-                }
-                btn_pause.setBackgroundResource(R.drawable.ic_pause_black_24dp);
             }
         });
         fab_start_play.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0074b2")));
@@ -233,15 +256,20 @@ public class ListedMusicsActivity extends AppCompatActivity {
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-                switch (id) {
-                    case R.id.item_download:
-                        Toast.makeText(getApplicationContext(), "Download", Toast.LENGTH_LONG).show();
-                        break;
-                    case R.id.item_add:
-                        Toast.makeText(getApplicationContext(), "Add", Toast.LENGTH_LONG).show();
-                        break;
-                }
+
+
+                new GetUserPlaylists().execute("http://moozee.pythonanywhere.com/api/user-playlists/");
+
+
+//                int id = item.getItemId();
+//                switch (id) {
+//                    case R.id.item_add:
+//
+//
+//
+//
+//                        break;
+//                }
                 return true;
             }
         });
@@ -263,15 +291,195 @@ public class ListedMusicsActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-//            Intent intent = new Intent(ListedMusicsActivity.this, ProfileFragment.class);
-//            startActivity(intent);
-//            return true;
+        if (id == R.id.action_follow) {
+            try{
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("link", "http://moozee.pythonanywhere.com/follow-playlist/");
+                int playlistPk = intent.getIntExtra("pk", 0);
+                if(playlistPk != 0){
+                    if(item.getTitle().equals("follow")){
+                        jsonObject.put("playlist_pk", playlistPk);
+                        jsonObject.put("action", "follow");
+                        new SendData().execute(jsonObject);
+                        item.setTitle("unfollow");
+                        item.setIcon(R.drawable.ic_playlist_add_check_black_24dp);
+                    }else{
+                        jsonObject.put("playlist_pk", playlistPk);
+                        jsonObject.put("action", "unfollow");
+                        new SendData().execute(jsonObject);
+                        item.setTitle("follow");
+                        item.setIcon(R.drawable.ic_playlist_add_black_24dp);
+                    }
+                }else{
+                    Toast.makeText(ListedMusicsActivity.this, "You can only follow a playlist", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }catch (JSONException e){
+
+            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class GetUserPlaylists extends AsyncTask<String, String, String> {
+        private ProgressDialog pd;
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(String... params) {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                String token = sp.getString(User.KEY_TOKEN, "");
+                connection.setRequestProperty("Authorization", "Token " + token);
+                connection.setRequestMethod("GET");
+                connection.connect();
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line+"\n");
+                    Log.e("Response: ", "> " + line);
+                }
+                return buffer.toString();
+            } catch (MalformedURLException e) {
+                Log.e("MafformedURLException", e.getMessage());
+                e.printStackTrace();
+            } catch (IOException e) {
+                Log.e("IOException", e.getMessage());
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //Toast.makeText(ListedMusicsActivity.this, result, Toast.LENGTH_SHORT).show();
+
+            JSONParserPlaylists jsonParserPlaylists = new JSONParserPlaylists(result);
+            final ArrayList<Playlist> playlists = jsonParserPlaylists.getPlaylistsArray();
+
+            CharSequence playlistNames[] = new CharSequence[playlists.size()];
+            for(int i = 0; i < playlists.size(); i++){
+                playlistNames[i] = playlists.get(i).getName();
+            }
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(ListedMusicsActivity.this);
+            builder.setTitle("Choose a Playlis");
+            builder.setItems(playlistNames, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try{
+                        PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(music_position);
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("link", "http://moozee.pythonanywhere.com/api/add-to-playlist/");
+                        jsonObject.put("music_id", music.getPk());
+                        jsonObject.put("playlist_id", playlists.get(which).getPk());
+                        new SendData().execute(jsonObject);
+                    }catch (JSONException e){
+
+                    }
+                }
+            });
+            builder.show();
+
+
+        }
+
+    }
+
+
+    private class SendData extends AsyncTask<JSONObject, Void, String> {
+
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(JSONObject... jsonData) {
+
+            try {
+                String urlString = jsonData[0].getString("link");
+                URL url = new URL(urlString); // here is your URL path
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                String token = sp.getString(User.KEY_TOKEN, "");
+                conn.setRequestProperty("Authorization", "Token " + token);
+
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                jsonData[0].remove("link");
+                String data = jsonData[0].toString();
+                Log.e("Sending data", data);
+
+                writer.write(data);
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(ListedMusicsActivity.this, result, Toast.LENGTH_LONG).show();
+            Log.e("SEARCH RESULT:::", result);
+
+        }
     }
 
 
