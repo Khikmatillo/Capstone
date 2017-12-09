@@ -47,7 +47,7 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
     ArrayList<String> musicImages;
     ArrayList<Integer> musicPks;
     String currentName = "";
-    int currentPk = -1;
+    int currentPk = 0;
 
     Boolean upOrdown;
     Context context;
@@ -124,7 +124,7 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
 
         if(musicImages.get(position) != null){
             Picasso.with(context)
-                    .load("http://moozee.pythonanywhere.com" + musicImages.get(position))
+                    .load(User.VARIABLE_URL + musicImages.get(position))
                     .into(holder.image);
         }else{
             holder.image.setImageResource(R.drawable.a19);
@@ -134,22 +134,34 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, musicNames.get(position), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, musicNames.get(position), Toast.LENGTH_SHORT).show();
+                try {
+                    if(type == 1){
 
-                if(type == 1){
-                    try {
                         currentName = musicNames.get(position);
                         currentPk = musicPks.get(position);
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("pk", musicPks.get(position));
+                        jsonObject.put("link", User.VARIABLE_URL + "/api/playlist/");
                         new GetJson().execute(jsonObject);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    }else if(type == 2){
+                        currentName = musicNames.get(position);
+//                        currentPk = musicPks.get(position);
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("genre_name", currentName);
+                        jsonObject.put("link", User.VARIABLE_URL + "/api/genre-detail/");
+                        new GetJson().execute(jsonObject);
+                    }else if(type == 3){
+                        currentName = musicNames.get(position);
+                        currentPk = musicPks.get(position);
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("pk", musicPks.get(position));
+                        jsonObject.put("link", User.VARIABLE_URL + "/api/album-detail/");
+                        new GetJson().execute(jsonObject);
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-
 
             }
         });
@@ -192,13 +204,14 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
 
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(context, "Downloading Playlist data", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Downloading Playlist data", Toast.LENGTH_SHORT).show();
         }
 
         protected String doInBackground(JSONObject... jsonData) {
             try {
-
-                URL url = new URL("http://moozee.pythonanywhere.com/api/playlist/"); // here is your URL path
+                String urlString = jsonData[0].getString("link");
+                jsonData[0].remove("link");
+                URL url = new URL(urlString); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 SharedPreferences sp = context.getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
@@ -254,7 +267,7 @@ public class CustomAdapterForRecyclerItem extends RecyclerView.Adapter<CustomAda
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Toast.makeText(context, "Downloading musics finish", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Downloading musics finish", Toast.LENGTH_SHORT).show();
             jsonResult = result;
             Intent intent  = new Intent(context, ListedMusicsActivity.class);
             intent.putExtra("name", currentName);

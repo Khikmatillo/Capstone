@@ -2,6 +2,7 @@ package uz.music.capstone.IndexBottomSheetFragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -29,6 +31,7 @@ import uz.music.capstone.Playlist;
 import uz.music.capstone.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uz.music.capstone.ViewAllActivity;
 import uz.music.capstone.json.JSONParserAlbums;
 import uz.music.capstone.json.JSONParserGenres;
 import uz.music.capstone.json.JSONParserPlaylists;
@@ -51,6 +54,12 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.recyclerViewTopPlaylist) RecyclerView topPlaylistrecyclerView;
     @BindView(R.id.recyclerViewTopGenres) RecyclerView topGenresrecyclerView;
     @BindView(R.id.recyclerViewDiscover) RecyclerView topAlbumsrecyclerView;
+
+    @BindView(R.id.viewAllPlaylist) Button viewAllPlaylists;
+    @BindView(R.id.viewAllGenres) Button viewAllGenres;
+    @BindView(R.id.viewAllAlbums) Button viewAllAlbums;
+
+    String txtJsonPlaylists = "", txtJsonGenres = "", txtJsonAlbums = "";
 
     private boolean parsing_playlsts = false, parsing_genres = false, parsing_albums = false;
 
@@ -82,14 +91,43 @@ public class HomeFragment extends Fragment {
 //            parseGenres(json_genres);
 //        }else{
         parsing_playlsts = true;
-        new GetJson().execute("http://moozee.pythonanywhere.com/top-playlists/", "true");
+        new GetJson().execute(User.VARIABLE_URL + "/top-playlists/", "true");
         parsing_genres = true;
-        new GetJson().execute("http://moozee.pythonanywhere.com/top-genres/", "true");
+        new GetJson().execute(User.VARIABLE_URL + "/top-genres/", "true");
 //        }
-
         parsing_albums = true;
-        new GetJson().execute("http://moozee.pythonanywhere.com/api/top-albums/", "false");
-        
+        new GetJson().execute(User.VARIABLE_URL + "/api/top-albums/", "false");
+
+        viewAllPlaylists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(getActivity(), ViewAllActivity.class);
+                intent1.putExtra("type", 1);
+                intent1.putExtra("json", txtJsonPlaylists);
+                startActivity(intent1);
+            }
+        });
+
+        viewAllGenres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(getActivity(), ViewAllActivity.class);
+                intent1.putExtra("type", 2);
+                intent1.putExtra("json", txtJsonGenres);
+                startActivity(intent1);
+            }
+        });
+
+        viewAllAlbums.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent1 = new Intent(getActivity(), ViewAllActivity.class);
+                intent1.putExtra("type", 3);
+                intent1.putExtra("json", txtJsonAlbums);
+                startActivity(intent1);
+            }
+        });
     }
 
 
@@ -121,7 +159,7 @@ public class HomeFragment extends Fragment {
         private ProgressDialog pd;
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(getActivity(), "Downloading JSON data", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "Downloading JSON data", Toast.LENGTH_SHORT).show();
         }
 
         protected String doInBackground(String... params) {
@@ -137,7 +175,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Toast.makeText(getActivity(), "Download process finish", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Download process finish", Toast.LENGTH_SHORT).show();
 
             //Parsing the JSON starts --------------------------------------
             //parseJson(result);
@@ -145,16 +183,19 @@ public class HomeFragment extends Fragment {
 //            SharedPreferences shp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
 //            SharedPreferences.Editor editor = shp.edit();
             if(parsing_playlsts){
+                txtJsonPlaylists = result;
                 parsePlaylists(result);
 //                editor.putString(User.KEY_JSON_PLAYLISTS, result);
 //                editor.commit();
                 parsing_playlsts = false;
             }else if(parsing_genres){
+                txtJsonGenres = result;
                 parseGenres(result);
 //                editor.putString(User.KEY_JSON_GENRES, result);
 //                editor.commit();
                 parsing_genres = false;
             }else if(parsing_albums){
+                txtJsonAlbums = result;
                 parseAlbums(result);
                 parsing_albums = false;
             }

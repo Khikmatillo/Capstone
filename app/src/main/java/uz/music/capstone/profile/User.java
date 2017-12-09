@@ -33,6 +33,8 @@ public class User {
                             KEY_JSON_MUSICS = "myjsonmusics", KEY_JSON_PLAYLISTS = "myjsonplaylists", KEY_JSON_GENRES = "myjsongenres",
                             FILE_PLAYLISTS = "playlists";
 
+    public static final String VARIABLE_URL = "http://moozee.pythonanywhere.com";
+
     public static ArrayList<Playlist> PLAYLISTS = new ArrayList<Playlist>();
     public ArrayList<Music> favourites;
 

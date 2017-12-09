@@ -72,7 +72,7 @@ public class PlaylistCreateActivity extends AppCompatActivity {
                     SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
                     String token = sp.getString(User.KEY_TOKEN, "");
                     Ion.with(PlaylistCreateActivity.this)
-                            .load("http://moozee.pythonanywhere.com/playlist/create/").addHeader("Authorization", "Token " + token)
+                            .load(User.VARIABLE_URL + "/playlist/create/").addHeader("Authorization", "Token " + token)
                             .setMultipartParameter("name", editName.getText().toString())
                             .setMultipartParameter("description", editDesc.getText().toString())
                             .setMultipartFile("photo", new File(image.getText().toString()))

@@ -68,14 +68,14 @@ public class ListedMusicsActivity extends AppCompatActivity {
     private ListView list_view;
     private TextView txt_name, txt_artist;
     private ImageButton btn_prev, btn_pause, btn_next;
-
-
+    private ArrayList<Playlist> followedPlaylists;
+    Toolbar toolbar;
     private Intent intent;
 
 
     private int music_position;
+    private Menu menu;
 
-    private boolean follow = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class ListedMusicsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listed_musics);
 //
         intent = getIntent();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(intent.getStringExtra("name"));
 
@@ -97,6 +97,10 @@ public class ListedMusicsActivity extends AppCompatActivity {
         btn_next = (ImageButton) findViewById(R.id.btn_next);
         list_view = (ListView) findViewById(R.id.list_view);
 
+
+
+        //check if playlist already followed
+        new GetFollowingPlaylists().execute();
 
         PlaylistMusicsAdapter adapter = new PlaylistMusicsAdapter();
         list_view.setAdapter(adapter);
@@ -112,6 +116,8 @@ public class ListedMusicsActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
 
+
+
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -124,8 +130,13 @@ public class ListedMusicsActivity extends AppCompatActivity {
                     Nowplaying.mediaPlayer = MediaPlayer.create(ListedMusicsActivity.this, Uri.parse(music.getLinks().get(0)));
                     container_current_music.setVisibility(View.VISIBLE);
                     txt_name.setText(music.getName());
-                    txt_artist.setText(music.getFile());
+                    txt_artist.setText("");
                     Nowplaying.mediaPlayer.start();
+
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("music_id", music.getPk());
+                    new UpdateCharts().execute(jsonObject);
+
                 } catch (Exception e) {
                     Toast.makeText(ListedMusicsActivity.this, "Url error", Toast.LENGTH_SHORT).show();
                     Log.e("MediaPlayer ERROR", e.getMessage());
@@ -139,7 +150,7 @@ public class ListedMusicsActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 music_position = i;
-                new GetUserPlaylists().execute("http://moozee.pythonanywhere.com/api/user-playlists/");
+                new GetUserPlaylists().execute(User.VARIABLE_URL + "/api/user-playlists/");
 
                 return true;
             }
@@ -258,7 +269,7 @@ public class ListedMusicsActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
 
 
-                new GetUserPlaylists().execute("http://moozee.pythonanywhere.com/api/user-playlists/");
+                new GetUserPlaylists().execute(User.VARIABLE_URL + "/api/user-playlists/");
 
 
 //                int id = item.getItemId();
@@ -282,6 +293,7 @@ public class ListedMusicsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -295,21 +307,27 @@ public class ListedMusicsActivity extends AppCompatActivity {
         if (id == R.id.action_follow) {
             try{
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("link", "http://moozee.pythonanywhere.com/follow-playlist/");
+                jsonObject.put("link", User.VARIABLE_URL + "/follow-playlist/");
                 int playlistPk = intent.getIntExtra("pk", 0);
                 if(playlistPk != 0){
-                    if(item.getTitle().equals("follow")){
+                    if(!isInList()){
                         jsonObject.put("playlist_pk", playlistPk);
                         jsonObject.put("action", "follow");
                         new SendData().execute(jsonObject);
-                        item.setTitle("unfollow");
                         item.setIcon(R.drawable.ic_playlist_add_check_black_24dp);
+                        followedPlaylists.add(new Playlist(getTitle().toString(), "", "", 0));
                     }else{
                         jsonObject.put("playlist_pk", playlistPk);
                         jsonObject.put("action", "unfollow");
                         new SendData().execute(jsonObject);
-                        item.setTitle("follow");
                         item.setIcon(R.drawable.ic_playlist_add_black_24dp);
+                        Playlist p = new Playlist(getTitle().toString(), "", "", 0);
+                        for(int i = 0; i < followedPlaylists.size(); i++){
+                            if(getTitle().toString().equals(followedPlaylists.get(i).getName())){
+                                p = followedPlaylists.get(i);
+                            }
+                        }
+                        followedPlaylists.remove(p);
                     }
                 }else{
                     Toast.makeText(ListedMusicsActivity.this, "You can only follow a playlist", Toast.LENGTH_SHORT).show();
@@ -322,6 +340,15 @@ public class ListedMusicsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isInList(){
+        for(int i = 0; i < followedPlaylists.size(); i++){
+            if(getTitle().toString().equals(followedPlaylists.get(i).getName())){
+                return true;
+            }
+        }
+        return false;
     }
 
     private class GetUserPlaylists extends AsyncTask<String, String, String> {
@@ -394,7 +421,7 @@ public class ListedMusicsActivity extends AppCompatActivity {
                     try{
                         PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(music_position);
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("link", "http://moozee.pythonanywhere.com/api/add-to-playlist/");
+                        jsonObject.put("link", User.VARIABLE_URL + "/api/add-to-playlist/");
                         jsonObject.put("music_id", music.getPk());
                         jsonObject.put("playlist_id", playlists.get(which).getPk());
                         new SendData().execute(jsonObject);
@@ -410,6 +437,66 @@ public class ListedMusicsActivity extends AppCompatActivity {
 
     }
 
+
+    private class GetFollowingPlaylists extends AsyncTask<String, String, String> {
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(String... params) {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(User.VARIABLE_URL + "/followed-playlist/");
+                connection = (HttpURLConnection) url.openConnection();
+
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                String token = sp.getString(User.KEY_TOKEN, "");
+                connection.setRequestProperty("Authorization", "Token " + token);
+                connection.setRequestMethod("GET");
+                connection.connect();
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                    Log.e("Response: ", "> " + line);
+                }
+                return buffer.toString();
+            } catch (MalformedURLException e) {
+                Log.e("MafformedURLException", e.getMessage());
+                e.printStackTrace();
+            } catch (IOException e) {
+                Log.e("IOException", e.getMessage());
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            JSONParserPlaylists jsonParserPlaylists = new JSONParserPlaylists(result);
+            followedPlaylists = jsonParserPlaylists.getPlaylistsArray();
+            if(isInList()){
+                menu.getItem(0).setIcon(R.drawable.ic_playlist_add_check_black_24dp);
+            }
+        }
+    }
 
     private class SendData extends AsyncTask<JSONObject, Void, String> {
 
@@ -476,11 +563,88 @@ public class ListedMusicsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(ListedMusicsActivity.this, result, Toast.LENGTH_LONG).show();
+//            Toast.makeText(ListedMusicsActivity.this, result, Toast.LENGTH_LONG).show();
             Log.e("SEARCH RESULT:::", result);
 
         }
     }
 
+
+    public class UpdateCharts extends AsyncTask<JSONObject, Void, String> {
+
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(JSONObject... jsonData) {
+
+            try {
+
+                URL url = new URL(User.VARIABLE_URL + "/update-charts/"); // here is your URL path
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                String token = sp.getString(User.KEY_TOKEN, "");
+                conn.setRequestProperty("Authorization", "Token " + token);
+
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                String data = jsonData[0].toString();
+                Log.e("Sending data", data);
+
+                writer.write(data);
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.e("UPDATE RESULT:::", result);
+//            if(!result.contains("false")){
+//                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+//                intent.putExtra("json", result);
+//                startActivity(intent);
+//            }
+
+//            Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+
+
+        }
+    }
 
 }

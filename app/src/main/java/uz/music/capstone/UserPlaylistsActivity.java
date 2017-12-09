@@ -2,12 +2,14 @@ package uz.music.capstone;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -44,9 +46,10 @@ public class UserPlaylistsActivity extends AppCompatActivity {
 
     FloatingActionButton txtCreate;
     LinearLayout containerMyP, containerFollowedP;
-    boolean parsingMy = false, parsingFollowed = false, callForFollowed = false;
+    boolean parsingMy = false, parsingFollowed = false, callForFollowed = false, callForDelete = false;
     private String currentName;
     private int currentPk;
+    private TextView txtDeleted;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,10 +69,10 @@ public class UserPlaylistsActivity extends AppCompatActivity {
         });
 
         parsingMy = true;
-        new GetPlaylists().execute("http://moozee.pythonanywhere.com/api/user-playlists/");
+        new GetPlaylists().execute(User.VARIABLE_URL + "/api/user-playlists/");
 
         parsingFollowed = true;
-        new GetPlaylists().execute("http://moozee.pythonanywhere.com/followed-playlist/");
+        new GetPlaylists().execute(User.VARIABLE_URL + "/followed-playlist/");
     }
 
     @Override
@@ -78,17 +81,16 @@ public class UserPlaylistsActivity extends AppCompatActivity {
         if(requestCode == 999){
             if(resultCode == RESULT_OK){
                 parsingMy = true;
-                new GetPlaylists().execute("http://moozee.pythonanywhere.com/api/user-playlists/");
+                new GetPlaylists().execute(User.VARIABLE_URL + "/api/user-playlists/");
 
                 parsingFollowed = true;
-                new GetPlaylists().execute("http://moozee.pythonanywhere.com/followed-playlist/");
+                new GetPlaylists().execute(User.VARIABLE_URL + "/followed-playlist/");
             }
         }
     }
 
 
     private class GetPlaylists extends AsyncTask<String, String, String> {
-        private ProgressDialog pd;
         protected void onPreExecute() {
             super.onPreExecute();
         }
@@ -157,11 +159,40 @@ public class UserPlaylistsActivity extends AppCompatActivity {
                                 //currentPk = musicPks.get(position);
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("pk", Integer.parseInt(textView.getTag().toString()));
+                                jsonObject.put("link", User.VARIABLE_URL + "/api/playlist/");
                                 new GetJson().execute(jsonObject);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                        }
+                    });
+                    textView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            CharSequence[] deleteOption = new CharSequence[]{"Delete"};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(UserPlaylistsActivity.this);
+                            builder.setTitle("You want to delete?");
+                            builder.setItems(deleteOption, new DialogInterface.OnClickListener() {
+
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try{
+                                       txtDeleted = textView;
+                                       JSONObject jsonObject = new JSONObject();
+                                       jsonObject.put("pk", Integer.parseInt(textView.getTag().toString()));
+                                       jsonObject.put("link", User.VARIABLE_URL + "/api/remove-playlist/");
+                                       callForDelete = true;
+                                       new GetJson().execute(jsonObject);
+                                    }catch (JSONException e){
+
+                                    }
+                                }
+                            });
+                            builder.show();
+
+                            return true;
                         }
                     });
                     containerMyP.addView(textView);
@@ -183,6 +214,7 @@ public class UserPlaylistsActivity extends AppCompatActivity {
                                 currentPk = Integer.parseInt(textView.getTag().toString());
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("pk", Integer.parseInt(textView.getTag().toString()));
+                                jsonObject.put("link", User.VARIABLE_URL + "/api/playlist/");
                                 callForFollowed = true;
                                 new GetJson().execute(jsonObject);
 
@@ -210,8 +242,9 @@ public class UserPlaylistsActivity extends AppCompatActivity {
 
         protected String doInBackground(JSONObject... jsonData) {
             try {
-
-                URL url = new URL("http://moozee.pythonanywhere.com/api/playlist/"); // here is your URL path
+                String urlString = jsonData[0].getString("link");
+                jsonData[0].remove("link");
+                URL url = new URL(urlString); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
@@ -267,14 +300,25 @@ public class UserPlaylistsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Toast.makeText(UserPlaylistsActivity.this, "Downloading musics finish", Toast.LENGTH_SHORT).show();
-            Intent intent  = new Intent(UserPlaylistsActivity.this, ListedMusicsActivity.class);
-            intent.putExtra("name", currentName);
-            if(callForFollowed)
-                intent.putExtra("pk", currentPk);
-            intent.putExtra("json", result);
-            Log.e("DOWNLOADED JSON ", result );
-            startActivity(intent);
+//            Toast.makeText(UserPlaylistsActivity.this, "Downloading musics finish", Toast.LENGTH_SHORT).show();
+
+            if(callForDelete){
+                Toast.makeText(UserPlaylistsActivity.this, result, Toast.LENGTH_SHORT).show();
+                containerMyP.removeView(txtDeleted);
+                callForDelete = false;
+            }else{
+                Intent intent  = new Intent(UserPlaylistsActivity.this, ListedMusicsActivity.class);
+                intent.putExtra("name", currentName);
+                if(callForFollowed){
+                    intent.putExtra("pk", currentPk);
+                    callForFollowed = false;
+                }
+
+                intent.putExtra("json", result);
+                Log.e("DOWNLOADED JSON ", result );
+                startActivity(intent);
+            }
+
         }
     }
     

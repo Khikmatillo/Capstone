@@ -35,6 +35,9 @@
         <activity android:name=".PlaylistCreateActivity"></activity>
         <activity android:name=".UserPlaylistsActivity"></activity>
         <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ViewAllActivity">
+
+        </activity>
 
     </application>
 

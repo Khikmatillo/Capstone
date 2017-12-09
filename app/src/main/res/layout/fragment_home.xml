@@ -154,7 +154,7 @@
 
         <Button
             android:layout_gravity="center"
-            android:id="@+id/viewAllDiscover"
+            android:id="@+id/viewAllAlbums"
             android:layout_width="140dp"
             android:layout_height="22dp"
             android:textColor="#fff"

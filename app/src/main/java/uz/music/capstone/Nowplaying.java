@@ -26,15 +26,18 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
+import uz.music.capstone.IndexBottomSheetFragments.ProfileFragment;
 import uz.music.capstone.json.JSONParserPlaylistMusics;
 import uz.music.capstone.profile.User;
 
@@ -51,6 +54,8 @@ public class Nowplaying extends AppCompatActivity {
     private TextView txtCurrentTime, txtFullTime, txtCurrentMusic, txtCurrentArtist;
     private ImageButton btnPrev, btnPause, btnNext, btnLove, btnShuffle, btnRepeat, btnOptions;
     private boolean shuffle = false;
+    private String likedMusicsJson = "";
+    private ArrayList<PlaylistMusic> likedMusics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +89,7 @@ public class Nowplaying extends AppCompatActivity {
 
         if(musics.get(music_position).getPhotoLink() != null){
             Picasso.with(this)
-                    .load("http://moozee.pythonanywhere.com" + musics.get(music_position))
+                    .load(User.VARIABLE_URL + musics.get(music_position))
                     .into(image);
         }
 
@@ -94,6 +99,8 @@ public class Nowplaying extends AppCompatActivity {
         seekUpdation();
 
         txtCurrentMusic.setText(musics.get(music_position).getName());
+
+        new GetFavourites().execute(User.VARIABLE_URL + "/api/get-liked-musics/");
 
         if(btnLove.getTag().toString().equals("love")){
             btnLove.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
@@ -107,14 +114,20 @@ public class Nowplaying extends AppCompatActivity {
                 try{
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", musics.get(music_position).getPk());
-                    if(btnLove.getTag().toString().equals("love")){
+                    if(!isInList()){
                         jsonObject.put("action", "like");
+                        likedMusics.add(new PlaylistMusic(txtCurrentMusic.getText().toString(), new ArrayList<String>(), "","", 0));
                         btnLove.setBackgroundResource(R.drawable.ic_fill_favorite_black_24dp);
-                        btnLove.setTag("loved");
                     }else{
                         jsonObject.put("action", "unlike");
+                        PlaylistMusic music = new PlaylistMusic(txtCurrentMusic.getText().toString(), new ArrayList<String>(), "","", 0);
+                        for(int i = 0; i < likedMusics.size(); i++){
+                            if(likedMusics.get(i).getName().equals(txtCurrentMusic.getText().toString())){
+                                music = likedMusics.get(i);
+                            }
+                        }
+                        likedMusics.remove(music);
                         btnLove.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
-                        btnLove.setTag("love");
                     }
                     new LoveMusic().execute(jsonObject);
                 }catch(JSONException e){
@@ -267,6 +280,15 @@ public class Nowplaying extends AppCompatActivity {
         handler.postDelayed(run, 1000);
     }
 
+    private boolean isInList(){
+        for(int i = 0; i < likedMusics.size(); i++){
+            if(txtCurrentMusic.getText().toString().equals(likedMusics.get(i).getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private class LoveMusic extends AsyncTask<JSONObject, String, String> {
         private ProgressDialog pd;
@@ -278,7 +300,7 @@ public class Nowplaying extends AppCompatActivity {
         protected String doInBackground(JSONObject... jsonData) {
             try {
 
-                URL url = new URL("http://moozee.pythonanywhere.com/api/music-like/"); // here is your URL path
+                URL url = new URL(User.VARIABLE_URL + "/api/music-like/"); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
@@ -334,8 +356,73 @@ public class Nowplaying extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Toast.makeText(Nowplaying.this, result, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(Nowplaying.this, result, Toast.LENGTH_SHORT).show();
             Log.e("DOWNLOADED JSON ", result);
         }
     }
+
+
+
+    private class GetFavourites extends AsyncTask<String, String, String> {
+        private ProgressDialog pd;
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(String... params) {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+
+                SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                String token = sp.getString(User.KEY_TOKEN, "");
+                connection.setRequestProperty("Authorization", "Token " + token);
+                connection.setRequestMethod("GET");
+                connection.connect();
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line+"\n");
+                    Log.e("Response: ", "> " + line);
+                }
+                return buffer.toString();
+            } catch (MalformedURLException e) {
+                Log.e("MafformedURLException", e.getMessage());
+                e.printStackTrace();
+            } catch (IOException e) {
+                Log.e("IOException", e.getMessage());
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            likedMusicsJson = result;
+            JSONParserPlaylistMusics jsonParserPlaylistMusics = new JSONParserPlaylistMusics(result);
+            likedMusics = jsonParserPlaylistMusics.getMusicsArray();
+            if(isInList()){
+                btnLove.setBackgroundResource(R.drawable.ic_fill_favorite_black_24dp);
+            }
+        }
+    }
+
+
 }

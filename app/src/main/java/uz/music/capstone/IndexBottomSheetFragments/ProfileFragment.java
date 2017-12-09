@@ -46,6 +46,7 @@ import uz.music.capstone.PlaylistCreateActivity;
 import uz.music.capstone.PlaylistMusic;
 import uz.music.capstone.R;
 import uz.music.capstone.UserPlaylistsActivity;
+import uz.music.capstone.authentication.WelcomeActivity;
 import uz.music.capstone.json.JSONParserPlaylists;
 import uz.music.capstone.profile.EditProfile;
 import uz.music.capstone.profile.User;
@@ -118,16 +119,6 @@ public class ProfileFragment extends Fragment {
                     builder.setItems(playlistNames, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            try{
-//                                PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(music_position);
-//                                JSONObject jsonObject = new JSONObject();
-//                                jsonObject.put("link", "http://moozee.pythonanywhere.com/api/add-to-playlist/");
-//                                jsonObject.put("music_id", music.getPk());
-//                                jsonObject.put("playlist_id", playlists.get(which).getPk());
-//                                new ListedMusicsActivity.SendData().execute(jsonObject);
-//                            }catch (JSONException e){
-//
-//                            }
                         }
                     });
                     builder.show();
@@ -154,16 +145,6 @@ public class ProfileFragment extends Fragment {
                     builder.setItems(playlistNames, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            try{
-//                                PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(music_position);
-//                                JSONObject jsonObject = new JSONObject();
-//                                jsonObject.put("link", "http://moozee.pythonanywhere.com/api/add-to-playlist/");
-//                                jsonObject.put("music_id", music.getPk());
-//                                jsonObject.put("playlist_id", playlists.get(which).getPk());
-//                                new ListedMusicsActivity.SendData().execute(jsonObject);
-//                            }catch (JSONException e){
-//
-//                            }
                         }
                     });
                     builder.show();
@@ -176,7 +157,7 @@ public class ProfileFragment extends Fragment {
         ll_favourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new GetFavourites().execute("http://moozee.pythonanywhere.com/api/get-liked-musics/");
+                new GetFavourites().execute(User.VARIABLE_URL + "/api/get-liked-musics/");
             }
         });
         ll_playlists.setOnClickListener(new View.OnClickListener() {
@@ -190,8 +171,31 @@ public class ProfileFragment extends Fragment {
         ll_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), EditProfile.class);
-                getActivity().startActivity(intent);
+                CharSequence[] deleteOption = new CharSequence[]{"Log Out"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("You want to log out?");
+                builder.setItems(deleteOption, new DialogInterface.OnClickListener() {
+
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences sp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.remove(User.KEY_TOKEN);
+                        editor.remove(User.KEY_USERNAME);
+                        editor.commit();
+                        IndexActivity.CURRENT_USER = null;
+                        Intent intent = new Intent(getActivity(), WelcomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+                builder.show();
+
+
+
+//                Intent intent = new Intent(getActivity(), EditProfile.class);
+//                getActivity().startActivity(intent);
             }
         });
 
@@ -250,7 +254,7 @@ public class ProfileFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
             Intent intent  = new Intent(getActivity(), ListedMusicsActivity.class);
             intent.putExtra("name", "Favourites");
             intent.putExtra("json", result);
@@ -270,7 +274,7 @@ public class ProfileFragment extends Fragment {
 
             try {
 
-                URL url = new URL("http://moozee.pythonanywhere.com/auth/user-followers/"); // here is your URL path
+                URL url = new URL(User.VARIABLE_URL + "/auth/user-followers/"); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 SharedPreferences sp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
@@ -353,7 +357,7 @@ public class ProfileFragment extends Fragment {
 
             try {
 
-                URL url = new URL("http://moozee.pythonanywhere.com/auth/user-followings/"); // here is your URL path
+                URL url = new URL(User.VARIABLE_URL + "/auth/user-followings/"); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 SharedPreferences sp = getActivity().getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);

@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import uz.music.capstone.profile.User;
+
 /**
  * Created by Nemo on 11/26/2017.
  */
@@ -51,14 +53,14 @@ public class PlaylistMusicsAdapter  extends BaseAdapter {
         TextView text_name = (TextView) view.findViewById(R.id.music_title);
         TextView text_artist = (TextView) view.findViewById(R.id.music_artist);
         text_name.setText(music.getName());
-        if(music.getFile() != null){
-            text_artist.setText(music.getFile());
-        }else{
-            text_artist.setText("<Unknown>");
-        }
+//        if(music.getFile() != null){
+//            text_artist.setText(music.getFile());
+//        }else{
+            text_artist.setText("");
+        //}
 
         if(music.getPhotoLink() != null){
-            Picasso.with(context).load("http://moozee.pythonanywhere.com" + music.getPhotoLink()).into(image);
+            Picasso.with(context).load(User.VARIABLE_URL + music.getPhotoLink()).into(image);
         }
 
         return view;

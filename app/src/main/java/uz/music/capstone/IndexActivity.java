@@ -40,12 +40,12 @@ public class IndexActivity extends AppCompatActivity {
     public static User CURRENT_USER = null;
 
     // ArrayList for person names
-    ArrayList musicNames = new ArrayList<>(Arrays.asList("What's Your Dream", "What's Your Dream", "Music 3", "Music 4", "Music 5", "Music 6", "Music 7"));
-
-    ArrayList artistNames = new ArrayList<>(Arrays.asList("Liam Payne", "Liam Payne", "Artist 3", "Artist 4", "Artist 5", "Artist 6", "Artist 7"));
-
-    ArrayList musicImages = new ArrayList<>(Arrays.asList(R.drawable.a12, R.drawable.a19, R.drawable.a6,
-            R.drawable.a9, R.drawable.a4, R.drawable.a9, R.drawable.a2 ));
+//    ArrayList musicNames = new ArrayList<>(Arrays.asList("What's Your Dream", "What's Your Dream", "Music 3", "Music 4", "Music 5", "Music 6", "Music 7"));
+//
+//    ArrayList artistNames = new ArrayList<>(Arrays.asList("Liam Payne", "Liam Payne", "Artist 3", "Artist 4", "Artist 5", "Artist 6", "Artist 7"));
+//
+//    ArrayList musicImages = new ArrayList<>(Arrays.asList(R.drawable.a12, R.drawable.a19, R.drawable.a6,
+//            R.drawable.a9, R.drawable.a4, R.drawable.a9, R.drawable.a2 ));
 
     private int[] tabIcons = {
             R.drawable.ic_home_black_24dp,

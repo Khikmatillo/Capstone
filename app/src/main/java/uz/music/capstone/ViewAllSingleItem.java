@@ -8,15 +8,21 @@ public class ViewAllSingleItem {
 
     private String name;
     private String detail;
-    private int thumbnail;
+    private String thumbnail;
+    private int pk;
 
     public ViewAllSingleItem() {
     }
 
-    public ViewAllSingleItem(String name, String detail, int thumbnail) {
+    public ViewAllSingleItem(String name, String detail, String thumbnail, int pk) {
         this.name = name;
         this.detail = detail;
         this.thumbnail = thumbnail;
+        this.pk = pk;
+    }
+
+    public int getPk() {
+        return pk;
     }
 
     public String getName() {
@@ -35,11 +41,11 @@ public class ViewAllSingleItem {
         this.detail = detail;
     }
 
-    public int getThumbnail() {
+    public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(int thumbnail) {
+    public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
 }

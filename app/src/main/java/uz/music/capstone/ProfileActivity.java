@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import uz.music.capstone.IndexBottomSheetFragments.ProfileFragment;
 import uz.music.capstone.profile.User;
@@ -68,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
             containerExtra.setVisibility(View.GONE);
             txtName.setText(jsonObject.getString("username"));
             Picasso.with(getApplicationContext())
-                    .load("http://moozee.pythonanywhere.com" + jsonObject.getString("photo"))
+                    .load(User.VARIABLE_URL + jsonObject.getString("photo"))
                     .into(imgProfile);
 
 
@@ -76,8 +77,6 @@ public class ProfileActivity extends AppCompatActivity {
             jsonObject1.put("username", txtName.getText().toString());
             new SendDataFollowers().execute(jsonObject1);
             new SendDataFollowings().execute(jsonObject1);
-
-
 
 
             followUser.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                            try{
 //                                PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(music_position);
 //                                JSONObject jsonObject = new JSONObject();
-//                                jsonObject.put("link", "http://moozee.pythonanywhere.com/api/add-to-playlist/");
+//                                jsonObject.put("link", User.VARIABLEURL + "/api/add-to-playlist/");
 //                                jsonObject.put("music_id", music.getPk());
 //                                jsonObject.put("playlist_id", playlists.get(which).getPk());
 //                                new ListedMusicsActivity.SendData().execute(jsonObject);
@@ -164,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                            try{
 //                                PlaylistMusic music = (PlaylistMusic) list_view.getItemAtPosition(music_position);
 //                                JSONObject jsonObject = new JSONObject();
-//                                jsonObject.put("link", "http://moozee.pythonanywhere.com/api/add-to-playlist/");
+//                                jsonObject.put("link", User.VARIABLE_URL + "/api/add-to-playlist/");
 //                                jsonObject.put("music_id", music.getPk());
 //                                jsonObject.put("playlist_id", playlists.get(which).getPk());
 //                                new ListedMusicsActivity.SendData().execute(jsonObject);
@@ -194,7 +193,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("http://moozee.pythonanywhere.com/auth/api/users/follow/"); // here is your URL path
+                URL url = new URL(User.VARIABLE_URL + "/auth/api/users/follow/"); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
@@ -286,7 +285,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("http://moozee.pythonanywhere.com/auth/user-followers/"); // here is your URL path
+                URL url = new URL(User.VARIABLE_URL + "/auth/user-followers/"); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
@@ -341,20 +340,23 @@ public class ProfileActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
-
-            // Toast.makeText(ListedMusicsActivity.this, result, Toast.LENGTH_LONG).show();
-
             try {
                 JSONArray jsonArray = new JSONArray(result);
                 txtJsonFollowers = result;
                 txt_followers.setText(jsonArray.length() + "");
-                    Log.e("FOLLOWERS RESULT:::", result);
+                SharedPreferences shp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);
+                String username = shp.getString(User.KEY_USERNAME, "");
+               // ArrayList<String> followers = new ArrayList<String>();
+                for(int i = 0; i < jsonArray.length(); i++){
+                    if(username.equals(jsonArray.getJSONObject(i).getString("username"))){
+                        txtFollow.setText("UNFOLLOW");
+                        imageFollow.setVisibility(View.GONE);
+                    }
+                }
+                Log.e("FOLLOWERS RESULT:::", result);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 
@@ -369,7 +371,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("http://moozee.pythonanywhere.com/auth/user-followings/"); // here is your URL path
+                URL url = new URL(User.VARIABLE_URL + "/auth/user-followings/"); // here is your URL path
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 SharedPreferences sp = getSharedPreferences(User.FILE_PREFERENCES, Context.MODE_PRIVATE);

@@ -57,19 +57,19 @@ public class SendJSON {
                 int type = jsonData[0].getInt(User.KEY_TYPE);
                 if(type == User.TYPE_CREATE){
                     accepted_response = HttpsURLConnection.HTTP_CREATED;
-                    url_string = "https://moozee.pythonanywhere.com/auth/api/register";
+                    url_string = User.VARIABLE_URL + "/auth/api/register";
                 }else if(type == User.TYPE_LOGIN){
                     accepted_response = HttpsURLConnection.HTTP_OK;
-                    url_string = "https://moozee.pythonanywhere.com/auth/api/login";
+                    url_string = User.VARIABLE_URL + "/auth/api/login";
                 }else if(type == User.TYPE_CHANGE){
                     accepted_response = HttpsURLConnection.HTTP_OK;
-                    url_string = "https://moozee.pythonanywhere.com/auth/api/change";
+                    url_string = User.VARIABLE_URL + "/auth/api/change";
                 }else if(type == User.TYPE_FORGET){
                     accepted_response = HttpsURLConnection.HTTP_OK;
-                    url_string = "https://moozee.pythonanywhere.com/auth/api/forget";
+                    url_string = User.VARIABLE_URL + "/auth/api/forget";
                 }else if(type == User.TYPE_RESET){
                     accepted_response = HttpsURLConnection.HTTP_OK;
-                    url_string = "https://moozee.pythonanywhere.com/auth/api/reset";
+                    url_string = User.VARIABLE_URL + "/auth/api/reset";
                 }else{
                     url_string = null;
                     accepted_response = -1;
