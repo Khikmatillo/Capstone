@@ -67,7 +67,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/allborderedtransparent"
-                        android:hint="akhrorjon@gmail.com"
                         android:inputType="text" />
 
                     <TextView
@@ -80,7 +79,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/allborderedtransparent"
-                        android:hint="Akhrorjon"
                         android:inputType="text" />
 
                     <TextView
@@ -102,7 +100,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/allborderedtransparent"
-                        android:hint="************"
                         android:inputType="textPassword" />
 
                     <Button
@@ -159,7 +156,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/allborderedtransparent"
-                        android:hint="Name"
                         android:inputType="text" />
 
                     <TextView
@@ -173,7 +169,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/allborderedtransparent"
-                        android:hint="Surname"
                         android:inputType="text" />
 
                     <TextView
@@ -228,7 +223,6 @@
                         android:paddingTop="2dp"
                         android:text="Save changes"
                         android:textColor="#FFF" />
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
